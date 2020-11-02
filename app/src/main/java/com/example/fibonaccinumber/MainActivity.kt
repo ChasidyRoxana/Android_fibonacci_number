@@ -2,26 +2,22 @@ package com.example.fibonaccinumber
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    }
 
-    private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
-        .apply { createListOfNumbers() }
+        imageButtonNext.setOnClickListener {
+            current_number.text = fibonacciNumbers.getNextNumber().toString()
+        }
 
-    fun onClickPreviousNumber(view: View) {
-        val number: TextView = findViewById(R.id.current_number)
-        number.setText(fibonacciNumbers.getPreviousNumber().toString())
-    }
-
-    fun onClickNextNumber(view: View) {
-        val number: TextView = findViewById(R.id.current_number)
-        number.setText(fibonacciNumbers.getNextNumber().toString())
+        imageButtonPrev.setOnClickListener {
+            current_number.text = fibonacciNumbers.getPreviousNumber().toString()
+        }
     }
 }
-

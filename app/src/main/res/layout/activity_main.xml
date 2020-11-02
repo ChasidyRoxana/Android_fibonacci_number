@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-<!--    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--    app:layout_constraintLeft_toLeftOf="parent"-->
-<!--    app:layout_constraintRight_toRightOf="parent"-->
-<!--    app:layout_constraintTop_toTopOf="parent"-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center" >
 
     <TextView
         android:id="@+id/current_number"
@@ -22,35 +12,28 @@
         android:layout_height="wrap_content"
         android:text="@string/current_number"
         android:textSize="50sp"
-        android:layout_marginTop="250dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center" >
+        android:layout_marginTop="310dp"
+        android:layout_gravity="center_horizontal" />
 
     <ImageButton
         android:id="@+id/imageButtonPrev"
         android:layout_width="150dp"
         android:layout_height="120dp"
-        app:srcCompat="@drawable/arrow"
         android:contentDescription="@string/arrow_prev"
         android:rotationY="180"
         android:scaleType="fitXY"
-        android:layout_marginEnd="10dp"
-        android:onClick="onClickPreviousNumber" />
+        app:srcCompat="@drawable/arrow"
+        android:layout_marginTop="410dp"
+        android:layout_marginStart="45dp"/>
 
     <ImageButton
         android:id="@+id/imageButtonNext"
         android:layout_width="150dp"
         android:layout_height="120dp"
-        app:srcCompat="@drawable/arrow"
         android:contentDescription="@string/arrow_next"
         android:scaleType="fitXY"
-        android:layout_marginStart="10dp"
-        android:onClick="onClickNextNumber" />
+        app:srcCompat="@drawable/arrow"
+        android:layout_marginTop="410dp"
+        android:layout_marginStart="205dp"/>
 
-    </LinearLayout>
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

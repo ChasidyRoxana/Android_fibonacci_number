@@ -5,19 +5,31 @@ class FibonacciNumbers {
 	private val listOfNumbers: ArrayList<Int> = arrayListOf(0, 1)
 	private var currentIndex: Int = 0
 
-	fun createListOfNumbers() {
+	init {
 		var number: Int
 		do {
-			number = listOfNumbers[listOfNumbers.size - 1] + listOfNumbers[listOfNumbers.size - 2]
+			val lastNumber = listOfNumbers.last()
+			val previousNumber = listOfNumbers[listOfNumbers.lastIndex - 1]
+			number = lastNumber + previousNumber
 			listOfNumbers.add(number)
-		} while (number + listOfNumbers[listOfNumbers.size - 2] > 0)
+		} while (number + listOfNumbers[listOfNumbers.lastIndex - 1] > 0)
 	}
 
 	fun getNextNumber(): Int =
-			if (currentIndex < listOfNumbers.size - 1) listOfNumbers[++currentIndex]
-			else listOfNumbers[currentIndex]
+			if (currentIndex < listOfNumbers.lastIndex) {
+				currentIndex++
+				listOfNumbers[currentIndex]
+			}
+			else {
+				listOfNumbers[currentIndex]
+			}
 
 	fun getPreviousNumber(): Int =
-			if (currentIndex > 0) listOfNumbers[--currentIndex]
-			else listOfNumbers[currentIndex]
+			if (currentIndex > 0){
+				currentIndex--
+				listOfNumbers[currentIndex]
+			}
+			else {
+				listOfNumbers[currentIndex]
+			}
 }
