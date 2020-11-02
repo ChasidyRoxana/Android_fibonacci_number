@@ -6,6 +6,10 @@ class FibonacciNumbers {
 	private var currentIndex: Int = 0
 
 	init {
+		createListOfNumbers()
+	}
+
+	private fun createListOfNumbers() {
 		var number: Int
 		do {
 			val lastNumber = listOfNumbers.last()
@@ -15,21 +19,15 @@ class FibonacciNumbers {
 		} while (number + listOfNumbers[listOfNumbers.lastIndex - 1] > 0)
 	}
 
-	fun getNextNumber(): Int =
-			if (currentIndex < listOfNumbers.lastIndex) {
-				currentIndex++
-				listOfNumbers[currentIndex]
-			}
-			else {
-				listOfNumbers[currentIndex]
-			}
+	fun getNextNumber(): Int {
+		if (currentIndex < listOfNumbers.lastIndex)
+			currentIndex++
+		return listOfNumbers[currentIndex]
+	}
 
-	fun getPreviousNumber(): Int =
-			if (currentIndex > 0){
-				currentIndex--
-				listOfNumbers[currentIndex]
-			}
-			else {
-				listOfNumbers[currentIndex]
-			}
+	fun getPreviousNumber(): Int {
+		if (currentIndex > 0)
+			currentIndex--
+		return listOfNumbers[currentIndex]
+	}
 }
