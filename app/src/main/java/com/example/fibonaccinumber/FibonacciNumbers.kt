@@ -16,18 +16,35 @@ class FibonacciNumbers {
 			val previousNumber = listOfNumbers[listOfNumbers.lastIndex - 1]
 			number = lastNumber + previousNumber
 			listOfNumbers.add(number)
-		} while (number + listOfNumbers[listOfNumbers.lastIndex - 1] > 0)
+			val integerOverflow = (number + listOfNumbers[listOfNumbers.lastIndex - 1]) < 0
+		} while (!integerOverflow)
 	}
 
-	fun getNextNumber(): Int {
+	fun getCurrentNumber(): Int = listOfNumbers[currentIndex]
+
+	fun getNextNumber(): Int? =
+		if (currentIndex + 1 <= listOfNumbers.lastIndex) {
+			listOfNumbers[currentIndex + 1]
+		}
+		else {
+			null
+		}
+
+	fun getPreviousNumber(): Int? =
+		if (currentIndex - 1 >= 0) {
+			listOfNumbers[currentIndex - 1]
+		}
+		else {
+			null
+		}
+
+	fun setCurrentIndexToNext() {
 		if (currentIndex < listOfNumbers.lastIndex)
 			currentIndex++
-		return listOfNumbers[currentIndex]
 	}
 
-	fun getPreviousNumber(): Int {
+	fun setCurrentIndexToPrevious() {
 		if (currentIndex > 0)
 			currentIndex--
-		return listOfNumbers[currentIndex]
 	}
 }

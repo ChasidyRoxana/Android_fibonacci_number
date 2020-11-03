@@ -4,23 +4,32 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
 
-    private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setTextViewNumbers()
         initListeners()
+    }
+
+    private fun setTextViewNumbers() {
+        textViewPreviousNumber.text = fibonacciNumbers.getPreviousNumber()?.toString() ?: " "
+        textViewCurrentNumber.text = fibonacciNumbers.getCurrentNumber().toString()
+        textVieNextNumber.text = fibonacciNumbers.getNextNumber()?.toString() ?: " "
     }
 
     private fun initListeners() {
         imageButtonNext.setOnClickListener {
-            current_number.text = fibonacciNumbers.getNextNumber().toString()
+            fibonacciNumbers.setCurrentIndexToNext()
+            setTextViewNumbers()
         }
 
         imageButtonPrev.setOnClickListener {
-            current_number.text = fibonacciNumbers.getPreviousNumber().toString()
+            fibonacciNumbers.setCurrentIndexToPrevious()
+            setTextViewNumbers()
         }
     }
 }
