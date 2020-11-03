@@ -15,12 +15,6 @@ class MainActivity : AppCompatActivity() {
         initListeners()
     }
 
-    private fun setTextViewNumbers() {
-        textViewPreviousNumber.text = fibonacciNumbers.getPreviousNumber()?.toString() ?: " "
-        textViewCurrentNumber.text = fibonacciNumbers.getCurrentNumber().toString()
-        textVieNextNumber.text = fibonacciNumbers.getNextNumber()?.toString() ?: " "
-    }
-
     private fun initListeners() {
         imageButtonNext.setOnClickListener {
             fibonacciNumbers.setCurrentIndexToNext()
@@ -31,5 +25,22 @@ class MainActivity : AppCompatActivity() {
             fibonacciNumbers.setCurrentIndexToPrevious()
             setTextViewNumbers()
         }
+
+        imageButtonReset.setOnClickListener {
+            fibonacciNumbers.setCurrentIndex(0)
+            setTextViewNumbers()
+        }
+    }
+
+    private fun setTextViewNumbers() {
+        textViewCurrentNumber.text = fibonacciNumbers.getCurrentNumber().toString()
+
+        val previousNumber: Int? = fibonacciNumbers.getPreviousNumber()
+        textViewPreviousNumber.text = previousNumber?.toString()
+        imageButtonPrev.isClickable = previousNumber != null
+
+        val nextNumber: Int? = fibonacciNumbers.getNextNumber()
+        textViewNextNumber.text = nextNumber?.toString()
+        imageButtonNext.isClickable = nextNumber != null
     }
 }

@@ -5,4 +5,8 @@
     <string name="textViewNextNumber"> </string>
     <string name="arrowPrev">Previous number</string>
     <string name="arrowNext">Next number</string>
+    <string name="textViewDescription">Fibonacci number navigation and description kotoroe budet potom</string>
+    <string name="textViewForTextNumber">Tut budet description for string of number kotoraya vishe</string>
+    <string name="buttonFindResult">Find</string>
+    <string name="imageButtonReset">Reset number</string>
 </resources>

@@ -38,6 +38,11 @@ class FibonacciNumbers {
 			null
 		}
 
+	fun setCurrentIndex(newIndex: Int) {
+		if (newIndex in 0..listOfNumbers.lastIndex)
+			currentIndex = newIndex
+	}
+
 	fun setCurrentIndexToNext() {
 		if (currentIndex < listOfNumbers.lastIndex)
 			currentIndex++
