@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Fibonacci number</string>
-    <string name="textViewCurrentNumber"> </string>
-    <string name="textViewPreviousNumber"> </string>
-    <string name="textViewNextNumber"> </string>
+    <string name="textViewCurrentNumber" translatable="false"> </string>
+    <string name="textViewPreviousNumber" translatable="false"> </string>
+    <string name="textViewNextNumber" translatable="false"> </string>
     <string name="arrowPrev">Previous number</string>
     <string name="arrowNext">Next number</string>
     <string name="textViewDescription">Fibonacci number navigation and description kotoroe budet potom</string>
