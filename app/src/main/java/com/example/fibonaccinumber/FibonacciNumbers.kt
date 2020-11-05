@@ -43,6 +43,14 @@ class FibonacciNumbers {
 			currentIndex = newIndex
 	}
 
+    fun getIndexOfTheNumber(newNumber: Int): Int {
+        var newIndex = 0
+        while (newIndex < listOfNumbers.lastIndex
+			&& newNumber > listOfNumbers[newIndex])
+            newIndex++
+        return newIndex
+    }
+
 	fun setCurrentIndexToNext() {
 		if (currentIndex < listOfNumbers.lastIndex)
 			currentIndex++

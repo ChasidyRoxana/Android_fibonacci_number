@@ -11,14 +11,27 @@
         android:id="@+id/textViewDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:text="@string/textViewDescription"
         android:textSize="17sp"
+        android:textColor="@color/black"
         android:gravity="center_horizontal"
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewDescriptionForTextNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:labelFor="@id/editTextNumber"
+        android:paddingHorizontal="10dp"
+        android:text="@string/textViewDescriptionForTextNumber"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editTextNumber"
@@ -26,11 +39,12 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
+        android:importantForAutofill="no"
         app:layout_constraintBottom_toTopOf="@+id/textViewPreviousNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescription"/>
 
     <Button
         android:id="@+id/buttonFindResult"
@@ -44,14 +58,11 @@
         app:layout_constraintTop_toTopOf="@+id/editTextNumber" />
 
     <TextView
-        android:id="@+id/textViewForTextNumber"
+        android:id="@+id/textViewErrorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/textViewForTextNumber"
-        android:textSize="14sp"
+        android:text="@string/textViewErrorMessage"
         android:gravity="center_horizontal"
-        android:paddingHorizontal="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
@@ -61,7 +72,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textViewCurrentNumber"
-        android:textSize="50sp"
+        android:textSize="45sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

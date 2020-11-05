@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Числа Фибоначчи</string>
+    <string name="textViewDescription" translatable="false">Навигация по числам Фибоначчи.
+        Для переключения используй стрелки или введи число, которое хочешь найти.</string>
+    <string name="textViewDescriptionForTextNumber" translatable="false">Тут можешь указать число.</string>
+    <string name="buttonFindResult" translatable="false">Найти</string>
+    <string name="textViewErrorMessage"> </string>
     <string name="arrowPrev" translatable="false">Предыдущее число</string>
     <string name="arrowNext" translatable="false">Следующее число</string>
-    <string name="buttonFindResult" translatable="false">Найти</string>
     <string name="imageButtonReset" translatable="false">Сбросить</string>
-    <string name="textViewDescription" translatable="false">Навигация по числам Фибоначчи</string>
-    <string name="textViewForTextNumber" translatable="false">Описание для строки выше</string>
+    <string name="wrongNumber">Это какое-то неправильное число, попробуй найти другое.</string>
+    <string name="notFoundNumber">Такого числа нет, но вот это близко.</string>
 </resources>

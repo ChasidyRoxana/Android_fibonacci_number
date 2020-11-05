@@ -12,27 +12,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setTextViewNumbers()
-        initListeners()
+        initListeners(this, fibonacciNumbers)
     }
 
-    private fun initListeners() {
-        imageButtonNext.setOnClickListener {
-            fibonacciNumbers.setCurrentIndexToNext()
-            setTextViewNumbers()
-        }
-
-        imageButtonPrev.setOnClickListener {
-            fibonacciNumbers.setCurrentIndexToPrevious()
-            setTextViewNumbers()
-        }
-
-        imageButtonReset.setOnClickListener {
-            fibonacciNumbers.setCurrentIndex(0)
-            setTextViewNumbers()
-        }
-    }
-
-    private fun setTextViewNumbers() {
+    fun setTextViewNumbers() {
         textViewCurrentNumber.text = fibonacciNumbers.getCurrentNumber().toString()
 
         val previousNumber: Int? = fibonacciNumbers.getPreviousNumber()
@@ -42,5 +25,26 @@ class MainActivity : AppCompatActivity() {
         val nextNumber: Int? = fibonacciNumbers.getNextNumber()
         textViewNextNumber.text = nextNumber?.toString()
         imageButtonNext.isClickable = nextNumber != null
+    }
+
+    fun setTextViewErrorMessage(error: Boolean?) {
+        when (error) {
+            null -> {
+                textViewErrorMessage.text = null
+            }
+            true -> {
+                textViewErrorMessage.apply {
+                    text = resources.getString(R.string.wrongNumber)
+                    setTextColor(resources.getColor(R.color.red))
+                }
+            }
+            false -> {
+                textViewErrorMessage.apply {
+                    text = resources.getString(R.string.notFoundNumber)
+                    setTextColor(resources.getColor(R.color.black))
+                }
+            }
+        }
+        TODO()
     }
 }
