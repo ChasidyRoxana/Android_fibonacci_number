@@ -19,29 +19,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewDescriptionForTextNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:labelFor="@id/editTextNumber"
-        android:paddingHorizontal="10dp"
-        android:text="@string/textViewDescriptionForTextNumber"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <EditText
         android:id="@+id/editTextNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="7"
+        android:layout_marginEnd="6dp"
+        android:ems="13"
+        android:hint="@string/textNumberDescription"
         android:importantForAutofill="no"
         android:inputType="number"
+        android:textSize="15sp"
+        android:maxLength="10"
         app:layout_constraintBottom_toTopOf="@+id/textViewPreviousNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintEnd_toStartOf="@+id/buttonFindResult"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
 
@@ -141,6 +132,6 @@
         app:layout_constraintEnd_toStartOf="@+id/imageButtonNext"
         app:layout_constraintStart_toEndOf="@+id/imageButtonPrev"
         app:layout_constraintTop_toTopOf="@+id/imageButtonPrev"
-        app:srcCompat="@drawable/synchronize" />
+        app:srcCompat="@drawable/reset" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

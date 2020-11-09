@@ -20,6 +20,8 @@ class FibonacciNumbers {
 		} while (!integerOverflow)
 	}
 
+	fun getCurrentIndex(): Int = currentIndex
+
 	fun getCurrentNumber(): Int = listOfNumbers[currentIndex]
 
 	fun getNextNumber(): Int? =

@@ -2,9 +2,9 @@
     <string name="app_name">Fibonacci number</string>
     <string name="textViewDescription">Fibonacci numbers navigation. Use the arrows to switch
         or enter the number you want to find.</string>
-    <string name="textViewDescriptionForTextNumber">Here you can enter a number.</string>
+    <string name="textNumberDescription">Here you can enter a number.</string>
     <string name="buttonFindResult">Find</string>
-    <string name="textViewErrorMessage"> </string>
+    <string name="textViewErrorMessage" translatable="false"> </string>
     <string name="textViewCurrentNumber" translatable="false"> </string>
     <string name="textViewPreviousNumber" translatable="false"> </string>
     <string name="textViewNextNumber" translatable="false"> </string>

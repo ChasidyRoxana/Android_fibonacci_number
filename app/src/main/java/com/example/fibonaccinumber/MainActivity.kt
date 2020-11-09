@@ -11,14 +11,40 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        loadState()
         setCurrentState()
         presenter.initListeners(this)
+    }
+
+    override fun onPause() {
+        saveState()
+        super.onPause()
     }
 
     fun setCurrentState() {
         setTextViewNumbers()
         setTextViewErrorMessage()
         setEditTextNumber()
+    }
+
+    private fun saveState() {
+        val sharedPreferences = getPreferences(MODE_PRIVATE)
+        val editState = sharedPreferences.edit()
+        with(editState) {
+            editState.putInt("CurrentIndex", presenter.fibonacciNumbers.getCurrentIndex())
+            putString("CurrentEditTextNumber", presenter.currentEditTextNumber)
+            apply()
+        }
+    }
+
+    private fun loadState() {
+        val sharedPreferences = getPreferences(MODE_PRIVATE)
+        with(presenter) {
+            val currentIndex = sharedPreferences.getInt("CurrentIndex", 0)
+            fibonacciNumbers.setCurrentIndex(currentIndex)
+            val curEditTextNumber = sharedPreferences.getString("CurrentEditTextNumber", "")
+            currentEditTextNumber = curEditTextNumber ?: ""
+        }
     }
 
     private fun setTextViewNumbers() {
