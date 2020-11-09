@@ -4,47 +4,53 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 
-private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
+private val presenter: Presenter = Presenter()
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setTextViewNumbers()
-        initListeners(this, fibonacciNumbers)
+        setCurrentState()
+        presenter.initListeners(this)
     }
 
-    fun setTextViewNumbers() {
-        textViewCurrentNumber.text = fibonacciNumbers.getCurrentNumber().toString()
+    fun setCurrentState() {
+        setTextViewNumbers()
+        setTextViewErrorMessage()
+        setEditTextNumber()
+    }
 
-        val previousNumber: Int? = fibonacciNumbers.getPreviousNumber()
+    private fun setTextViewNumbers() {
+        textViewCurrentNumber.text = presenter.fibonacciNumbers.getCurrentNumber().toString()
+
+        val previousNumber: Int? = presenter.fibonacciNumbers.getPreviousNumber()
         textViewPreviousNumber.text = previousNumber?.toString()
         imageButtonPrev.isClickable = previousNumber != null
 
-        val nextNumber: Int? = fibonacciNumbers.getNextNumber()
+        val nextNumber: Int? = presenter.fibonacciNumbers.getNextNumber()
         textViewNextNumber.text = nextNumber?.toString()
         imageButtonNext.isClickable = nextNumber != null
     }
 
-    fun setTextViewErrorMessage(error: Boolean?) {
-        when (error) {
+    private fun setTextViewErrorMessage() {
+        textViewErrorMessage.text = when (presenter.error) {
             null -> {
-                textViewErrorMessage.text = null
+                null
             }
             true -> {
-                textViewErrorMessage.apply {
-                    text = resources.getString(R.string.wrongNumber)
-                    setTextColor(resources.getColor(R.color.red))
-                }
+                textViewErrorMessage.setTextColor(resources.getColor(R.color.errorRed, null))
+                resources.getString(R.string.wrongNumber)
             }
             false -> {
-                textViewErrorMessage.apply {
-                    text = resources.getString(R.string.notFoundNumber)
-                    setTextColor(resources.getColor(R.color.black))
-                }
+                textViewErrorMessage.setTextColor(resources.getColor(R.color.black, null))
+                resources.getString(R.string.notFoundNumber)
             }
         }
-        TODO()
+    }
+
+    private fun setEditTextNumber() {
+        val currentText = editTextNumber.text
+        editTextNumber.text.replace(0, currentText.length, presenter.currentEditTextNumber)
     }
 }

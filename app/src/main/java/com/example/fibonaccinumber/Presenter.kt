@@ -3,47 +3,47 @@ package com.example.fibonaccinumber
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.NumberFormatException
 
-fun initListeners(mainActivity: MainActivity, fibonacciNumbers: FibonacciNumbers) {
-    mainActivity.imageButtonNext.setOnClickListener {
-        fibonacciNumbers.setCurrentIndexToNext()
-        mainActivity.setTextViewNumbers()
-    }
+class Presenter {
 
-    mainActivity.imageButtonPrev.setOnClickListener {
-        fibonacciNumbers.setCurrentIndexToPrevious()
-        mainActivity.setTextViewNumbers()
-    }
+    val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
+    var error: Boolean? = null
+    var currentEditTextNumber: String = ""
 
-    mainActivity.imageButtonReset.setOnClickListener {
-        fibonacciNumbers.setCurrentIndex(0)
-        mainActivity.apply {
-            setTextViewNumbers()
-            setTextViewErrorMessage(false)
-            mainActivity.editTextNumber.text = null
-            TODO()
+    fun initListeners(mainActivity: MainActivity) {
+        mainActivity.imageButtonNext.setOnClickListener {
+            fibonacciNumbers.setCurrentIndexToNext()
+            mainActivity.setCurrentState()
         }
-    }
 
-    mainActivity.buttonFindResult.setOnClickListener {
-        val enteredString = mainActivity.editTextNumber.text.toString()
-        mainActivity.editTextNumber.text = null
-        try {
-            val newNumber = enteredString.toInt()
-            fibonacciNumbers.apply {
-                val newIndex: Int = getIndexOfTheNumber(newNumber)
-                setCurrentIndex(newIndex)
-            }
-            mainActivity.apply {
-                setTextViewNumbers()
-                if (newNumber == fibonacciNumbers.getCurrentNumber()){
-                    setTextViewErrorMessage(null)
-                } else {
-                    setTextViewErrorMessage(false)
+        mainActivity.imageButtonPrev.setOnClickListener {
+            fibonacciNumbers.setCurrentIndexToPrevious()
+            mainActivity.setCurrentState()
+        }
+
+        mainActivity.imageButtonReset.setOnClickListener {
+            fibonacciNumbers.setCurrentIndex(0)
+            error = null
+            currentEditTextNumber = ""
+            mainActivity.setCurrentState()
+        }
+
+        mainActivity.buttonFindResult.setOnClickListener {
+            currentEditTextNumber = mainActivity.editTextNumber.text.toString()
+            error = try {
+                val newNumber = currentEditTextNumber.toInt()
+                with(fibonacciNumbers) {
+                    val newIndex: Int = getIndexOfTheNumber(newNumber)
+                    setCurrentIndex(newIndex)
                 }
+                if (newNumber == fibonacciNumbers.getCurrentNumber()) {
+                    null
+                } else {
+                    false
+                }
+            } catch (e: NumberFormatException) {
+                true
             }
-        } catch (e: NumberFormatException) {
-            mainActivity.setTextViewErrorMessage(true)
+            mainActivity.setCurrentState()
         }
-        TODO()
     }
 }
