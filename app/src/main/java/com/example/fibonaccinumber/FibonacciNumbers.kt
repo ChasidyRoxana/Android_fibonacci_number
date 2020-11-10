@@ -1,6 +1,6 @@
 package com.example.fibonaccinumber
 
-class FibonacciNumbers {
+class FibonacciNumbers(private val presenter: MainContract.MainPresenter): MainContract.MainModel {
 
 	private val listOfNumbers: ArrayList<Int> = arrayListOf(0, 1)
 	private var currentIndex: Int = 0
@@ -20,11 +20,27 @@ class FibonacciNumbers {
 		} while (!integerOverflow)
 	}
 
-	fun getCurrentIndex(): Int = currentIndex
+	override fun saveState(view: MainContract.MainView, currentEditTextNumber: String) {
+		val sharedPreferences = view.getMyPreferences()
+		val editState = sharedPreferences.edit()
+		with(editState) {
+			editState.putInt("CurrentIndex", currentIndex)
+			putString("CurrentEditTextNumber", currentEditTextNumber)
+			apply()
+		}
+	}
 
-	fun getCurrentNumber(): Int = listOfNumbers[currentIndex]
+	override fun loadState(view: MainContract.MainView) {
+		val sharedPreferences = view.getMyPreferences()
+		val currentIndex = sharedPreferences.getInt("CurrentIndex", 0)
+		setCurrentIndex(currentIndex)
+		val curEditTextNumber = sharedPreferences.getString("CurrentEditTextNumber", "")
+		presenter.setCurrentEditTextNumber(curEditTextNumber!!)
+	}
 
-	fun getNextNumber(): Int? =
+	override fun getCurrentNumber(): Int = listOfNumbers[currentIndex]
+
+	override fun getNextNumber(): Int? =
 		if (currentIndex + 1 <= listOfNumbers.lastIndex) {
 			listOfNumbers[currentIndex + 1]
 		}
@@ -32,7 +48,7 @@ class FibonacciNumbers {
 			null
 		}
 
-	fun getPreviousNumber(): Int? =
+	override fun getPreviousNumber(): Int? =
 		if (currentIndex - 1 >= 0) {
 			listOfNumbers[currentIndex - 1]
 		}
@@ -40,12 +56,12 @@ class FibonacciNumbers {
 			null
 		}
 
-	fun setCurrentIndex(newIndex: Int) {
+	override fun setCurrentIndex(newIndex: Int) {
 		if (newIndex in 0..listOfNumbers.lastIndex)
 			currentIndex = newIndex
 	}
 
-    fun getIndexOfTheNumber(newNumber: Int): Int {
+	override fun getIndexOfTheNumber(newNumber: Int): Int {
         var newIndex = 0
         while (newIndex < listOfNumbers.lastIndex
 			&& newNumber > listOfNumbers[newIndex])
@@ -53,12 +69,12 @@ class FibonacciNumbers {
         return newIndex
     }
 
-	fun setCurrentIndexToNext() {
+	override fun setCurrentIndexToNext() {
 		if (currentIndex < listOfNumbers.lastIndex)
 			currentIndex++
 	}
 
-	fun setCurrentIndexToPrevious() {
+	override fun setCurrentIndexToPrevious() {
 		if (currentIndex > 0)
 			currentIndex--
 	}

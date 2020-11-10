@@ -1,12 +1,13 @@
 package com.example.fibonaccinumber
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainContract.MainView {
 
-    private val presenter: Presenter = Presenter(this)
+    private val presenter: MainContract.MainPresenter = Presenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonFindResult.setOnClickListener {
-            presenter.buttonFindResultOnClick()
+            presenter.buttonFindResultOnClick(editTextNumber.text.toString())
         }
     }
 
@@ -38,24 +39,46 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
     }
 
-    fun setTextViewCurrentNumber(number: Int) {
+    override fun setTextViewCurrentNumber(number: Int) {
         textViewCurrentNumber.text = number.toString()
     }
 
-    fun setTextViewPreviousNumber(number: Int?) {
+    override fun setTextViewPreviousNumber(number: Int?) {
         textViewPreviousNumber.text = number?.toString()
     }
 
-    fun setTextViewNextNumber(number: Int?) {
+    override fun setIBPrevClickable(isClickable: Boolean) {
+        imageButtonPrev.isClickable = isClickable
+    }
+
+    override fun setTextViewNextNumber(number: Int?) {
         textViewNextNumber.text = number?.toString()
     }
 
-    fun setEditTextNumber(str: String) {
+    override fun setIBNextClickable(isClickable: Boolean) {
+        imageButtonNext.isClickable = isClickable
+    }
+
+    override fun setEditTextNumber(str: String) {
         val currentText = editTextNumber.text
         currentText.replace(0, currentText.length, str)
     }
 
-    fun setTextViewErrorMessage(str: String?) {
-        textViewErrorMessage.text = str
+    override fun setTVErrorMessageNull() {
+        textViewErrorMessage.text = null
     }
+
+    override fun setTVErrorMessageWrongNumber() {
+        val color = resources.getColor(R.color.errorRed, null)
+        textViewErrorMessage.setTextColor(color)
+        resources.getString(R.string.wrongNumber)
+    }
+
+    override fun setTVErrorMessageNotFoundNumber() {
+        val color = resources.getColor(R.color.black, null)
+        textViewErrorMessage.setTextColor(color)
+        resources.getString(R.string.notFoundNumber)
+    }
+
+    override fun getMyPreferences(): SharedPreferences = getPreferences(MODE_PRIVATE)
 }

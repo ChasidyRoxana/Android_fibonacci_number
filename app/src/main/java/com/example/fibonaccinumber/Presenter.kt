@@ -1,34 +1,32 @@
 package com.example.fibonaccinumber
 
-import android.content.Context.MODE_PRIVATE
-import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.NumberFormatException
 
-class Presenter(private val view: MainActivity) {
+class Presenter(private val view: MainContract.MainView): MainContract.MainPresenter {
 
-    private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
+    private val fibonacciNumbers: MainContract.MainModel = FibonacciNumbers(this)
     private var error: Boolean? = null
     private var currentEditTextNumber: String = ""
 
-    fun imageButtonNextOnClick() {
+    override fun imageButtonNextOnClick() {
         fibonacciNumbers.setCurrentIndexToNext()
         setTextViewNumbers()
     }
 
-    fun imageButtonPrevOnClick() {
+    override fun imageButtonPrevOnClick() {
         fibonacciNumbers.setCurrentIndexToPrevious()
         setTextViewNumbers()
     }
 
-    fun imageButtonResetOnClick() {
+    override fun imageButtonResetOnClick() {
         fibonacciNumbers.setCurrentIndex(0)
         error = null
         currentEditTextNumber = ""
         setCurrentState()
     }
 
-    fun buttonFindResultOnClick() {
-        currentEditTextNumber = view.editTextNumber.text.toString()
+    override fun buttonFindResultOnClick(editTextNumber: String) {
+        currentEditTextNumber = editTextNumber
         error = try {
             val newNumber = currentEditTextNumber.toInt()
             with(fibonacciNumbers) {
@@ -46,23 +44,17 @@ class Presenter(private val view: MainActivity) {
         setCurrentState()
     }
 
-    fun saveState() {
-        val sharedPreferences = view.getPreferences(MODE_PRIVATE)
-        val editState = sharedPreferences.edit()
-        with(editState) {
-            editState.putInt("CurrentIndex", fibonacciNumbers.getCurrentIndex())
-            putString("CurrentEditTextNumber", currentEditTextNumber)
-            apply()
-        }
+    override fun saveState() {
+        fibonacciNumbers.saveState(view, currentEditTextNumber)
     }
 
-    fun loadState() {
-        val sharedPreferences = view.getPreferences(MODE_PRIVATE)
-        val currentIndex = sharedPreferences.getInt("CurrentIndex", 0)
-        fibonacciNumbers.setCurrentIndex(currentIndex)
-        val curEditTextNumber = sharedPreferences.getString("CurrentEditTextNumber", "")
-        currentEditTextNumber = curEditTextNumber!!
+    override fun loadState() {
+        fibonacciNumbers.loadState(view)
         setCurrentState()
+    }
+
+    override fun setCurrentEditTextNumber(newText: String) {
+        currentEditTextNumber = newText
     }
 
     private fun setCurrentState() {
@@ -72,22 +64,17 @@ class Presenter(private val view: MainActivity) {
     }
 
     private fun setTextViewErrorMessage() {
-        val errorMessage = when (error) {
+        when (error) {
             null -> {
-                null
+                view.setTVErrorMessageNull()
             }
             true -> {
-                val color = view.resources.getColor(R.color.errorRed, null)
-                view.textViewErrorMessage.setTextColor(color)
-                view.resources.getString(R.string.wrongNumber)
+                view.setTVErrorMessageWrongNumber()
             }
             false -> {
-                val color = view.resources.getColor(R.color.black, null)
-                view.textViewErrorMessage.setTextColor(color)
-                view.resources.getString(R.string.notFoundNumber)
+                view.setTVErrorMessageNotFoundNumber()
             }
         }
-        view.setTextViewErrorMessage(errorMessage)
     }
 
     private fun setTextViewNumbers() {
@@ -103,13 +90,15 @@ class Presenter(private val view: MainActivity) {
 
     private fun setPreviousNumber(): Int? {
         val previousNumber: Int? = fibonacciNumbers.getPreviousNumber()
-        view.imageButtonPrev.isClickable = previousNumber != null
+        val isClickable = previousNumber != null
+        view.setIBPrevClickable(isClickable)
         return previousNumber
     }
 
     private fun setNextNumber(): Int? {
         val nextNumber: Int? = fibonacciNumbers.getNextNumber()
-        view.imageButtonNext.isClickable = nextNumber != null
+        val isClickable = nextNumber != null
+        view.setIBNextClickable(isClickable)
         return nextNumber
     }
 }
