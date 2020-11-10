@@ -2,11 +2,15 @@ package com.example.fibonaccinumber
 
 import java.lang.NumberFormatException
 
-class Presenter(private val view: MainContract.MainView): MainContract.MainPresenter {
+const val CURRENT_INDEX = "CurrentIndex"
+const val CURRENT_NUMBER = "CurrentEditTextNumber"
 
-    private val fibonacciNumbers: MainContract.MainModel = FibonacciNumbers(this)
-    private var error: Boolean? = null
+class Presenter(private val view: MainContract.MainView) : MainContract.MainPresenter {
+
+    private val fibonacciNumbers: MainContract.MainModel = FibonacciNumbers()
+    private var error: Boolean? = false
     private var currentEditTextNumber: String = ""
+
 
     override fun imageButtonNextOnClick() {
         fibonacciNumbers.setCurrentIndexToNext()
@@ -20,7 +24,7 @@ class Presenter(private val view: MainContract.MainView): MainContract.MainPrese
 
     override fun imageButtonResetOnClick() {
         fibonacciNumbers.setCurrentIndex(0)
-        error = null
+        error = false
         currentEditTextNumber = ""
         setCurrentState()
     }
@@ -29,32 +33,39 @@ class Presenter(private val view: MainContract.MainView): MainContract.MainPrese
         currentEditTextNumber = editTextNumber
         error = try {
             val newNumber = currentEditTextNumber.toInt()
-            with(fibonacciNumbers) {
-                val newIndex: Int = getIndexOfTheNumber(newNumber)
-                setCurrentIndex(newIndex)
-            }
-            if (newNumber == fibonacciNumbers.getCurrentNumber()) {
-                null
-            } else {
-                false
-            }
+            !correctNewNumber(newNumber)
         } catch (e: NumberFormatException) {
-            true
+            null
         }
         setCurrentState()
     }
 
+    private fun correctNewNumber(newNumber: Int): Boolean {
+        with(fibonacciNumbers) {
+            val newIndex: Int = getIndexOfTheNumber(newNumber)
+            setCurrentIndex(newIndex)
+        }
+        return newNumber == fibonacciNumbers.getCurrentNumber()
+    }
+
     override fun saveState() {
-        fibonacciNumbers.saveState(view, currentEditTextNumber)
+        val sharedPreferences = view.getMyPreferences()
+        val editState = sharedPreferences.edit()
+        with(editState) {
+            editState.putInt(CURRENT_INDEX, fibonacciNumbers.getCurrentIndex())
+            putString(CURRENT_NUMBER, currentEditTextNumber)
+            apply()
+        }
     }
 
     override fun loadState() {
-        fibonacciNumbers.loadState(view)
-        setCurrentState()
-    }
+        val sharedPreferences = view.getMyPreferences()
+        val currentIndex = sharedPreferences.getInt(CURRENT_INDEX, 0)
+        fibonacciNumbers.setCurrentIndex(currentIndex)
 
-    override fun setCurrentEditTextNumber(newText: String) {
-        currentEditTextNumber = newText
+        val curEditTextNumber = sharedPreferences.getString(CURRENT_NUMBER, "")
+        currentEditTextNumber = curEditTextNumber!!
+        setCurrentState()
     }
 
     private fun setCurrentState() {
@@ -66,13 +77,13 @@ class Presenter(private val view: MainContract.MainView): MainContract.MainPrese
     private fun setTextViewErrorMessage() {
         when (error) {
             null -> {
-                view.setTVErrorMessageNull()
-            }
-            true -> {
                 view.setTVErrorMessageWrongNumber()
             }
-            false -> {
+            true -> {
                 view.setTVErrorMessageNotFoundNumber()
+            }
+            false -> {
+                view.setTVErrorMessageNull()
             }
         }
     }

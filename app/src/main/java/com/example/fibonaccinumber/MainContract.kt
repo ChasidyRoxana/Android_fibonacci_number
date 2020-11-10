@@ -23,13 +23,11 @@ interface MainContract {
         fun buttonFindResultOnClick(editTextNumber: String)
         fun saveState()
         fun loadState()
-        fun setCurrentEditTextNumber(newText: String)
     }
 
     interface MainModel {
-        fun saveState(view: MainView, currentEditTextNumber: String)
-        fun loadState(view: MainView)
         fun getCurrentNumber(): Int
+        fun getCurrentIndex(): Int
         fun getNextNumber(): Int?
         fun getPreviousNumber(): Int?
         fun setCurrentIndex(newIndex: Int)

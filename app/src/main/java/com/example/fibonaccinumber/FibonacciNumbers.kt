@@ -1,6 +1,6 @@
 package com.example.fibonaccinumber
 
-class FibonacciNumbers(private val presenter: MainContract.MainPresenter): MainContract.MainModel {
+class FibonacciNumbers(): MainContract.MainModel {
 
 	private val listOfNumbers: ArrayList<Int> = arrayListOf(0, 1)
 	private var currentIndex: Int = 0
@@ -20,25 +20,9 @@ class FibonacciNumbers(private val presenter: MainContract.MainPresenter): MainC
 		} while (!integerOverflow)
 	}
 
-	override fun saveState(view: MainContract.MainView, currentEditTextNumber: String) {
-		val sharedPreferences = view.getMyPreferences()
-		val editState = sharedPreferences.edit()
-		with(editState) {
-			editState.putInt("CurrentIndex", currentIndex)
-			putString("CurrentEditTextNumber", currentEditTextNumber)
-			apply()
-		}
-	}
-
-	override fun loadState(view: MainContract.MainView) {
-		val sharedPreferences = view.getMyPreferences()
-		val currentIndex = sharedPreferences.getInt("CurrentIndex", 0)
-		setCurrentIndex(currentIndex)
-		val curEditTextNumber = sharedPreferences.getString("CurrentEditTextNumber", "")
-		presenter.setCurrentEditTextNumber(curEditTextNumber!!)
-	}
-
 	override fun getCurrentNumber(): Int = listOfNumbers[currentIndex]
+
+	override fun getCurrentIndex(): Int = currentIndex
 
 	override fun getNextNumber(): Int? =
 		if (currentIndex + 1 <= listOfNumbers.lastIndex) {
