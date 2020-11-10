@@ -71,13 +71,13 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
     override fun setTVErrorMessageWrongNumber() {
         val color = resources.getColor(R.color.errorRed, null)
         textViewErrorMessage.setTextColor(color)
-        resources.getString(R.string.wrongNumber)
+        textViewErrorMessage.text = resources.getString(R.string.wrongNumber)
     }
 
     override fun setTVErrorMessageNotFoundNumber() {
         val color = resources.getColor(R.color.black, null)
         textViewErrorMessage.setTextColor(color)
-        resources.getString(R.string.notFoundNumber)
+        textViewErrorMessage.text = resources.getString(R.string.notFoundNumber)
     }
 
     override fun getMyPreferences(): SharedPreferences = getPreferences(MODE_PRIVATE)
