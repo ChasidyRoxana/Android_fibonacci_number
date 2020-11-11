@@ -1,7 +1,5 @@
 package com.example.fibonaccinumber
 
-import android.content.SharedPreferences
-
 interface MainContract {
     interface MainView {
         fun setTextViewCurrentNumber(number: Int)
@@ -13,7 +11,6 @@ interface MainContract {
         fun setTVErrorMessageNull()
         fun setTVErrorMessageWrongNumber()
         fun setTVErrorMessageNotFoundNumber()
-        fun getMyPreferences(): SharedPreferences
     }
 
     interface MainPresenter {
@@ -23,16 +20,5 @@ interface MainContract {
         fun buttonFindResultOnClick(editTextNumber: String)
         fun saveState()
         fun loadState()
-    }
-
-    interface MainModel {
-        fun getCurrentNumber(): Int
-        fun getCurrentIndex(): Int
-        fun getNextNumber(): Int?
-        fun getPreviousNumber(): Int?
-        fun setCurrentIndex(newIndex: Int)
-        fun getIndexOfTheNumber(newNumber: Int): Int
-        fun setCurrentIndexToNext()
-        fun setCurrentIndexToPrevious()
     }
 }

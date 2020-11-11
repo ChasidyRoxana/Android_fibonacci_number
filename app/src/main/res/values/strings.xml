@@ -1,16 +1,12 @@
 <resources>
     <string name="app_name">Fibonacci number</string>
     <string name="textViewDescription">Fibonacci numbers navigation. Use the arrows to switch
-        or enter the number you want to find.</string>
-    <string name="textNumberDescription">Here you can enter a number.</string>
+        or enter the number you want to find</string>
+    <string name="textNumberDescription">Here you can enter a number</string>
     <string name="buttonFindResult">Find</string>
-    <string name="textViewErrorMessage" translatable="false"> </string>
-    <string name="textViewCurrentNumber" translatable="false"> </string>
-    <string name="textViewPreviousNumber" translatable="false"> </string>
-    <string name="textViewNextNumber" translatable="false"> </string>
     <string name="arrowPrev">Previous number</string>
     <string name="arrowNext">Next number</string>
     <string name="imageButtonReset">Reset</string>
-    <string name="wrongNumber">This is some wrong number, try to find another.</string>
-    <string name="notFoundNumber">There is no such number, but this one is close.</string>
+    <string name="wrongNumber">This is some wrong number, try to find another</string>
+    <string name="notFoundNumber">There is no such number, but this one is close</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.example.fibonaccinumber
 
-class FibonacciNumbers : MainContract.MainModel {
+class FibonacciNumbers {
 
     private val listOfNumbers: ArrayList<Int> = arrayListOf(0, 1)
     private var currentIndex: Int = 0
@@ -10,55 +10,58 @@ class FibonacciNumbers : MainContract.MainModel {
     }
 
     private fun createListOfNumbers() {
-        var number: Int
+        var newNumber: Int
         do {
             val lastNumber = listOfNumbers.last()
             val previousNumber = listOfNumbers[listOfNumbers.lastIndex - 1]
-            number = lastNumber + previousNumber
-            listOfNumbers.add(number)
-            val integerOverflow = (number + listOfNumbers[listOfNumbers.lastIndex - 1]) < 0
+            newNumber = lastNumber + previousNumber
+            listOfNumbers.add(newNumber)
+            val previousNumberAfterAdd: Int = lastNumber
+            val integerOverflow = (newNumber + previousNumberAfterAdd) < 0
         } while (!integerOverflow)
     }
 
-    override fun getCurrentNumber(): Int = listOfNumbers[currentIndex]
+    fun getCurrentNumber(): Int = listOfNumbers[currentIndex]
 
-    override fun getCurrentIndex(): Int = currentIndex
+    fun getCurrentIndex(): Int = currentIndex
 
-    override fun getNextNumber(): Int? =
-        if (currentIndex + 1 <= listOfNumbers.lastIndex) {
+    fun getNextNumber(): Int? =
+        if (currentIndex < listOfNumbers.lastIndex) {
             listOfNumbers[currentIndex + 1]
         } else {
             null
         }
 
-    override fun getPreviousNumber(): Int? =
-        if (currentIndex - 1 >= 0) {
+    fun getPreviousNumber(): Int? =
+        if (currentIndex > 0) {
             listOfNumbers[currentIndex - 1]
         } else {
             null
         }
 
-    override fun setCurrentIndex(newIndex: Int) {
-        if (newIndex in 0..listOfNumbers.lastIndex)
+    fun setCurrentIndex(newIndex: Int) {
+        if (newIndex in 0..listOfNumbers.lastIndex) {
             currentIndex = newIndex
+        }
     }
 
-    override fun getIndexOfTheNumber(newNumber: Int): Int {
+    fun getIndexOfTheNumber(newNumber: Int): Int {
         var newIndex = 0
-        while (newIndex < listOfNumbers.lastIndex
-            && newNumber > listOfNumbers[newIndex]
-        )
+        while (newIndex < listOfNumbers.lastIndex && newNumber > listOfNumbers[newIndex]) {
             newIndex++
+        }
         return newIndex
     }
 
-    override fun setCurrentIndexToNext() {
-        if (currentIndex < listOfNumbers.lastIndex)
+    fun setCurrentIndexToNext() {
+        if (currentIndex < listOfNumbers.lastIndex) {
             currentIndex++
+        }
     }
 
-    override fun setCurrentIndexToPrevious() {
-        if (currentIndex > 0)
+    fun setCurrentIndexToPrevious() {
+        if (currentIndex > 0) {
             currentIndex--
+        }
     }
 }

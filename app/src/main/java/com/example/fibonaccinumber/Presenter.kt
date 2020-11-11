@@ -1,16 +1,19 @@
 package com.example.fibonaccinumber
 
+import android.content.SharedPreferences
 import java.lang.NumberFormatException
 
 const val CURRENT_INDEX = "CurrentIndex"
 const val CURRENT_NUMBER = "CurrentEditTextNumber"
 
-class Presenter(private val view: MainContract.MainView) : MainContract.MainPresenter {
+class Presenter(
+    private val view: MainContract.MainView,
+    private val sharedPreferences: SharedPreferences,
+    private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
+) : MainContract.MainPresenter {
 
-    private val fibonacciNumbers: MainContract.MainModel = FibonacciNumbers()
     private var error: Boolean? = false
     private var currentEditTextNumber: String = ""
-
 
     override fun imageButtonNextOnClick() {
         fibonacciNumbers.setCurrentIndexToNext()
@@ -41,15 +44,13 @@ class Presenter(private val view: MainContract.MainView) : MainContract.MainPres
     }
 
     private fun correctNewNumber(newNumber: Int): Boolean {
-        with(fibonacciNumbers) {
-            val newIndex: Int = getIndexOfTheNumber(newNumber)
-            setCurrentIndex(newIndex)
-        }
+        val newIndex: Int = fibonacciNumbers.getIndexOfTheNumber(newNumber)
+        fibonacciNumbers.setCurrentIndex(newIndex)
         return newNumber == fibonacciNumbers.getCurrentNumber()
     }
 
     override fun saveState() {
-        val sharedPreferences = view.getMyPreferences()
+        val sharedPreferences = sharedPreferences
         val editState = sharedPreferences.edit()
         with(editState) {
             editState.putInt(CURRENT_INDEX, fibonacciNumbers.getCurrentIndex())
@@ -59,7 +60,7 @@ class Presenter(private val view: MainContract.MainView) : MainContract.MainPres
     }
 
     override fun loadState() {
-        val sharedPreferences = view.getMyPreferences()
+        val sharedPreferences = sharedPreferences
         val currentIndex = sharedPreferences.getInt(CURRENT_INDEX, 0)
         fibonacciNumbers.setCurrentIndex(currentIndex)
 
@@ -76,23 +77,15 @@ class Presenter(private val view: MainContract.MainView) : MainContract.MainPres
 
     private fun setTextViewErrorMessage() {
         when (error) {
-            null -> {
-                view.setTVErrorMessageWrongNumber()
-            }
-            true -> {
-                view.setTVErrorMessageNotFoundNumber()
-            }
-            false -> {
-                view.setTVErrorMessageNull()
-            }
+            null -> view.setTVErrorMessageWrongNumber()
+            true -> view.setTVErrorMessageNotFoundNumber()
+            false -> view.setTVErrorMessageNull()
         }
     }
 
     private fun setTextViewNumbers() {
         view.setTextViewCurrentNumber(setCurrentNumber())
-
         view.setTextViewPreviousNumber(setPreviousNumber())
-
         view.setTextViewNextNumber(setNextNumber())
     }
 

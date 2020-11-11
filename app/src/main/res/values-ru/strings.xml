@@ -2,12 +2,12 @@
 <resources>
     <string name="app_name">Числа Фибоначчи</string>
     <string name="textViewDescription">Навигация по числам Фибоначчи.
-        Для переключения используй стрелки или введи число, которое хочешь найти.</string>
-    <string name="textNumberDescription">Можешь указать число тут.</string>
+        Для переключения используй стрелки или введи число, которое хочешь найти</string>
+    <string name="textNumberDescription">Введите число для поиска</string>
     <string name="buttonFindResult">Найти</string>
     <string name="arrowPrev">Предыдущее число</string>
     <string name="arrowNext">Следующее число</string>
     <string name="imageButtonReset">Сбросить</string>
-    <string name="wrongNumber">Это какое-то неправильное число, попробуй найти другое.</string>
-    <string name="notFoundNumber">Такого числа нет, но вот это близко.</string>
+    <string name="wrongNumber">Фраза о том, что число слишком большое</string>
+    <string name="notFoundNumber">Фраза о том, что такого числа нет</string>
 </resources>

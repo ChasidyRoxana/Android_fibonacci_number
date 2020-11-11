@@ -1,13 +1,13 @@
 package com.example.fibonaccinumber
 
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainContract.MainView {
 
-    private val presenter: MainContract.MainPresenter = Presenter(this)
+    private val sharedPreferences = getPreferences(MODE_PRIVATE)
+    private val presenter: MainContract.MainPresenter = Presenter(this, sharedPreferences)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +79,4 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
         textViewErrorMessage.setTextColor(color)
         textViewErrorMessage.text = resources.getString(R.string.notFoundNumber)
     }
-
-    override fun getMyPreferences(): SharedPreferences = getPreferences(MODE_PRIVATE)
 }

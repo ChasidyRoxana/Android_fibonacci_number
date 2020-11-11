@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/textViewDescription"
@@ -53,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="@string/textViewErrorMessage"
+        tools:text="@string/wrongNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
@@ -62,7 +63,7 @@
         android:id="@+id/textViewCurrentNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textViewCurrentNumber"
+        tools:text="333"
         android:textColor="@color/black"
         android:textSize="45sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,7 +75,7 @@
         android:id="@+id/textViewPreviousNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textViewPreviousNumber"
+        tools:text="111"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewCurrentNumber"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/textViewNextNumber"
+        tools:text="555"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
