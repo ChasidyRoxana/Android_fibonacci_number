@@ -2,23 +2,18 @@ package com.example.fibonaccinumber
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainContract.MainView {
 
-    private var presenter: MainContract.MainPresenter = Presenter(this)
+    private lateinit var presenter: MainContract.MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        Log.i("NAIDIERROR", "super")
         super.onCreate(savedInstanceState)
-//        Log.i("NAIDIERROR", "setContentView")
         setContentView(R.layout.activity_main)
-//        Log.i("NAIDIERROR", "go to loadState")
         val sharedPreferences = getPreferences(MODE_PRIVATE)
-        presenter.setSharedPref(sharedPreferences)
+        presenter = Presenter(this, sharedPreferences)
         presenter.loadState()
-//        Log.i("NAIDIERROR", "bishel is loadState")
         initListeners()
     }
 
@@ -59,12 +54,26 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
 
     override fun setPrevClickable(isClickable: Boolean) {
         previous.isClickable = isClickable
-        previous.isEnabled = isClickable
     }
 
     override fun setNextClickable(isClickable: Boolean) {
         next.isClickable = isClickable
-        next.isEnabled = isClickable
+    }
+
+    override fun setFindResultClickable(isClickable: Boolean) {
+        findResult.isClickable = isClickable
+    }
+
+    override fun setPrevEnabled(isEnabled: Boolean) {
+        previous.isEnabled = isEnabled
+    }
+
+    override fun setNextEnabled(isEnabled: Boolean) {
+        next.isEnabled = isEnabled
+    }
+
+    override fun setFindResultEnabled(isEnabled: Boolean) {
+        findResult.isEnabled = isEnabled
     }
 
     override fun setTextNumber(newText: String) {

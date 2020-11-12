@@ -1,7 +1,6 @@
 package com.example.fibonaccinumber
 
 import android.content.SharedPreferences
-import android.util.Log
 import java.lang.NumberFormatException
 
 const val CURRENT_INDEX = "CurrentIndex"
@@ -9,10 +8,10 @@ const val CURRENT_NUMBER = "CurrentEditTextNumber"
 
 class Presenter(
     private val view: MainContract.MainView,
+    private val sharedPreferences: SharedPreferences,
     private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
 ) : MainContract.MainPresenter {
 
-    private var sharedPreferences: SharedPreferences? = null
     private var currentTextNumber: String = ""
     private var errorMessage: String = ""
 
@@ -43,9 +42,16 @@ class Presenter(
                 view.getErrorNotFound()
             }
         } catch (e: NumberFormatException) {
-            view.getErrorWrongNumber()
+            if (editTextNumber.isEmpty()) {
+                view.setFindResultClickable(false)
+                view.setFindResultEnabled(false)
+                "Pora perepisat' vzaimodeistvie with this string"
+            } else {
+                view.getErrorWrongNumber()
+            }
         }
         setCurrentState()
+        TODO()
     }
 
     private fun newNumberFound(newNumber: Int): Boolean {
@@ -54,26 +60,20 @@ class Presenter(
         return newNumber == fibonacciNumbers.getCurrentNumber()
     }
 
-    override fun setSharedPref(shPref: SharedPreferences) {
-        sharedPreferences = shPref
-    }
-
     override fun saveState() {
-        val editState = sharedPreferences?.edit()
-        editState?.putInt(CURRENT_INDEX, fibonacciNumbers.getCurrentIndex())
-        editState?.putString(CURRENT_NUMBER, currentTextNumber)
-        editState?.apply()
+        val editState = sharedPreferences.edit()
+        editState.putInt(CURRENT_INDEX, fibonacciNumbers.getCurrentIndex())
+        editState.putString(CURRENT_NUMBER, currentTextNumber)
+        editState.apply()
     }
 
     override fun loadState() {
-        val currentIndex = sharedPreferences?.getInt(CURRENT_INDEX, 0) ?: 0
+        val currentIndex = sharedPreferences.getInt(CURRENT_INDEX, 0)
         fibonacciNumbers.setCurrentIndex(currentIndex)
 
-        val textNumber = sharedPreferences?.getString(CURRENT_NUMBER, "") ?: ""
+        val textNumber = sharedPreferences.getString(CURRENT_NUMBER, "") ?: ""
         currentTextNumber = textNumber
-//        Log.i("NAIDIERROR", "load data")
         setCurrentState()
-//        Log.i("NAIDIERROR", "set data")
     }
 
     private fun setCurrentState() {
@@ -108,6 +108,7 @@ class Presenter(
         val previousNumber: Int? = fibonacciNumbers.getPreviousNumber()
         val isClickable = previousNumber != null
         view.setPrevClickable(isClickable)
+        view.setPrevEnabled(isClickable)
         view.setPreviousNumber(previousNumber?.toString() ?: "")
     }
 
@@ -115,6 +116,7 @@ class Presenter(
         val nextNumber: Int? = fibonacciNumbers.getNextNumber()
         val isClickable = nextNumber != null
         view.setNextClickable(isClickable)
+        view.setNextEnabled(isClickable)
         view.setNextNumber(nextNumber?.toString() ?: "")
     }
 }
