@@ -8,12 +8,12 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/textViewDescription"
+        android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:paddingHorizontal="5dp"
-        android:text="@string/textViewDescription"
+        android:text="@string/description"
         android:textColor="@color/black"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,46 +21,46 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/textNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="6dp"
         android:ems="13"
-        android:hint="@string/textNumberDescription"
+        android:hint="@string/descriptionForTextNumber"
         android:importantForAutofill="no"
         android:inputType="number"
         android:maxLength="10"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewPreviousNumber"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/previousNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonFindResult"
+        app:layout_constraintEnd_toStartOf="@+id/findResult"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/description" />
 
     <Button
-        android:id="@+id/buttonFindResult"
+        android:id="@+id/findResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/buttonColor"
-        android:text="@string/buttonFindResult"
-        android:textColor="@color/teal_700"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextNumber"
+        android:backgroundTint="@drawable/button_selector"
+        android:text="@string/findResult"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/textNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextNumber"
-        app:layout_constraintTop_toTopOf="@+id/editTextNumber" />
+        app:layout_constraintStart_toEndOf="@+id/textNumber"
+        app:layout_constraintTop_toTopOf="@+id/textNumber" />
 
     <TextView
-        android:id="@+id/textViewErrorMessage"
+        android:id="@+id/errorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         tools:text="@string/wrongNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/textNumber" />
 
     <TextView
-        android:id="@+id/textViewCurrentNumber"
+        android:id="@+id/currentNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="333"
@@ -72,17 +72,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewPreviousNumber"
+        android:id="@+id/previousNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="111"
         android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewCurrentNumber"
+        app:layout_constraintBottom_toTopOf="@+id/currentNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textViewNextNumber"
+        android:id="@+id/nextNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -90,49 +90,46 @@
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCurrentNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/currentNumber" />
 
     <ImageButton
-        android:id="@+id/imageButtonPrev"
+        android:id="@+id/previous"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="25dp"
-        android:backgroundTint="@color/buttonColor"
+        android:backgroundTint="@drawable/button_selector"
         android:contentDescription="@string/arrowPrev"
         android:scaleType="fitXY"
-        android:tint="@color/teal_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNextNumber"
+        app:layout_constraintTop_toBottomOf="@+id/nextNumber"
         app:srcCompat="@drawable/left_arrow" />
 
     <ImageButton
-        android:id="@+id/imageButtonNext"
+        android:id="@+id/next"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="25dp"
-        android:backgroundTint="@color/buttonColor"
+        android:backgroundTint="@drawable/button_selector"
         android:contentDescription="@string/arrowNext"
         android:scaleType="fitXY"
-        android:tint="@color/teal_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNextNumber"
+        app:layout_constraintTop_toBottomOf="@+id/nextNumber"
         app:srcCompat="@drawable/right_arrow" />
 
     <ImageButton
-        android:id="@+id/imageButtonReset"
+        android:id="@+id/reset"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:backgroundTint="@color/buttonColor"
-        android:contentDescription="@string/imageButtonReset"
+        android:backgroundTint="@drawable/button_selector"
+        android:contentDescription="@string/reset"
         android:padding="10dp"
         android:scaleType="fitXY"
-        android:tint="@color/teal_700"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButtonPrev"
-        app:layout_constraintEnd_toStartOf="@+id/imageButtonNext"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonPrev"
-        app:layout_constraintTop_toTopOf="@+id/imageButtonPrev"
+        app:layout_constraintBottom_toBottomOf="@+id/previous"
+        app:layout_constraintEnd_toStartOf="@+id/next"
+        app:layout_constraintStart_toEndOf="@+id/previous"
+        app:layout_constraintTop_toTopOf="@+id/previous"
         app:srcCompat="@drawable/reset" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

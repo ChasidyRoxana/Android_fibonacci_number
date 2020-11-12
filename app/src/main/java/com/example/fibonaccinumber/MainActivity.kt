@@ -2,35 +2,41 @@ package com.example.fibonaccinumber
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainContract.MainView {
 
-    private val sharedPreferences = getPreferences(MODE_PRIVATE)
-    private val presenter: MainContract.MainPresenter = Presenter(this, sharedPreferences)
+    private var presenter: MainContract.MainPresenter = Presenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+//        Log.i("NAIDIERROR", "super")
         super.onCreate(savedInstanceState)
+//        Log.i("NAIDIERROR", "setContentView")
         setContentView(R.layout.activity_main)
+//        Log.i("NAIDIERROR", "go to loadState")
+        val sharedPreferences = getPreferences(MODE_PRIVATE)
+        presenter.setSharedPref(sharedPreferences)
         presenter.loadState()
+//        Log.i("NAIDIERROR", "bishel is loadState")
         initListeners()
     }
 
     private fun initListeners() {
-        imageButtonNext.setOnClickListener {
-            presenter.imageButtonNextOnClick()
+        next.setOnClickListener {
+            presenter.onNextClicked()
         }
 
-        imageButtonPrev.setOnClickListener {
-            presenter.imageButtonPrevOnClick()
+        previous.setOnClickListener {
+            presenter.onPrevClicked()
         }
 
-        imageButtonReset.setOnClickListener {
-            presenter.imageButtonResetOnClick()
+        reset.setOnClickListener {
+            presenter.onResetClicked()
         }
 
-        buttonFindResult.setOnClickListener {
-            presenter.buttonFindResultOnClick(editTextNumber.text.toString())
+        findResult.setOnClickListener {
+            presenter.onFindResultClicked(textNumber.text.toString())
         }
     }
 
@@ -39,44 +45,45 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
         super.onPause()
     }
 
-    override fun setTextViewCurrentNumber(number: Int) {
-        textViewCurrentNumber.text = number.toString()
+    override fun setCurrentNumber(number: String) {
+        currentNumber.text = number
     }
 
-    override fun setTextViewPreviousNumber(number: Int?) {
-        textViewPreviousNumber.text = number?.toString()
+    override fun setPreviousNumber(number: String) {
+        previousNumber.text = number
     }
 
-    override fun setIBPrevClickable(isClickable: Boolean) {
-        imageButtonPrev.isClickable = isClickable
+    override fun setNextNumber(number: String) {
+        nextNumber.text = number
     }
 
-    override fun setTextViewNextNumber(number: Int?) {
-        textViewNextNumber.text = number?.toString()
+    override fun setPrevClickable(isClickable: Boolean) {
+        previous.isClickable = isClickable
+        previous.isEnabled = isClickable
     }
 
-    override fun setIBNextClickable(isClickable: Boolean) {
-        imageButtonNext.isClickable = isClickable
+    override fun setNextClickable(isClickable: Boolean) {
+        next.isClickable = isClickable
+        next.isEnabled = isClickable
     }
 
-    override fun setEditTextNumber(str: String) {
-        val currentText = editTextNumber.text
-        currentText.replace(0, currentText.length, str)
+    override fun setTextNumber(newText: String) {
+        textNumber.setText(newText)
     }
 
-    override fun setTVErrorMessageNull() {
-        textViewErrorMessage.text = null
+    override fun setErrorMessageText(newMessage: String) {
+        errorMessage.text = newMessage
     }
 
-    override fun setTVErrorMessageWrongNumber() {
-        val color = resources.getColor(R.color.errorRed, null)
-        textViewErrorMessage.setTextColor(color)
-        textViewErrorMessage.text = resources.getString(R.string.wrongNumber)
+    override fun setErrorMessageColor(newColor: Int) {
+        errorMessage.setTextColor(newColor)
     }
 
-    override fun setTVErrorMessageNotFoundNumber() {
-        val color = resources.getColor(R.color.black, null)
-        textViewErrorMessage.setTextColor(color)
-        textViewErrorMessage.text = resources.getString(R.string.notFoundNumber)
-    }
+    override fun getErrorNotFound(): String = resources.getString(R.string.notFoundNumber)
+
+    override fun getErrorWrongNumber(): String = resources.getString(R.string.wrongNumber)
+
+    override fun getColorNotFound(): Int = resources.getColor(R.color.black, null)
+
+    override fun getColorWrongNumber(): Int = resources.getColor(R.color.errorRed, null)
 }

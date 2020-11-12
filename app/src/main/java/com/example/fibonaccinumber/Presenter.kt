@@ -1,6 +1,7 @@
 package com.example.fibonaccinumber
 
 import android.content.SharedPreferences
+import android.util.Log
 import java.lang.NumberFormatException
 
 const val CURRENT_INDEX = "CurrentIndex"
@@ -8,101 +9,112 @@ const val CURRENT_NUMBER = "CurrentEditTextNumber"
 
 class Presenter(
     private val view: MainContract.MainView,
-    private val sharedPreferences: SharedPreferences,
     private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
 ) : MainContract.MainPresenter {
 
-    private var error: Boolean? = false
-    private var currentEditTextNumber: String = ""
+    private var sharedPreferences: SharedPreferences? = null
+    private var currentTextNumber: String = ""
+    private var errorMessage: String = ""
 
-    override fun imageButtonNextOnClick() {
+    override fun onNextClicked() {
         fibonacciNumbers.setCurrentIndexToNext()
-        setTextViewNumbers()
+        setNumbers()
     }
 
-    override fun imageButtonPrevOnClick() {
+    override fun onPrevClicked() {
         fibonacciNumbers.setCurrentIndexToPrevious()
-        setTextViewNumbers()
+        setNumbers()
     }
 
-    override fun imageButtonResetOnClick() {
+    override fun onResetClicked() {
         fibonacciNumbers.setCurrentIndex(0)
-        error = false
-        currentEditTextNumber = ""
+        errorMessage = ""
+        currentTextNumber = ""
         setCurrentState()
     }
 
-    override fun buttonFindResultOnClick(editTextNumber: String) {
-        currentEditTextNumber = editTextNumber
-        error = try {
-            val newNumber = currentEditTextNumber.toInt()
-            !correctNewNumber(newNumber)
+    override fun onFindResultClicked(editTextNumber: String) {
+        currentTextNumber = editTextNumber
+        errorMessage = try {
+            val newNumber = currentTextNumber.toInt()
+            if (newNumberFound(newNumber)) {
+                ""
+            } else {
+                view.getErrorNotFound()
+            }
         } catch (e: NumberFormatException) {
-            null
+            view.getErrorWrongNumber()
         }
         setCurrentState()
     }
 
-    private fun correctNewNumber(newNumber: Int): Boolean {
+    private fun newNumberFound(newNumber: Int): Boolean {
         val newIndex: Int = fibonacciNumbers.getIndexOfTheNumber(newNumber)
         fibonacciNumbers.setCurrentIndex(newIndex)
         return newNumber == fibonacciNumbers.getCurrentNumber()
     }
 
+    override fun setSharedPref(shPref: SharedPreferences) {
+        sharedPreferences = shPref
+    }
+
     override fun saveState() {
-        val sharedPreferences = sharedPreferences
-        val editState = sharedPreferences.edit()
-        with(editState) {
-            editState.putInt(CURRENT_INDEX, fibonacciNumbers.getCurrentIndex())
-            putString(CURRENT_NUMBER, currentEditTextNumber)
-            apply()
-        }
+        val editState = sharedPreferences?.edit()
+        editState?.putInt(CURRENT_INDEX, fibonacciNumbers.getCurrentIndex())
+        editState?.putString(CURRENT_NUMBER, currentTextNumber)
+        editState?.apply()
     }
 
     override fun loadState() {
-        val sharedPreferences = sharedPreferences
-        val currentIndex = sharedPreferences.getInt(CURRENT_INDEX, 0)
+        val currentIndex = sharedPreferences?.getInt(CURRENT_INDEX, 0) ?: 0
         fibonacciNumbers.setCurrentIndex(currentIndex)
 
-        val curEditTextNumber = sharedPreferences.getString(CURRENT_NUMBER, "")
-        currentEditTextNumber = curEditTextNumber!!
+        val textNumber = sharedPreferences?.getString(CURRENT_NUMBER, "") ?: ""
+        currentTextNumber = textNumber
+//        Log.i("NAIDIERROR", "load data")
         setCurrentState()
+//        Log.i("NAIDIERROR", "set data")
     }
 
     private fun setCurrentState() {
-        setTextViewNumbers()
-        setTextViewErrorMessage()
-        view.setEditTextNumber(currentEditTextNumber)
+        setNumbers()
+        setErrorMessage()
+        view.setTextNumber(currentTextNumber)
     }
 
-    private fun setTextViewErrorMessage() {
-        when (error) {
-            null -> view.setTVErrorMessageWrongNumber()
-            true -> view.setTVErrorMessageNotFoundNumber()
-            false -> view.setTVErrorMessageNull()
+    private fun setErrorMessage() {
+        view.setErrorMessageText(errorMessage)
+        if (errorMessage == view.getErrorNotFound()) {
+            val color = view.getColorNotFound()
+            view.setErrorMessageColor(color)
+        } else {
+            val color = view.getColorWrongNumber()
+            view.setErrorMessageColor(color)
         }
     }
 
-    private fun setTextViewNumbers() {
-        view.setTextViewCurrentNumber(setCurrentNumber())
-        view.setTextViewPreviousNumber(setPreviousNumber())
-        view.setTextViewNextNumber(setNextNumber())
+    private fun setNumbers() {
+        setCurrentNumber()
+        setPreviousNumber()
+        setNextNumber()
     }
 
-    private fun setCurrentNumber(): Int =
-        fibonacciNumbers.getCurrentNumber()
+    private fun setCurrentNumber() {
+        val newNumber = fibonacciNumbers.getCurrentNumber().toString()
+        view.setCurrentNumber(newNumber)
+    }
 
-    private fun setPreviousNumber(): Int? {
+    private fun setPreviousNumber() {
         val previousNumber: Int? = fibonacciNumbers.getPreviousNumber()
         val isClickable = previousNumber != null
-        view.setIBPrevClickable(isClickable)
-        return previousNumber
+        view.setPrevClickable(isClickable)
+        view.setPreviousNumber(previousNumber?.toString() ?: "")
     }
 
-    private fun setNextNumber(): Int? {
+    private fun setNextNumber() {
         val nextNumber: Int? = fibonacciNumbers.getNextNumber()
         val isClickable = nextNumber != null
-        view.setIBNextClickable(isClickable)
-        return nextNumber
+        view.setNextClickable(isClickable)
+        view.setNextNumber(nextNumber?.toString() ?: "")
     }
 }

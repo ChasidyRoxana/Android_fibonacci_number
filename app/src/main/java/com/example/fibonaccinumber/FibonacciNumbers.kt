@@ -1,5 +1,7 @@
 package com.example.fibonaccinumber
 
+import android.util.Log
+
 class FibonacciNumbers {
 
     private val listOfNumbers: ArrayList<Int> = arrayListOf(0, 1)
@@ -19,6 +21,7 @@ class FibonacciNumbers {
             val previousNumberAfterAdd: Int = lastNumber
             val integerOverflow = (newNumber + previousNumberAfterAdd) < 0
         } while (!integerOverflow)
+//        Log.i("NAIDIERROR", "createListOfNumbers")
     }
 
     fun getCurrentNumber(): Int = listOfNumbers[currentIndex]
