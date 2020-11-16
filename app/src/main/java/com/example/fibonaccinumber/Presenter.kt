@@ -16,12 +16,12 @@ class Presenter(
     private var errorMessage: String = ""
 
     override fun onNextClicked() {
-        fibonacciNumbers.setCurrentIndexToNext()
+        fibonacciNumbers.changeIndexToNext()
         setNumbers()
     }
 
     override fun onPrevClicked() {
-        fibonacciNumbers.setCurrentIndexToPrevious()
+        fibonacciNumbers.changeIndexToPrevious()
         setNumbers()
     }
 
@@ -55,7 +55,7 @@ class Presenter(
     }
 
     private fun newNumberFound(newNumber: Int): Boolean {
-        val newIndex: Int = fibonacciNumbers.getIndexOfTheNumber(newNumber)
+        val newIndex: Int = fibonacciNumbers.findIndexOfTheNumber(newNumber)
         fibonacciNumbers.setCurrentIndex(newIndex)
         return newNumber == fibonacciNumbers.getCurrentNumber()
     }

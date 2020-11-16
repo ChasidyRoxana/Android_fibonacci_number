@@ -2,7 +2,7 @@
     <string name="app_name">Fibonacci number</string>
     <string name="description">Fibonacci numbers navigation. Use the arrows to switch
         or enter the number you want to find</string>
-    <string name="descriptionForTextNumber">Here you can enter a number</string>
+    <string name="descriptionForTextNumber">Enter a number</string>
     <string name="findResult">Find</string>
     <string name="arrowPrev">Previous number</string>
     <string name="arrowNext">Next number</string>

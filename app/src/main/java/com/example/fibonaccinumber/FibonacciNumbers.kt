@@ -45,21 +45,28 @@ class FibonacciNumbers {
         }
     }
 
-    fun getIndexOfTheNumber(newNumber: Int): Int {
+    fun findIndexOfTheNumber(newNumber: Int): Int {
         var newIndex = 0
         while (newIndex < listOfNumbers.lastIndex && newNumber > listOfNumbers[newIndex]) {
             newIndex++
         }
+        if (newIndex > 0) {
+            val closerToPrevious = newNumber - listOfNumbers[newIndex - 1]
+            val closerToNext = listOfNumbers[newIndex] - newNumber
+            if (closerToPrevious < closerToNext) {
+                newIndex--
+            }
+        }
         return newIndex
     }
 
-    fun setCurrentIndexToNext() {
+    fun changeIndexToNext() {
         if (currentIndex < listOfNumbers.lastIndex) {
             currentIndex++
         }
     }
 
-    fun setCurrentIndexToPrevious() {
+    fun changeIndexToPrevious() {
         if (currentIndex > 0) {
             currentIndex--
         }

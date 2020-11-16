@@ -2,6 +2,10 @@ package com.example.fibonaccinumber
 
 interface MainContract {
     interface MainView {
+        fun getErrorNotFound(): String
+        fun getErrorWrongNumber(): String
+        fun getColorNotFound(): Int
+        fun getColorWrongNumber(): Int
         fun setCurrentNumber(number: String)
         fun setPreviousNumber(number: String)
         fun setNextNumber(number: String)
@@ -14,10 +18,6 @@ interface MainContract {
         fun setTextNumber(newText: String)
         fun setErrorMessageText(newMessage: String)
         fun setErrorMessageColor(newColor: Int)
-        fun getErrorNotFound(): String
-        fun getErrorWrongNumber(): String
-        fun getColorNotFound(): Int
-        fun getColorWrongNumber(): Int
     }
 
     interface MainPresenter {

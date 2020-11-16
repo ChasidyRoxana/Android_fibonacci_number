@@ -3,7 +3,7 @@
     <string name="app_name">Числа Фибоначчи</string>
     <string name="description">Навигация по числам Фибоначчи.
         Для переключения используй стрелки или введи число, которое хочешь найти</string>
-    <string name="descriptionForTextNumber">Введите число для поиска</string>
+    <string name="descriptionForTextNumber">Введите число</string>
     <string name="findResult">Найти</string>
     <string name="arrowPrev">Предыдущее число</string>
     <string name="arrowNext">Следующее число</string>

@@ -40,6 +40,14 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
         super.onPause()
     }
 
+    override fun getErrorNotFound(): String = resources.getString(R.string.notFoundNumber)
+
+    override fun getErrorWrongNumber(): String = resources.getString(R.string.wrongNumber)
+
+    override fun getColorNotFound(): Int = resources.getColor(R.color.black, null)
+
+    override fun getColorWrongNumber(): Int = resources.getColor(R.color.errorRed, null)
+
     override fun setCurrentNumber(number: String) {
         currentNumber.text = number
     }
@@ -87,12 +95,4 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
     override fun setErrorMessageColor(newColor: Int) {
         errorMessage.setTextColor(newColor)
     }
-
-    override fun getErrorNotFound(): String = resources.getString(R.string.notFoundNumber)
-
-    override fun getErrorWrongNumber(): String = resources.getString(R.string.wrongNumber)
-
-    override fun getColorNotFound(): Int = resources.getColor(R.color.black, null)
-
-    override fun getColorWrongNumber(): Int = resources.getColor(R.color.errorRed, null)
 }
