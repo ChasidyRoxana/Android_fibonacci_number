@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:padding="8dp">
+    android:padding="8dp"
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/description"
@@ -19,12 +19,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+<!-- убрать минимальную ширину -->/
     <EditText
         android:id="@+id/textNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="6dp"
+        android:minWidth="200dp"
         android:hint="@string/descriptionForTextNumber"
         android:importantForAutofill="no"
         android:inputType="number"
@@ -53,43 +54,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        tools:text="@string/wrongNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/textNumber"
+        tools:text="@string/wrongNumber" />
 
     <TextView
         android:id="@+id/currentNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="333"
         android:textColor="@color/black"
         android:textSize="45sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="333" />
 
     <TextView
         android:id="@+id/previousNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="111"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/currentNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="111" />
 
     <TextView
         android:id="@+id/nextNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        tools:text="555"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/currentNumber"
+        tools:text="555" />
 
     <ImageButton
         android:id="@+id/previous"
