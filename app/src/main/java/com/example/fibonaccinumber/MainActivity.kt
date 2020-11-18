@@ -2,6 +2,8 @@ package com.example.fibonaccinumber
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainContract.MainView {
@@ -15,6 +17,11 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
         presenter = Presenter(this, sharedPreferences)
         presenter.loadState()
         initListeners()
+    }
+
+    override fun onPause() {
+        presenter.saveState()
+        super.onPause()
     }
 
     private fun initListeners() {
@@ -31,13 +38,21 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
         }
 
         findResult.setOnClickListener {
-            presenter.onFindResultClicked(textNumber.text.toString())
+            presenter.onFindResultClicked()
         }
-    }
 
-    override fun onPause() {
-        presenter.saveState()
-        super.onPause()
+        textNumber.addTextChangedListener (object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                presenter.setButtonState(s)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                presenter.saveEditTextNumber(s?.toString() ?: "")
+            }
+        })
     }
 
     override fun getErrorNotFound(): String = resources.getString(R.string.notFoundNumber)
@@ -60,28 +75,19 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
         nextNumber.text = number
     }
 
-    override fun setPrevClickable(isClickable: Boolean) {
-        previous.isClickable = isClickable
+    override fun togglePrev(state: Boolean) {
+        previous.isClickable = state
+        previous.isEnabled = state
     }
 
-    override fun setNextClickable(isClickable: Boolean) {
-        next.isClickable = isClickable
+    override fun toggleNext(state: Boolean) {
+        next.isClickable = state
+        next.isEnabled = state
     }
 
-    override fun setFindResultClickable(isClickable: Boolean) {
-        findResult.isClickable = isClickable
-    }
-
-    override fun setPrevEnabled(isEnabled: Boolean) {
-        previous.isEnabled = isEnabled
-    }
-
-    override fun setNextEnabled(isEnabled: Boolean) {
-        next.isEnabled = isEnabled
-    }
-
-    override fun setFindResultEnabled(isEnabled: Boolean) {
-        findResult.isEnabled = isEnabled
+    override fun toggleFindResult(state: Boolean) {
+        findResult.isClickable = state
+        findResult.isEnabled = state
     }
 
     override fun setTextNumber(newText: String) {

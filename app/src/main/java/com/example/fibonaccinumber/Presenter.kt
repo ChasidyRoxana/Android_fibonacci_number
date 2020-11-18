@@ -41,8 +41,11 @@ class Presenter(
         setCurrentState()
     }
 
-    override fun onFindResultClicked(editTextNumber: String) {
+    override fun saveEditTextNumber(editTextNumber: String) {
         currentTextNumber = editTextNumber
+    }
+
+    override fun onFindResultClicked() {
         errorMessage = try {
             val newNumber = currentTextNumber.toInt()
             if (newNumberFound(newNumber)) {
@@ -51,16 +54,22 @@ class Presenter(
                 view.getErrorNotFound()
             }
         } catch (e: NumberFormatException) {
-            if (editTextNumber.isEmpty()) {
-                view.setFindResultClickable(false)
-                view.setFindResultEnabled(false)
-                "Pora perepisat' vzaimodeistvie with this string"
-            } else {
+//            if (currentTextNumber.isEmpty()) {
+//                view.toggleFindResult(false)
+//                "Nado perepisat' vzaimodeistvie with this string"
+//            } else {
                 view.getErrorWrongNumber()
-            }
+//            }
         }
         setCurrentState()
-        TODO()
+        TODO("Nado podumat'")
+    }
+
+    override fun setButtonState(newText: CharSequence?) {
+        if (newText != null) {
+            val buttonOn: Boolean = newText.isNotEmpty()
+            view.toggleFindResult(buttonOn)
+        }
     }
 
     private fun newNumberFound(newNumber: Int): Boolean {
@@ -100,16 +109,14 @@ class Presenter(
     private fun setPreviousNumber() {
         val previousNumber: Int? = fibonacciNumbers.getPreviousNumber()
         val isClickable = previousNumber != null
-        view.setPrevClickable(isClickable)
-        view.setPrevEnabled(isClickable)
+        view.togglePrev(isClickable)
         view.setPreviousNumber(previousNumber?.toString() ?: "")
     }
 
     private fun setNextNumber() {
         val nextNumber: Int? = fibonacciNumbers.getNextNumber()
         val isClickable = nextNumber != null
-        view.setNextClickable(isClickable)
-        view.setNextEnabled(isClickable)
+        view.toggleNext(isClickable)
         view.setNextNumber(nextNumber?.toString() ?: "")
     }
 }
