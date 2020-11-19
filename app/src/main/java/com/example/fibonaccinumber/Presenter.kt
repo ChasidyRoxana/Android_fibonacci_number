@@ -1,6 +1,8 @@
 package com.example.fibonaccinumber
 
 import android.content.SharedPreferences
+import android.text.Editable
+import android.text.TextWatcher
 import java.lang.NumberFormatException
 
 class Presenter(
@@ -45,6 +47,11 @@ class Presenter(
         currentTextNumber = editTextNumber
     }
 
+    override fun setFindButtonState() {
+        val buttonOn: Boolean = currentTextNumber.isNotEmpty()
+        view.toggleFindResult(buttonOn)
+    }
+
     override fun onFindResultClicked() {
         errorMessage = try {
             val newNumber = currentTextNumber.toInt()
@@ -54,21 +61,24 @@ class Presenter(
                 view.getErrorNotFound()
             }
         } catch (e: NumberFormatException) {
-//            if (currentTextNumber.isEmpty()) {
-//                view.toggleFindResult(false)
-//                "Nado perepisat' vzaimodeistvie with this string"
-//            } else {
-                view.getErrorWrongNumber()
-//            }
+            fibonacciNumbers.changeIndexToLast()
+            view.getErrorWrongNumber()
         }
         setCurrentState()
-        TODO("Nado podumat'")
     }
 
-    override fun setButtonState(newText: CharSequence?) {
-        if (newText != null) {
-            val buttonOn: Boolean = newText.isNotEmpty()
-            view.toggleFindResult(buttonOn)
+    override fun textChanged(): TextWatcher {
+        return object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                saveEditTextNumber(s?.toString() ?: "")
+                setFindButtonState()
+            }
         }
     }
 
@@ -81,6 +91,7 @@ class Presenter(
     private fun setCurrentState() {
         setNumbers()
         setErrorMessage()
+        setFindButtonState()
         view.setTextNumber(currentTextNumber)
     }
 

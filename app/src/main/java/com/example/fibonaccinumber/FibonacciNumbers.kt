@@ -71,4 +71,8 @@ class FibonacciNumbers {
             currentIndex--
         }
     }
+
+    fun changeIndexToLast() {
+        setCurrentIndex(listOfNumbers.lastIndex)
+    }
 }

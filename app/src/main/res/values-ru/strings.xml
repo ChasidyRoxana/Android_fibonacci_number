@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Числа Фибоначчи</string>
-    <string name="description">Навигация по числам Фибоначчи.
-        Для переключения используй стрелки или введи число, которое хочешь найти</string>
+    <string name="description">Навигация по числам Фибоначчи</string>
     <string name="descriptionForTextNumber">Введите число</string>
     <string name="findResult">Найти</string>
     <string name="arrowPrev">Предыдущее число</string>
     <string name="arrowNext">Следующее число</string>
     <string name="reset">Сбросить</string>
-    <string name="wrongNumber">Фраза о том, что число слишком большое</string>
-    <string name="notFoundNumber">Фраза о том, что такого числа нет</string>
+    <string name="wrongNumber">Это число слишком большое</string>
+    <string name="notFoundNumber">Такого числа нет в последовательности, найдём ближайшее</string>
 </resources>

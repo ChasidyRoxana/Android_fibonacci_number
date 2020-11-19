@@ -1,5 +1,7 @@
 package com.example.fibonaccinumber
 
+import android.text.TextWatcher
+
 interface MainContract {
     interface MainView {
         fun getErrorNotFound(): String
@@ -23,7 +25,8 @@ interface MainContract {
         fun onResetClicked()
         fun saveEditTextNumber(editTextNumber: String)
         fun onFindResultClicked()
-        fun setButtonState(newText: CharSequence?)
+        fun setFindButtonState()
+        fun textChanged(): TextWatcher
         fun saveState()
         fun loadState()
     }

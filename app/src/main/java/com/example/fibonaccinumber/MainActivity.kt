@@ -41,18 +41,7 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
             presenter.onFindResultClicked()
         }
 
-        textNumber.addTextChangedListener (object : TextWatcher{
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                presenter.setButtonState(s)
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                presenter.saveEditTextNumber(s?.toString() ?: "")
-            }
-        })
+        textNumber.addTextChangedListener(presenter.textChanged())
     }
 
     override fun getErrorNotFound(): String = resources.getString(R.string.notFoundNumber)
