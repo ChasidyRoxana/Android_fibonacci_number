@@ -8,5 +8,6 @@
     <string name="arrowNext">Следующее число</string>
     <string name="reset">Сбросить</string>
     <string name="wrongNumber">Это число слишком большое</string>
-    <string name="notFoundNumber">Такого числа нет в последовательности, найдём ближайшее</string>
+    <string name="notFoundNumber">Такого числа нет в последовательности, найдено ближайшее</string>
+    <string name="emptyString">Вы не ввели число</string>
 </resources>

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Fibonacci number</string>
     <string name="description">Fibonacci numbers navigation</string>
     <string name="descriptionForTextNumber">Enter a number</string>
@@ -7,5 +7,6 @@
     <string name="arrowNext">Next number</string>
     <string name="reset">Reset</string>
     <string name="wrongNumber">This number is too large</string>
-    <string name="notFoundNumber" tools:ignore="StringEscaping">There is no such number in the sequence, let's find the closest</string>
+    <string name="notFoundNumber">There is no such number in the sequence, found the nearest</string>
+    <string name="emptyString">You did not enter a number</string>
 </resources>

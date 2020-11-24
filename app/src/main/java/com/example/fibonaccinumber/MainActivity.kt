@@ -2,8 +2,6 @@ package com.example.fibonaccinumber
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainContract.MainView {
@@ -42,11 +40,15 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
         }
 
         textNumber.addTextChangedListener(presenter.textChanged())
+
+        textNumber.setOnEditorActionListener(presenter.imeAction())
     }
 
     override fun getErrorNotFound(): String = resources.getString(R.string.notFoundNumber)
 
     override fun getErrorWrongNumber(): String = resources.getString(R.string.wrongNumber)
+
+    override fun getErrorEmptyString(): String = resources.getString(R.string.emptyString)
 
     override fun getColorNotFound(): Int = resources.getColor(R.color.black, null)
 

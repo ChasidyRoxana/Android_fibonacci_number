@@ -1,11 +1,13 @@
 package com.example.fibonaccinumber
 
 import android.text.TextWatcher
+import android.widget.TextView
 
 interface MainContract {
     interface MainView {
         fun getErrorNotFound(): String
         fun getErrorWrongNumber(): String
+        fun getErrorEmptyString(): String
         fun getColorNotFound(): Int
         fun getColorWrongNumber(): Int
         fun setCurrentNumber(number: String)
@@ -23,10 +25,11 @@ interface MainContract {
         fun onNextClicked()
         fun onPrevClicked()
         fun onResetClicked()
-        fun saveEditTextNumber(editTextNumber: String)
+        fun saveTextNumber(editTextNumber: String)
         fun onFindResultClicked()
-        fun setFindButtonState()
+        fun changeFindButtonState()
         fun textChanged(): TextWatcher
+        fun imeAction(): TextView.OnEditorActionListener
         fun saveState()
         fun loadState()
     }

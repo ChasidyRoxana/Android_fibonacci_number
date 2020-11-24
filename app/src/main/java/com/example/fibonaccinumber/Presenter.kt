@@ -3,6 +3,8 @@ package com.example.fibonaccinumber
 import android.content.SharedPreferences
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import java.lang.NumberFormatException
 
 class Presenter(
@@ -20,34 +22,34 @@ class Presenter(
     }
 
     override fun loadState() {
-        val currentIndex = repository.loadIndex()
+        val currentIndex = repository.currentIndex
         fibonacciNumbers.setCurrentIndex(currentIndex)
-        currentTextNumber = repository.loadTextNumber()
-        setCurrentState()
+        currentTextNumber = repository.textNumber
+        changeCurrentState()
     }
 
     override fun onNextClicked() {
         fibonacciNumbers.changeIndexToNext()
-        setNumbers()
+        changeNumbers()
     }
 
     override fun onPrevClicked() {
         fibonacciNumbers.changeIndexToPrevious()
-        setNumbers()
+        changeNumbers()
     }
 
     override fun onResetClicked() {
         fibonacciNumbers.setCurrentIndex(0)
         errorMessage = ""
         currentTextNumber = ""
-        setCurrentState()
+        changeCurrentState()
     }
 
-    override fun saveEditTextNumber(editTextNumber: String) {
+    override fun saveTextNumber(editTextNumber: String) {
         currentTextNumber = editTextNumber
     }
 
-    override fun setFindButtonState() {
+    override fun changeFindButtonState() {
         val buttonOn: Boolean = currentTextNumber.isNotEmpty()
         view.toggleFindResult(buttonOn)
     }
@@ -61,10 +63,14 @@ class Presenter(
                 view.getErrorNotFound()
             }
         } catch (e: NumberFormatException) {
-            fibonacciNumbers.changeIndexToLast()
-            view.getErrorWrongNumber()
+            if (currentTextNumber.isEmpty()) {
+                view.getErrorEmptyString()
+            } else {
+                fibonacciNumbers.changeIndexToLast()
+                view.getErrorWrongNumber()
+            }
         }
-        setCurrentState()
+        changeCurrentState()
     }
 
     override fun textChanged(): TextWatcher {
@@ -76,9 +82,18 @@ class Presenter(
             }
 
             override fun afterTextChanged(s: Editable?) {
-                saveEditTextNumber(s?.toString() ?: "")
-                setFindButtonState()
+                saveTextNumber(s?.toString() ?: "")
+                changeFindButtonState()
             }
+        }
+    }
+
+    override fun imeAction(): TextView.OnEditorActionListener {
+        return TextView.OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                onFindResultClicked()
+            }
+            false
         }
     }
 
@@ -88,46 +103,46 @@ class Presenter(
         return newNumber == fibonacciNumbers.getCurrentNumber()
     }
 
-    private fun setCurrentState() {
-        setNumbers()
-        setErrorMessage()
-        setFindButtonState()
+    private fun changeCurrentState() {
+        changeNumbers()
+        changeErrorMessage()
+        changeFindButtonState()
         view.setTextNumber(currentTextNumber)
     }
 
-    private fun setErrorMessage() {
+    private fun changeErrorMessage() {
+        val color =
+            if (errorMessage == view.getErrorNotFound()) {
+                view.getColorNotFound()
+            } else {
+                view.getColorWrongNumber()
+            }
         view.setErrorMessageText(errorMessage)
-        if (errorMessage == view.getErrorNotFound()) {
-            val color = view.getColorNotFound()
-            view.setErrorMessageColor(color)
-        } else {
-            val color = view.getColorWrongNumber()
-            view.setErrorMessageColor(color)
-        }
+        view.setErrorMessageColor(color)
     }
 
-    private fun setNumbers() {
-        setCurrentNumber()
-        setPreviousNumber()
-        setNextNumber()
+    private fun changeNumbers() {
+        changeCurrentNumber()
+        changePreviousNumber()
+        changeNextNumber()
     }
 
-    private fun setCurrentNumber() {
+    private fun changeCurrentNumber() {
         val newNumber = fibonacciNumbers.getCurrentNumber().toString()
         view.setCurrentNumber(newNumber)
     }
 
-    private fun setPreviousNumber() {
+    private fun changePreviousNumber() {
         val previousNumber: Int? = fibonacciNumbers.getPreviousNumber()
-        val isClickable = previousNumber != null
-        view.togglePrev(isClickable)
+        val buttonState = previousNumber != null
+        view.togglePrev(buttonState)
         view.setPreviousNumber(previousNumber?.toString() ?: "")
     }
 
-    private fun setNextNumber() {
+    private fun changeNextNumber() {
         val nextNumber: Int? = fibonacciNumbers.getNextNumber()
-        val isClickable = nextNumber != null
-        view.toggleNext(isClickable)
+        val buttonState = nextNumber != null
+        view.toggleNext(buttonState)
         view.setNextNumber(nextNumber?.toString() ?: "")
     }
 }
