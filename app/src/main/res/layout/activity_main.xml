@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    style="@style/styleActivity"
     tools:context=".MainActivity">
 
     <TextView
@@ -26,13 +26,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="6dp"
         android:hint="@string/descriptionForTextNumber"
-        android:imeOptions="actionSearch"
         android:imeActionLabel="Search"
+        android:imeOptions="actionSearch"
         android:importantForAutofill="no"
         android:inputType="number"
         android:maxLength="10"
         android:minWidth="200dp"
-        android:textSize="20sp"
+        android:textSize="@dimen/commonText"
         app:layout_constraintBottom_toTopOf="@+id/previousNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/findResult"
@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="45sp"
+        android:textSize="@dimen/mainText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +77,7 @@
         android:id="@+id/previousNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:textSize="@dimen/commonText"
         app:layout_constraintBottom_toTopOf="@+id/currentNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="25sp"
+        android:textSize="@dimen/commonText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/currentNumber"
@@ -96,8 +96,8 @@
 
     <ImageButton
         android:id="@+id/previous"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/arrowButtonSize"
+        android:layout_height="@dimen/arrowButtonSize"
         android:layout_marginStart="10dp"
         android:backgroundTint="@drawable/button_selector"
         android:contentDescription="@string/arrowPrev"
@@ -109,8 +109,8 @@
 
     <ImageButton
         android:id="@+id/next"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/arrowButtonSize"
+        android:layout_height="@dimen/arrowButtonSize"
         android:layout_marginEnd="10dp"
         android:backgroundTint="@drawable/button_selector"
         android:contentDescription="@string/arrowNext"
@@ -122,8 +122,8 @@
 
     <ImageButton
         android:id="@+id/reset"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/resetButtonSize"
+        android:layout_height="@dimen/resetButtonSize"
         android:backgroundTint="@drawable/button_selector"
         android:contentDescription="@string/reset"
         android:padding="10dp"
