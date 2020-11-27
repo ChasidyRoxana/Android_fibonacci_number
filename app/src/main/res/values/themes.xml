@@ -17,4 +17,13 @@
     <style name="styleActivity">
         <item name="android:padding">@dimen/activityPadding</item>
     </style>
+
+    <style name="styleEditText">
+        <item name="android:inputType">number</item>
+        <item name="android:imeActionLabel">Search</item>
+        <item name="android:imeOptions">actionSearch</item>
+        <item name="android:maxLength">10</item>
+        <item name="android:minWidth">200dp</item>
+        <item name="android:textSize">@dimen/commonText</item>
+    </style>
 </resources>
