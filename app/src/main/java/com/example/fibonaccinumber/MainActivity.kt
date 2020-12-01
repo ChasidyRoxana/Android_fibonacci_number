@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), MainContract.MainView {
 
     private lateinit var presenter: MainContract.MainPresenter
+//    private val mainFragment = MainFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,6 +15,9 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
         val sharedPreferences = getPreferences(MODE_PRIVATE)
         presenter = Presenter(this, sharedPreferences)
         presenter.loadState()
+//        supportFragmentManager.beginTransaction()
+//            .add(R.id.frame_for_fragment, mainFragment)
+//            .commit()
         initListeners()
     }
 
