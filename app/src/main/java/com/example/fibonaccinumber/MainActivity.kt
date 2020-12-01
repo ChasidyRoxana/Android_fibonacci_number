@@ -50,9 +50,9 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
 
     override fun getErrorEmptyString(): String = resources.getString(R.string.emptyString)
 
-    override fun getColorNotFound(): Int = resources.getColor(R.color.black, null)
+    override fun getBlackColor(): Int = resources.getColor(R.color.black, null)
 
-    override fun getColorWrongNumber(): Int = resources.getColor(R.color.errorRed, null)
+    override fun getRedColor(): Int = resources.getColor(R.color.errorRed, null)
 
     override fun setCurrentNumber(number: String) {
         currentNumber.text = number

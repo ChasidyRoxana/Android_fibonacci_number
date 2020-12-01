@@ -8,8 +8,8 @@ interface MainContract {
         fun getErrorNotFound(): String
         fun getErrorWrongNumber(): String
         fun getErrorEmptyString(): String
-        fun getColorNotFound(): Int
-        fun getColorWrongNumber(): Int
+        fun getBlackColor(): Int
+        fun getRedColor(): Int
         fun setCurrentNumber(number: String)
         fun setPreviousNumber(number: String)
         fun setNextNumber(number: String)
@@ -22,15 +22,13 @@ interface MainContract {
     }
 
     interface MainPresenter {
+        fun saveState()
+        fun loadState()
         fun onNextClicked()
         fun onPrevClicked()
         fun onResetClicked()
-        fun saveTextNumber(editTextNumber: String)
         fun onFindResultClicked()
-        fun changeFindButtonState()
         fun textChanged(): TextWatcher
         fun imeAction(): TextView.OnEditorActionListener
-        fun saveState()
-        fun loadState()
     }
 }

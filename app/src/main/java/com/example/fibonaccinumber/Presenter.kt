@@ -22,9 +22,9 @@ class Presenter(
     }
 
     override fun loadState() {
+        currentTextNumber = repository.currentTextNumber
         val currentIndex = repository.currentIndex
         fibonacciNumbers.setCurrentIndex(currentIndex)
-        currentTextNumber = repository.textNumber
         changeCurrentState()
     }
 
@@ -43,15 +43,6 @@ class Presenter(
         errorMessage = ""
         currentTextNumber = ""
         changeCurrentState()
-    }
-
-    override fun saveTextNumber(editTextNumber: String) {
-        currentTextNumber = editTextNumber
-    }
-
-    override fun changeFindButtonState() {
-        val buttonOn: Boolean = currentTextNumber.isNotEmpty()
-        view.toggleFindResult(buttonOn)
     }
 
     override fun onFindResultClicked() {
@@ -97,6 +88,15 @@ class Presenter(
         }
     }
 
+    private fun saveTextNumber(editTextNumber: String) {
+        currentTextNumber = editTextNumber
+    }
+
+    private fun changeFindButtonState() {
+        val buttonOn: Boolean = currentTextNumber.isNotEmpty()
+        view.toggleFindResult(buttonOn)
+    }
+
     private fun newNumberFound(newNumber: Int): Boolean {
         val newIndex: Int = fibonacciNumbers.findIndexOfTheNumber(newNumber)
         fibonacciNumbers.setCurrentIndex(newIndex)
@@ -112,10 +112,10 @@ class Presenter(
 
     private fun changeErrorMessage() {
         val color =
-            if (errorMessage == view.getErrorNotFound()) {
-                view.getColorNotFound()
+            if (errorMessage == view.getErrorWrongNumber()) {
+                view.getRedColor()
             } else {
-                view.getColorWrongNumber()
+                view.getBlackColor()
             }
         view.setErrorMessageText(errorMessage)
         view.setErrorMessageColor(color)
