@@ -32,18 +32,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
-    <Button
-        android:id="@+id/findResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@drawable/button"
-        android:text="@string/findResult"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/textNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textNumber"
-        app:layout_constraintTop_toTopOf="@+id/textNumber" />
-
     <TextView
         android:id="@+id/errorMessage"
         android:layout_width="wrap_content"
@@ -53,6 +41,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textNumber"
         tools:text="@string/notFoundNumber" />
+
+    <Button
+        android:id="@+id/findResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@drawable/button_background"
+        android:text="@string/findResult"
+        android:textColor="@drawable/button_pressed"
+        app:layout_constraintBottom_toBottomOf="@+id/textNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textNumber"
+        app:layout_constraintTop_toTopOf="@+id/textNumber" />
 
     <TextView
         android:id="@+id/currentNumber"
@@ -64,7 +64,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textNumber"
-        tools:text="333" />
+        tools:text="377" />
 
     <TextView
         android:id="@+id/previousNumber"
@@ -74,7 +74,7 @@
         app:layout_constraintBottom_toTopOf="@+id/currentNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="111" />
+        tools:text="233" />
 
     <TextView
         android:id="@+id/nextNumber"
@@ -84,15 +84,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/currentNumber"
-        tools:text="555" />
+        tools:text="610" />
 
     <ImageButton
         android:id="@+id/previous"
         android:layout_width="@dimen/arrowButtonSize"
         android:layout_height="@dimen/arrowButtonSize"
-        android:backgroundTint="@drawable/button"
+        android:backgroundTint="@drawable/button_background"
         android:contentDescription="@string/arrowPrev"
         android:scaleType="fitXY"
+        android:tint="@drawable/button_pressed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nextNumber"
@@ -102,9 +103,10 @@
         android:id="@+id/next"
         android:layout_width="@dimen/arrowButtonSize"
         android:layout_height="@dimen/arrowButtonSize"
-        android:backgroundTint="@drawable/button"
+        android:backgroundTint="@drawable/button_background"
         android:contentDescription="@string/arrowNext"
         android:scaleType="fitXY"
+        android:tint="@drawable/button_pressed"
         app:layout_constraintBottom_toBottomOf="@+id/previous"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/previous"
@@ -114,28 +116,29 @@
         android:id="@+id/reset"
         android:layout_width="@dimen/resetButtonSize"
         android:layout_height="@dimen/resetButtonSize"
-        android:backgroundTint="@drawable/button"
+        android:backgroundTint="@drawable/button_background"
         android:contentDescription="@string/reset"
         android:scaleType="fitXY"
+        android:tint="@drawable/button_pressed"
         app:layout_constraintBottom_toBottomOf="@+id/previous"
         app:layout_constraintEnd_toStartOf="@+id/next"
         app:layout_constraintStart_toEndOf="@+id/previous"
         app:layout_constraintTop_toTopOf="@+id/previous"
         app:srcCompat="@drawable/reset" />
 
-<!--    <include layout="@layout/fragment_main">-->
+    <!--    <include layout="@layout/fragment_main">-->
 
-<!--        <FrameLayout-->
-<!--            android:id="@+id/frame_for_fragment"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
+    <!--        <FrameLayout-->
+    <!--            android:id="@+id/frame_for_fragment"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent">-->
 
-<!--            <fragment-->
-<!--                android:id="@+id/fragment_main"-->
-<!--                android:name="com.example.fibonaccinumber.MainFragment"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent" />-->
-<!--        </FrameLayout>-->
-<!--    </include>-->
+    <!--            <fragment-->
+    <!--                android:id="@+id/fragment_main"-->
+    <!--                android:name="com.example.fibonaccinumber.MainFragment"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent" />-->
+    <!--        </FrameLayout>-->
+    <!--    </include>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
