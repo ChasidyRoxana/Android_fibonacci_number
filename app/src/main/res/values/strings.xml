@@ -9,4 +9,6 @@
     <string name="wrongNumber">This number is too large</string>
     <string name="notFoundNumber">There is no such number in the sequence, found the nearest</string>
     <string name="emptyString">You did not enter a number</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
