@@ -3,6 +3,7 @@ package com.example.fibonaccinumber
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,15 +22,16 @@ class MainFragment : Fragment(), MainContract.MainView {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         sharedPreferences = context.getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)
+        Log.i("TUT", "fragment attach $context")
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+////        arguments?.let {
+////            param1 = it.getString(ARG_PARAM1)
+////            param2 = it.getString(ARG_PARAM2)
+////        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,13 +43,20 @@ class MainFragment : Fragment(), MainContract.MainView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter = Presenter(this, sharedPreferences)
+        Log.i("TUT", "load state")
         presenter.loadState()
         initListeners()
     }
 
     override fun onPause() {
         super.onPause()
+        Log.i("TUT", "save state")
         presenter.saveState()
+    }
+
+    override fun onDestroy() {
+        Log.i("TUT", "destroy fragment")
+        super.onDestroy()
     }
 
     private fun initListeners() {
@@ -84,22 +93,27 @@ class MainFragment : Fragment(), MainContract.MainView {
 
     override fun setCurrentNumber(number: String) {
         currentNumber.text = number
+        Log.i("TUT", "change curr num")
     }
 
     override fun setPreviousNumber(number: String) {
         previousNumber.text = number
+        Log.i("TUT", "change prev num")
     }
 
     override fun setNextNumber(number: String) {
         nextNumber.text = number
+        Log.i("TUT", "change next num")
     }
 
     override fun togglePrev(state: Boolean) {
         previous.isEnabled = state
+        Log.i("TUT", "toggle prev")
     }
 
     override fun toggleNext(state: Boolean) {
         next.isEnabled = state
+        Log.i("TUT", "toggle next")
     }
 
     override fun toggleFindResult(state: Boolean) {
@@ -108,6 +122,7 @@ class MainFragment : Fragment(), MainContract.MainView {
 
     override fun setTextNumber(newText: String) {
         textNumber.setText(newText)
+        Log.i("TUT", "change editText num")
     }
 
     override fun setErrorMessageText(newMessage: String) {
