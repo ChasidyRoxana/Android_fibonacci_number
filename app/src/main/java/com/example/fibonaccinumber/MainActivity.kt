@@ -2,8 +2,6 @@ package com.example.fibonaccinumber
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.commit
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,17 +9,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add(R.id.mainFragment, MainFragment())
-            }
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.mainFragment, MainFragment())
+                .commit()
         }
     }
-
-    override fun onDestroy() {
-        Log.i("TUT", "destroy activity")
-        super.onDestroy()
-//        supportFragmentManager.beginTransaction().remove(mainFragment).commit()
-    }
-
 }
