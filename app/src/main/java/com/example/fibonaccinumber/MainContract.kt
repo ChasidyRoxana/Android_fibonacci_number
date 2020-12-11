@@ -1,5 +1,6 @@
 package com.example.fibonaccinumber
 
+import android.os.Bundle
 import android.text.TextWatcher
 import android.widget.TextView
 
@@ -22,8 +23,8 @@ interface MainContract {
     }
 
     interface MainPresenter {
-        fun saveState()
-        fun loadState()
+        fun saveState(outState: Bundle)
+        fun loadState(savedInstantState: Bundle?)
         fun onNextClicked()
         fun onPrevClicked()
         fun onResetClicked()

@@ -8,9 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="statusBarPrimary">#BF006A69</color>
+    <color name="statusBarPrimary">#CF006C6B</color>
     <color name="statusBarPrimaryVariant">#FF006C6B</color>
-    <color name="buttonOff">#1A009688</color>
+    <color name="buttonOff">#1A018786</color>
     <color name="buttonOn">#BF018786</color>
     <color name="errorRed">#FFE10000</color>
 </resources>

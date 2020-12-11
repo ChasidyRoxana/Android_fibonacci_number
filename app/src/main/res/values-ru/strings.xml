@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Числа Фибоначчи</string>
-    <string name="description">Навигация по числам Фибоначчи</string>
+    <string name="description">Занимательное путешествие по числам Фибоначчи</string>
     <string name="descriptionForTextNumber">Введите число</string>
     <string name="findResult">Найти</string>
     <string name="arrowPrev">Предыдущее число</string>

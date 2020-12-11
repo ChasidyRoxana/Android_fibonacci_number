@@ -1,6 +1,7 @@
 package com.example.fibonaccinumber
 
 import android.content.SharedPreferences
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
@@ -17,12 +18,21 @@ class Presenter(
     private var currentTextNumber: String = ""
     private var errorMessage: String = ""
 
-    override fun saveState() {
-        repository.saveState(fibonacciNumbers.getCurrentIndex(), currentTextNumber)
+    override fun saveState(outState: Bundle) {
+        repository.saveState(
+            outState,
+            fibonacciNumbers.getCurrentIndex(),
+            currentTextNumber,
+            errorMessage
+        )
     }
 
-    override fun loadState() {
+    override fun loadState(savedInstantState: Bundle?) {
+        if (savedInstantState != null) {
+            repository.setState(savedInstantState)
+        }
         currentTextNumber = repository.currentTextNumber
+        errorMessage = repository.errorMessage
         val currentIndex = repository.currentIndex
         fibonacciNumbers.setCurrentIndex(currentIndex)
         changeCurrentState()

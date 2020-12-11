@@ -41,13 +41,12 @@ class MainFragment : Fragment(), MainContract.MainView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter = Presenter(this, sharedPreferences)
-        presenter.loadState()
+        presenter.loadState(savedInstanceState)
         initListeners()
     }
 
-    override fun onPause() {
-        super.onPause()
-        presenter.saveState()
+    override fun onSaveInstanceState(outState: Bundle) {
+        presenter.saveState(outState)
     }
 
     private fun initListeners() {
