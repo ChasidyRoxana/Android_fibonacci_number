@@ -67,15 +67,15 @@ class MainFragment : Fragment(), MainContract.MainView {
         tvEnterNumber.setOnEditorActionListener(presenter.editorAction())
     }
 
-    override fun getErrorNotFound(): String = resources.getString(R.string.notFoundNumber)
+    override fun getErrorNotFound(): String = resources.getString(R.string.err_not_found_number)
 
-    override fun getErrorWrongNumber(): String = resources.getString(R.string.wrongNumber)
+    override fun getErrorWrongNumber(): String = resources.getString(R.string.err_wrong_number)
 
-    override fun getErrorEmptyString(): String = resources.getString(R.string.emptyString)
+    override fun getErrorEmptyString(): String = resources.getString(R.string.err_empty_string)
 
     override fun getBlackColor(): Int = resources.getColor(R.color.black, null)
 
-    override fun getRedColor(): Int = resources.getColor(R.color.errorRed, null)
+    override fun getRedColor(): Int = resources.getColor(R.color.error_red, null)
 
     override fun setCurrentNumber(number: String) {
         tvCurrentNumber.text = number

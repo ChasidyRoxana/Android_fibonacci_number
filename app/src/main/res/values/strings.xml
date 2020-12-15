@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Fibonacci number</string>
-    <string name="description">An entertaining journey through Fibonacci numbers</string>
-    <string name="descriptionForTextNumber">Enter a number</string>
-    <string name="findResult">Find</string>
-    <string name="arrowPrev">Previous number</string>
-    <string name="arrowNext">Next number</string>
-    <string name="reset">Reset</string>
-    <string name="wrongNumber">This number is too large</string>
-    <string name="notFoundNumber">There is no such number in the sequence, found the nearest</string>
-    <string name="emptyString">You did not enter a number</string>
+    <string name="description_app">An entertaining journey through Fibonacci numbers</string>
+    <string name="description_enter_number">Enter a number</string>
+    <string name="find_result">Find</string>
+    <string name="description_arrow_previous">Previous number</string>
+    <string name="description_arrow_next">Next number</string>
+    <string name="description_reset">Reset</string>
+    <string name="err_wrong_number">This number is too large</string>
+    <string name="err_not_found_number">There is no such number in the sequence, found the nearest</string>
+    <string name="err_empty_string">You did not enter a number</string>
 </resources>

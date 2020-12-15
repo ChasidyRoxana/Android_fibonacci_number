@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="activityPadding">16dp</dimen>
-    <dimen name="arrowButtonSize">100dp</dimen>
-    <dimen name="resetButtonSize">70dp</dimen>
-    <dimen name="mainText">45sp</dimen>
-    <dimen name="commonText">20sp</dimen>
+    <dimen name="activity_padding">16dp</dimen>
+    <dimen name="arrow_button_size">100dp</dimen>
+    <dimen name="reset_button_size">70dp</dimen>
+    <dimen name="main_text">45sp</dimen>
+    <dimen name="common_text">20sp</dimen>
 </resources>
