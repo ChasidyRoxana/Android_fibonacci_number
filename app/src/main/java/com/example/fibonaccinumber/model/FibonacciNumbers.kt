@@ -1,4 +1,4 @@
-package com.example.fibonaccinumber
+package com.example.fibonaccinumber.model
 
 class FibonacciNumbers {
 

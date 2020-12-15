@@ -1,7 +1,8 @@
-package com.example.fibonaccinumber
+package com.example.fibonaccinumber.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.fibonaccinumber.R
 
 class MainActivity : AppCompatActivity() {
 

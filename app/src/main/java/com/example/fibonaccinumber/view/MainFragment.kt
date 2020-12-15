@@ -1,4 +1,4 @@
-package com.example.fibonaccinumber
+package com.example.fibonaccinumber.view
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.fibonaccinumber.MainContract
+import com.example.fibonaccinumber.R
+import com.example.fibonaccinumber.presenter.Presenter
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment(), MainContract.MainView {
@@ -43,25 +46,25 @@ class MainFragment : Fragment(), MainContract.MainView {
     }
 
     private fun initListeners() {
-        next.setOnClickListener {
+        ibNext.setOnClickListener {
             presenter.onNextClicked()
         }
 
-        previous.setOnClickListener {
+        ibPrevious.setOnClickListener {
             presenter.onPrevClicked()
         }
 
-        reset.setOnClickListener {
+        ibReset.setOnClickListener {
             presenter.onResetClicked()
         }
 
-        findResult.setOnClickListener {
+        bFindResult.setOnClickListener {
             presenter.onFindResultClicked()
         }
 
-        textNumber.addTextChangedListener(presenter.textChanged())
+        tvEnterNumber.addTextChangedListener(presenter.textChanged())
 
-        textNumber.setOnEditorActionListener(presenter.imeAction())
+        tvEnterNumber.setOnEditorActionListener(presenter.editorAction())
     }
 
     override fun getErrorNotFound(): String = resources.getString(R.string.notFoundNumber)
@@ -75,46 +78,46 @@ class MainFragment : Fragment(), MainContract.MainView {
     override fun getRedColor(): Int = resources.getColor(R.color.errorRed, null)
 
     override fun setCurrentNumber(number: String) {
-        currentNumber.text = number
+        tvCurrentNumber.text = number
     }
 
     override fun setPreviousNumber(number: String) {
-        previousNumber.text = number
+        tvPreviousNumber.text = number
     }
 
     override fun setNextNumber(number: String) {
-        nextNumber.text = number
+        tvNextNumber.text = number
     }
 
     override fun clearEditText() {
-        textNumber.clearFocus()
+        tvEnterNumber.clearFocus()
         val imm =
             activityContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(textNumber.windowToken, 0)
+        imm.hideSoftInputFromWindow(tvEnterNumber.windowToken, 0)
     }
 
     override fun togglePrev(state: Boolean) {
-        previous.isEnabled = state
+        ibPrevious.isEnabled = state
     }
 
     override fun toggleNext(state: Boolean) {
-        next.isEnabled = state
+        ibNext.isEnabled = state
     }
 
     override fun toggleFindResult(state: Boolean) {
-        findResult.isEnabled = state
+        bFindResult.isEnabled = state
     }
 
-    override fun setTextNumber(newText: String) {
-        textNumber.setText(newText)
+    override fun setEnterNumber(newText: String) {
+        tvEnterNumber.setText(newText)
     }
 
     override fun setErrorMessageText(newMessage: String) {
-        errorMessage.text = newMessage
+        tvErrorMessage.text = newMessage
     }
 
     override fun setErrorMessageColor(newColor: Int) {
-        errorMessage.setTextColor(newColor)
+        tvErrorMessage.setTextColor(newColor)
     }
 
 }

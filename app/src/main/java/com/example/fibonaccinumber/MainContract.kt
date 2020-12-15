@@ -18,7 +18,7 @@ interface MainContract {
         fun togglePrev(state: Boolean)
         fun toggleNext(state: Boolean)
         fun toggleFindResult(state: Boolean)
-        fun setTextNumber(newText: String)
+        fun setEnterNumber(newText: String)
         fun setErrorMessageText(newMessage: String)
         fun setErrorMessageColor(newColor: Int)
     }
@@ -31,6 +31,6 @@ interface MainContract {
         fun onResetClicked()
         fun onFindResultClicked()
         fun textChanged(): TextWatcher
-        fun imeAction(): TextView.OnEditorActionListener
+        fun editorAction(): TextView.OnEditorActionListener
     }
 }

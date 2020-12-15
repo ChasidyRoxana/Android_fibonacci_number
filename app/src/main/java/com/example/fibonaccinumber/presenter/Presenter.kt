@@ -1,4 +1,4 @@
-package com.example.fibonaccinumber
+package com.example.fibonaccinumber.presenter
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -6,6 +6,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import com.example.fibonaccinumber.MainContract
+import com.example.fibonaccinumber.model.FibonacciNumbers
+import com.example.fibonaccinumber.model.Repository
 import java.lang.NumberFormatException
 
 class Presenter(
@@ -15,14 +18,14 @@ class Presenter(
     private val repository: Repository = Repository(sharedPreferences)
 ) : MainContract.MainPresenter {
 
-    private var currentTextNumber: String = ""
+    private var currentEnterNumber: String = ""
     private var errorMessage: String = ""
 
     override fun saveState(outState: Bundle) {
         repository.saveState(
             outState,
             fibonacciNumbers.getCurrentIndex(),
-            currentTextNumber,
+            currentEnterNumber,
             errorMessage
         )
     }
@@ -31,7 +34,7 @@ class Presenter(
         if (savedInstantState != null) {
             repository.setState(savedInstantState)
         }
-        currentTextNumber = repository.currentTextNumber
+        currentEnterNumber = repository.currentEnterNumber
         errorMessage = repository.errorMessage
         val currentIndex = repository.currentIndex
         fibonacciNumbers.setCurrentIndex(currentIndex)
@@ -51,20 +54,20 @@ class Presenter(
     override fun onResetClicked() {
         fibonacciNumbers.setCurrentIndex(0)
         errorMessage = ""
-        currentTextNumber = ""
+        currentEnterNumber = ""
         changeCurrentState()
     }
 
     override fun onFindResultClicked() {
         errorMessage = try {
-            val newNumber = currentTextNumber.toInt()
+            val newNumber = currentEnterNumber.toInt()
             if (newNumberFound(newNumber)) {
                 ""
             } else {
                 view.getErrorNotFound()
             }
         } catch (e: NumberFormatException) {
-            if (currentTextNumber.isEmpty()) {
+            if (currentEnterNumber.isEmpty()) {
                 view.getErrorEmptyString()
             } else {
                 fibonacciNumbers.changeIndexToLast()
@@ -90,7 +93,7 @@ class Presenter(
         }
     }
 
-    override fun imeAction(): TextView.OnEditorActionListener {
+    override fun editorAction(): TextView.OnEditorActionListener {
         return TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 onFindResultClicked()
@@ -102,11 +105,11 @@ class Presenter(
     }
 
     private fun saveTextNumber(editTextNumber: String) {
-        currentTextNumber = editTextNumber
+        currentEnterNumber = editTextNumber
     }
 
     private fun changeFindButtonState() {
-        val buttonOn: Boolean = currentTextNumber.isNotEmpty()
+        val buttonOn: Boolean = currentEnterNumber.isNotEmpty()
         view.toggleFindResult(buttonOn)
     }
 
@@ -120,7 +123,7 @@ class Presenter(
         changeNumbers()
         changeErrorMessage()
         changeFindButtonState()
-        view.setTextNumber(currentTextNumber)
+        view.setEnterNumber(currentEnterNumber)
     }
 
     private fun changeErrorMessage() {

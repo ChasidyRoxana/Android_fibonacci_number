@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainFragment">
+    tools:context=".view.MainFragment">
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -22,18 +22,18 @@
         android:id="@+id/TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
         android:gravity="center_horizontal"
         app:counterEnabled="true"
         app:counterMaxLength="10"
         app:endIconMode="clear_text"
-        android:focusableInTouchMode="true"
-        app:layout_constraintBottom_toTopOf="@id/previousNumber"
+        app:layout_constraintBottom_toTopOf="@id/tvPreviousNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description">
+        app:layout_constraintTop_toBottomOf="@+id/tvDescription">
 
         <EditText
-            android:id="@+id/textNumber"
+            android:id="@+id/tvEnterNumber"
             style="@style/styleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,14 +42,14 @@
             android:importantForAutofill="no" />
 
         <TextView
-            android:id="@+id/errorMessage"
+            android:id="@+id/tvErrorMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             tools:text="@string/notFoundNumber" />
 
         <Button
-            android:id="@+id/findResult"
+            android:id="@+id/bFindResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@drawable/button_background"
@@ -59,39 +59,39 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/currentNumber"
+        android:id="@+id/tvCurrentNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textSize="@dimen/mainText"
-        app:layout_constraintBottom_toTopOf="@id/previous"
+        app:layout_constraintBottom_toTopOf="@id/ibPrevious"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/TextInputLayout"
         tools:text="377" />
 
     <TextView
-        android:id="@+id/previousNumber"
+        android:id="@+id/tvPreviousNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/commonText"
-        app:layout_constraintBottom_toTopOf="@+id/currentNumber"
-        app:layout_constraintEnd_toEndOf="@+id/currentNumber"
-        app:layout_constraintStart_toStartOf="@+id/currentNumber"
+        app:layout_constraintBottom_toTopOf="@+id/tvCurrentNumber"
+        app:layout_constraintEnd_toEndOf="@+id/tvCurrentNumber"
+        app:layout_constraintStart_toStartOf="@+id/tvCurrentNumber"
         tools:text="233" />
 
     <TextView
-        android:id="@+id/nextNumber"
+        android:id="@+id/tvNextNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/commonText"
-        app:layout_constraintEnd_toEndOf="@+id/currentNumber"
-        app:layout_constraintStart_toStartOf="@+id/currentNumber"
-        app:layout_constraintTop_toBottomOf="@+id/currentNumber"
+        app:layout_constraintEnd_toEndOf="@+id/tvCurrentNumber"
+        app:layout_constraintStart_toStartOf="@+id/tvCurrentNumber"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentNumber"
         tools:text="610" />
 
     <ImageButton
-        android:id="@+id/previous"
+        android:id="@+id/ibPrevious"
         android:layout_width="@dimen/arrowButtonSize"
         android:layout_height="@dimen/arrowButtonSize"
         android:backgroundTint="@drawable/button_background"
@@ -100,34 +100,34 @@
         android:tint="@drawable/button_pressed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextNumber"
+        app:layout_constraintTop_toBottomOf="@+id/tvNextNumber"
         app:srcCompat="@drawable/left_arrow" />
 
     <ImageButton
-        android:id="@+id/next"
+        android:id="@+id/ibNext"
         android:layout_width="@dimen/arrowButtonSize"
         android:layout_height="@dimen/arrowButtonSize"
         android:backgroundTint="@drawable/button_background"
         android:contentDescription="@string/arrowNext"
         android:scaleType="fitXY"
         android:tint="@drawable/button_pressed"
-        app:layout_constraintBottom_toBottomOf="@+id/previous"
+        app:layout_constraintBottom_toBottomOf="@+id/ibPrevious"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/previous"
+        app:layout_constraintTop_toTopOf="@+id/ibPrevious"
         app:srcCompat="@drawable/right_arrow" />
 
     <ImageButton
-        android:id="@+id/reset"
+        android:id="@+id/ibReset"
         android:layout_width="@dimen/resetButtonSize"
         android:layout_height="@dimen/resetButtonSize"
         android:backgroundTint="@drawable/button_background"
         android:contentDescription="@string/reset"
         android:scaleType="fitXY"
         android:tint="@drawable/button_pressed"
-        app:layout_constraintBottom_toBottomOf="@+id/previous"
-        app:layout_constraintEnd_toStartOf="@+id/next"
-        app:layout_constraintStart_toEndOf="@+id/previous"
-        app:layout_constraintTop_toTopOf="@+id/previous"
+        app:layout_constraintBottom_toBottomOf="@+id/ibPrevious"
+        app:layout_constraintEnd_toStartOf="@+id/ibNext"
+        app:layout_constraintStart_toEndOf="@+id/ibPrevious"
+        app:layout_constraintTop_toTopOf="@+id/ibPrevious"
         app:srcCompat="@drawable/reset" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
