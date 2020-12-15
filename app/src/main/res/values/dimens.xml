@@ -4,5 +4,5 @@
     <dimen name="arrowButtonSize">100dp</dimen>
     <dimen name="resetButtonSize">70dp</dimen>
     <dimen name="mainText">45sp</dimen>
-    <dimen name="commonText">25sp</dimen>
+    <dimen name="commonText">20sp</dimen>
 </resources>

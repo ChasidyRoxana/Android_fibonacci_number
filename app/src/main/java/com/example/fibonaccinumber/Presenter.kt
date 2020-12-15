@@ -72,6 +72,7 @@ class Presenter(
             }
         }
         changeCurrentState()
+        view.clearEditText()
     }
 
     override fun textChanged(): TextWatcher {
@@ -93,8 +94,10 @@ class Presenter(
         return TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 onFindResultClicked()
+                true
+            } else {
+                false
             }
-            false
         }
     }
 
@@ -122,7 +125,7 @@ class Presenter(
 
     private fun changeErrorMessage() {
         val color =
-            if (errorMessage == view.getErrorWrongNumber()) {
+            if (errorMessage == view.getErrorWrongNumber() || errorMessage == view.getErrorEmptyString()) {
                 view.getRedColor()
             } else {
                 view.getBlackColor()

@@ -14,6 +14,7 @@ interface MainContract {
         fun setCurrentNumber(number: String)
         fun setPreviousNumber(number: String)
         fun setNextNumber(number: String)
+        fun clearEditText()
         fun togglePrev(state: Boolean)
         fun toggleNext(state: Boolean)
         fun toggleFindResult(state: Boolean)

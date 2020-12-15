@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainFragment">
 
     <TextView
@@ -18,40 +18,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/textNumber"
-        style="@style/styleEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/descriptionForTextNumber"
-        android:importantForAutofill="no"
-        app:layout_constraintBottom_toTopOf="@+id/previousNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/findResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/errorMessage"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/TextInputLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
+        app:endIconMode="clear_text"
+        android:focusableInTouchMode="true"
+        app:layout_constraintBottom_toTopOf="@id/previousNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNumber"
-        tools:text="@string/notFoundNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/description">
 
-    <Button
-        android:id="@+id/findResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@drawable/button_background"
-        android:text="@string/findResult"
-        android:textColor="@drawable/button_pressed"
-        app:layout_constraintBottom_toBottomOf="@+id/textNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textNumber"
-        app:layout_constraintTop_toTopOf="@+id/textNumber" />
+        <EditText
+            android:id="@+id/textNumber"
+            style="@style/styleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:hint="@string/descriptionForTextNumber"
+            android:importantForAutofill="no" />
+
+        <TextView
+            android:id="@+id/errorMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            tools:text="@string/notFoundNumber" />
+
+        <Button
+            android:id="@+id/findResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@drawable/button_background"
+            android:text="@string/findResult"
+            android:textColor="@drawable/button_pressed" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/currentNumber"
@@ -62,7 +67,7 @@
         app:layout_constraintBottom_toTopOf="@id/previous"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textNumber"
+        app:layout_constraintTop_toBottomOf="@id/TextInputLayout"
         tools:text="377" />
 
     <TextView
@@ -71,8 +76,8 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/commonText"
         app:layout_constraintBottom_toTopOf="@+id/currentNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/currentNumber"
+        app:layout_constraintStart_toStartOf="@+id/currentNumber"
         tools:text="233" />
 
     <TextView
@@ -80,8 +85,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/commonText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/currentNumber"
+        app:layout_constraintStart_toStartOf="@+id/currentNumber"
         app:layout_constraintTop_toBottomOf="@+id/currentNumber"
         tools:text="610" />
 

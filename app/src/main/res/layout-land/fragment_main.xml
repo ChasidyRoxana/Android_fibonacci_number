@@ -18,39 +18,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/textNumber"
-        style="@style/styleEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/descriptionForTextNumber"
-        android:importantForAutofill="no"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/findResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/errorMessage"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
+        app:endIconMode="clear_text"
+        android:focusableInTouchMode="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNumber"
-        tools:text="@string/notFoundNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/description">
 
-    <Button
-        android:id="@+id/findResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@drawable/button_background"
-        android:text="@string/findResult"
-        android:textColor="@drawable/button_pressed"
-        app:layout_constraintBottom_toBottomOf="@+id/textNumber"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toEndOf="@+id/textNumber"
-        app:layout_constraintTop_toTopOf="@+id/textNumber" />
+        <EditText
+            android:id="@+id/textNumber"
+            style="@style/styleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:hint="@string/descriptionForTextNumber"
+            android:importantForAutofill="no" />
+
+        <TextView
+            android:id="@+id/errorMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            tools:text="@string/notFoundNumber" />
+
+        <Button
+            android:id="@+id/findResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@drawable/button_background"
+            android:text="@string/findResult"
+            android:textColor="@drawable/button_pressed" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/currentNumber"
