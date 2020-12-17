@@ -3,8 +3,9 @@ package com.example.fibonaccinumber.model
 import android.content.SharedPreferences
 import android.os.Bundle
 
-class Repository(private val sharedPreferences: SharedPreferences) {
+class Repository(sharedPreferences: SharedPreferences) {
 
+    var outState: Bundle? = null
     var currentIndex: Int = sharedPreferences.getInt(STATE_INT_INDEX, 0)
         private set
     var currentEnterNumber: String = ""
@@ -12,17 +13,24 @@ class Repository(private val sharedPreferences: SharedPreferences) {
     var errorMessage: String = ""
         private set
 
-    fun saveState(
-        outState: Bundle,
-        currentIndex: Int,
-        currentEnterNumber: String,
-        errorMessage: String
-    ) {
-        outState.putInt(STATE_INT_INDEX, currentIndex)
-        outState.putString(STATE_STR_NUMBER, currentEnterNumber)
-        outState.putString(STATE_STR_ERROR, errorMessage)
+    private val editState = sharedPreferences.edit()
 
-        val editState = sharedPreferences.edit()
+    fun saveIndex(currentIndex: Int) {
+        this.currentIndex = currentIndex
+        outState?.putInt(STATE_INT_INDEX, currentIndex)
+    }
+
+    fun saveEnterNumber(currentEnterNumber: String) {
+        this.currentEnterNumber = currentEnterNumber
+        outState?.putString(STATE_STR_NUMBER, currentEnterNumber)
+    }
+
+    fun saveErrorMessage(errorMessage: String) {
+        this.errorMessage = errorMessage
+        outState?.putString(STATE_STR_ERROR, errorMessage)
+    }
+
+    fun saveSharedPref() {
         editState.putInt(STATE_INT_INDEX, currentIndex)
         editState.apply()
     }

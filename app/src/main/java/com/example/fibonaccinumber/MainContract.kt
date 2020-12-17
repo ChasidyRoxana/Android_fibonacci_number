@@ -24,7 +24,7 @@ interface MainContract {
     }
 
     interface MainPresenter {
-        fun saveState(outState: Bundle)
+        fun saveState(outState: Bundle?)
         fun loadState(savedInstantState: Bundle?)
         fun onNextClicked()
         fun onPrevClicked()

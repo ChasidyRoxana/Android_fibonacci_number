@@ -37,9 +37,9 @@
             style="@style/styleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:hint="@string/description_enter_number"
-            android:importantForAutofill="no" />
+            android:importantForAutofill="no"
+            android:maxLength="10" />
 
         <TextView
             android:id="@+id/tvErrorMessage"

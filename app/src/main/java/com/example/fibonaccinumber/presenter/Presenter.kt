@@ -1,6 +1,5 @@
 package com.example.fibonaccinumber.presenter
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,21 +12,19 @@ import java.lang.NumberFormatException
 
 class Presenter(
     private val view: MainContract.MainView,
-    private val sharedPreferences: SharedPreferences,
-    private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers(),
-    private val repository: Repository = Repository(sharedPreferences)
+    private val repository: Repository,
+    private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
 ) : MainContract.MainPresenter {
 
     private var currentEnterNumber: String = ""
     private var errorMessage: String = ""
 
-    override fun saveState(outState: Bundle) {
-        repository.saveState(
-            outState,
-            fibonacciNumbers.getCurrentIndex(),
-            currentEnterNumber,
-            errorMessage
-        )
+    override fun saveState(outState: Bundle?) {
+        repository.outState = outState
+        repository.saveIndex(fibonacciNumbers.getCurrentIndex())
+        repository.saveEnterNumber(currentEnterNumber)
+        repository.saveErrorMessage(errorMessage)
+        repository.saveSharedPref()
     }
 
     override fun loadState(savedInstantState: Bundle?) {
@@ -53,8 +50,8 @@ class Presenter(
 
     override fun onResetClicked() {
         fibonacciNumbers.setCurrentIndex(0)
-        errorMessage = ""
         currentEnterNumber = ""
+        errorMessage = ""
         changeCurrentState()
     }
 

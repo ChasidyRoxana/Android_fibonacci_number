@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.fibonaccinumber.MainContract
 import com.example.fibonaccinumber.R
+import com.example.fibonaccinumber.model.Repository
 import com.example.fibonaccinumber.presenter.Presenter
 import kotlinx.android.synthetic.main.fragment_main.*
 
@@ -18,13 +19,18 @@ class MainFragment : Fragment(), MainContract.MainView {
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var presenter: MainContract.MainPresenter
-    private lateinit var activityContext: Context
+    private var activityContext: Context? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activityContext = context
         sharedPreferences =
-            context.getSharedPreferences("preferences", AppCompatActivity.MODE_PRIVATE)
+            context.getSharedPreferences(PREF_FILE_NAME, AppCompatActivity.MODE_PRIVATE)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        activityContext = null
     }
 
     override fun onCreateView(
@@ -36,9 +42,15 @@ class MainFragment : Fragment(), MainContract.MainView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter = Presenter(this, sharedPreferences)
+        val repository = Repository(sharedPreferences)
+        presenter = Presenter(this, repository)
         presenter.loadState(savedInstanceState)
         initListeners()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.saveState(null)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -92,7 +104,7 @@ class MainFragment : Fragment(), MainContract.MainView {
     override fun clearEditText() {
         tvEnterNumber.clearFocus()
         val imm =
-            activityContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            activityContext?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(tvEnterNumber.windowToken, 0)
     }
 
@@ -120,4 +132,7 @@ class MainFragment : Fragment(), MainContract.MainView {
         tvErrorMessage.setTextColor(newColor)
     }
 
+    private companion object {
+        private const val PREF_FILE_NAME = "preferences"
+    }
 }
