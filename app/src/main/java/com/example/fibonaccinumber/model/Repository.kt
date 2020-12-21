@@ -5,7 +5,6 @@ import android.os.Bundle
 
 class Repository(sharedPreferences: SharedPreferences) {
 
-    var outState: Bundle? = null
     var currentIndex: Int = sharedPreferences.getInt(STATE_INT_INDEX, 0)
         private set
     var currentEnterNumber: String = ""
@@ -14,6 +13,11 @@ class Repository(sharedPreferences: SharedPreferences) {
         private set
 
     private val editState = sharedPreferences.edit()
+    private var outState: Bundle? = null
+
+    fun setOutState(outState: Bundle?) {
+        this.outState = outState
+    }
 
     fun saveIndex(currentIndex: Int) {
         this.currentIndex = currentIndex

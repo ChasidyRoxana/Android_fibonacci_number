@@ -53,7 +53,7 @@ class FibonacciNumbers {
         if (newIndex > 0) {
             val closerToPrevious = newNumber - listOfNumbers[newIndex - 1]
             val closerToNext = listOfNumbers[newIndex] - newNumber
-            if (closerToPrevious < closerToNext) {
+            if (closerToPrevious <= closerToNext) {
                 newIndex--
             }
         }

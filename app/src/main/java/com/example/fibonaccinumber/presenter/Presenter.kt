@@ -20,7 +20,7 @@ class Presenter(
     private var errorMessage: String = ""
 
     override fun saveState(outState: Bundle?) {
-        repository.outState = outState
+        repository.setOutState(outState)
         repository.saveIndex(fibonacciNumbers.getCurrentIndex())
         repository.saveEnterNumber(currentEnterNumber)
         repository.saveErrorMessage(errorMessage)
