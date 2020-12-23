@@ -33,4 +33,16 @@ interface MainContract {
         fun textChanged(): TextWatcher
         fun editorAction(): TextView.OnEditorActionListener
     }
+
+    interface MainRepository{
+        fun setOutState(outState: Bundle?)
+        fun setIndex(currentIndex: Int)
+        fun setEnterNumber(currentEnterNumber: String)
+        fun setErrorMessage(errorMessage: String)
+        fun getCurrentIndex(): Int
+        fun getCurrentEnterNumber(): String
+        fun getErrorMessage(): String
+        fun saveState()
+        fun setStateFromBundle(savedInstantState: Bundle)
+    }
 }

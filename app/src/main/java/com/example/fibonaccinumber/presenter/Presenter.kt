@@ -5,14 +5,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.annotation.VisibleForTesting
 import com.example.fibonaccinumber.MainContract
 import com.example.fibonaccinumber.model.FibonacciNumbers
-import com.example.fibonaccinumber.model.Repository
 import java.lang.NumberFormatException
 
 class Presenter(
     private val view: MainContract.MainView,
-    private val repository: Repository,
+    private val repository: MainContract.MainRepository,
     private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
 ) : MainContract.MainPresenter {
 
@@ -21,19 +21,19 @@ class Presenter(
 
     override fun saveState(outState: Bundle?) {
         repository.setOutState(outState)
-        repository.saveIndex(fibonacciNumbers.getCurrentIndex())
-        repository.saveEnterNumber(currentEnterNumber)
-        repository.saveErrorMessage(errorMessage)
-        repository.saveSharedPref()
+        repository.setIndex(fibonacciNumbers.getCurrentIndex())
+        repository.setEnterNumber(currentEnterNumber)
+        repository.setErrorMessage(errorMessage)
+        repository.saveState()
     }
 
     override fun loadState(savedInstantState: Bundle?) {
         if (savedInstantState != null) {
-            repository.setState(savedInstantState)
+            repository.setStateFromBundle(savedInstantState)
         }
-        currentEnterNumber = repository.currentEnterNumber
-        errorMessage = repository.errorMessage
-        val currentIndex = repository.currentIndex
+        currentEnterNumber = repository.getCurrentEnterNumber()
+        errorMessage = repository.getErrorMessage()
+        val currentIndex = repository.getCurrentIndex()
         fibonacciNumbers.setCurrentIndex(currentIndex)
         changeCurrentState()
     }
@@ -157,5 +157,16 @@ class Presenter(
         val buttonState = nextNumber != null
         view.toggleNext(buttonState)
         view.setNextNumber(nextNumber?.toString() ?: "")
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    fun getErrorMessage(): String = errorMessage
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    fun getCurrentEnterNumber(): String = currentEnterNumber
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    fun setCurrentEnterNumber(newEnterNumber: String) {
+        currentEnterNumber = newEnterNumber
     }
 }
