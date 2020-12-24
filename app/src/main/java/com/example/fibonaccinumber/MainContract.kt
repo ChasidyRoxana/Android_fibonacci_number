@@ -36,12 +36,14 @@ interface MainContract {
 
     interface MainRepository{
         fun setOutState(outState: Bundle?)
-        fun setIndex(currentIndex: Int)
-        fun setEnterNumber(currentEnterNumber: String)
+        fun setCurrentIndex(currentIndex: Int)
+        fun setCurrentEnterNumber(currentEnterNumber: String)
         fun setErrorMessage(errorMessage: String)
+        fun setErrorType(errorType: String)
         fun getCurrentIndex(): Int
         fun getCurrentEnterNumber(): String
         fun getErrorMessage(): String
+        fun getErrorType(): String
         fun saveState()
         fun setStateFromBundle(savedInstantState: Bundle)
     }

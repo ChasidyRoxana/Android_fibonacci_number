@@ -1,69 +1,110 @@
 package com.example.fibonaccinumber.presentertest
 
+import android.os.Bundle
 import com.example.fibonaccinumber.MainContract
 import com.example.fibonaccinumber.model.FibonacciNumbers
 import com.example.fibonaccinumber.presenter.Presenter
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.*
 import org.junit.Test
 
 import org.junit.Assert.*
 import org.junit.Before
-import org.mockito.Mockito
 
 class PresenterTest {
 
-    private val view: MainContract.MainView = mock()
-    private val fibonacciNumbers: FibonacciNumbers = mock()
-    private val repository: MainContract.MainRepository = mock()
-
-//    private lateinit var view: MainContract.MainView
-//    private lateinit var fibonacciNumbers: FibonacciNumbers
-//    private lateinit var repository: Repository// = Mockito.spy(Repository(mock()))
-
-//    private val presenter: Presenter = mock()
-//    private val presenter = Presenter(view, repository, fibonacciNumbers)
-    private lateinit var presenter: Presenter// = Presenter(view, repository, fibonacciNumbers)
+    private val viewMock: MainContract.MainView = mock()
+    private val fibonacciNumbersSpy: FibonacciNumbers = spy()
+    private val repositoryMock: MainContract.MainRepository = mock()
+    private lateinit var presenter: Presenter
 
     @Before
     fun setUp() {
-////        val sharedPreferences: SharedPreferences = mock()
-////        whenever(sharedPreferences.edit()).thenReturn(mock())
-//        repository = mock() //Mockito.spy(Repository(sharedPreferences))
-//        presenter = Presenter(view, repository, fibonacciNumbers)
+        whenever(viewMock.getErrorEmptyString()).thenReturn(ERR_STR_EMPTY)
+        whenever(viewMock.getErrorWrongNumber()).thenReturn(ERR_STR_WRONG)
+        whenever(viewMock.getErrorNotFound()).thenReturn(ERR_STR_NOT_FOUND)
 
-        presenter = Presenter(view,repository,fibonacciNumbers)
+        whenever(repositoryMock.getErrorType()).thenReturn("CORRECT")
+        whenever(repositoryMock.getErrorMessage()).thenReturn("")
+        whenever(repositoryMock.getCurrentEnterNumber()).thenReturn("")
+        whenever(repositoryMock.getCurrentIndex()).thenReturn(5)
+
+        presenter = Presenter(viewMock, repositoryMock, fibonacciNumbersSpy)
     }
 
     @Test
-    fun saveState_correct() {
-//        repository.setEditState(mock())
+    fun saveState_invokeWithNull() {
+        presenter.saveState(null)
 
-        presenter.saveState(Mockito.any())
-
-        verify(repository).setOutState(Mockito.any())
-        verify(repository).setIndex(Mockito.anyInt())
-        verify(repository).setEnterNumber(Mockito.anyString())
-        verify(repository).setErrorMessage(Mockito.anyString())
-        verify(repository).saveState()
+        verify(repositoryMock, times(0)).setOutState(null)
+        verify(repositoryMock).setCurrentIndex(any())
+        verify(repositoryMock).setCurrentEnterNumber(any())
+        verify(repositoryMock).setErrorMessage(any())
+        verify(repositoryMock).setErrorType(any())
+        verify(repositoryMock).saveState()
     }
 
     @Test
-    fun loadState() {
+    fun saveState_invokeWithBundle() {
+        val bundleMock: Bundle = mock()
+
+        presenter.saveState(bundleMock)
+
+        verify(repositoryMock).setOutState(bundleMock)
+        verify(repositoryMock).setCurrentIndex(any())
+        verify(repositoryMock).setCurrentEnterNumber(any())
+        verify(repositoryMock).setErrorMessage(any())
+        verify(repositoryMock).setErrorType(any())
+        verify(repositoryMock).saveState()
+    }
+
+    @Test
+    fun loadState_invokeWithNull() {
+        presenter.loadState(null)
+
+        verify(repositoryMock, times(0)).setStateFromBundle(any())
+        verify(repositoryMock).getCurrentEnterNumber()
+        verify(repositoryMock).getErrorMessage()
+        verify(repositoryMock).getErrorType()
+        verify(repositoryMock).getCurrentIndex()
+        verify(fibonacciNumbersSpy).setCurrentIndex(any())
+    }
+
+    @Test
+    fun loadState_invokeWithBundle() {
+        val bundleMock: Bundle = mock()
+
+        presenter.loadState(bundleMock)
+
+        verify(repositoryMock).setStateFromBundle(bundleMock)
+        verify(repositoryMock).getCurrentEnterNumber()
+        verify(repositoryMock).getErrorMessage()
+        verify(repositoryMock).getErrorType()
+        verify(repositoryMock).getCurrentIndex()
+        verify(fibonacciNumbersSpy).setCurrentIndex(any())
     }
 
     @Test
     fun onNextClicked_correct() {
         presenter.onNextClicked()
 
-        Mockito.verify(fibonacciNumbers).changeIndexToNext()
+        verify(fibonacciNumbersSpy).changeIndexToNext()
+        verify(viewMock).setCurrentNumber(any())
+        verify(viewMock).togglePrev(any())
+        verify(viewMock).setPreviousNumber(any())
+        verify(viewMock).toggleNext(any())
+        verify(viewMock).setNextNumber(any())
     }
 
     @Test
     fun onPrevClicked_correct() {
         presenter.onPrevClicked()
 
-        Mockito.verify(fibonacciNumbers).changeIndexToPrevious()
+        verify(fibonacciNumbersSpy).changeIndexToPrevious()
+        verify(viewMock).setCurrentNumber(any())
+        verify(viewMock).togglePrev(any())
+        verify(viewMock).setPreviousNumber(any())
+        verify(viewMock).toggleNext(any())
+        verify(viewMock).setNextNumber(any())
     }
 
     @Test
@@ -72,7 +113,12 @@ class PresenterTest {
 
         assertEquals("", presenter.getCurrentEnterNumber())
         assertEquals("", presenter.getErrorMessage())
-        assertEquals(0, fibonacciNumbers.getCurrentIndex())
+        assertEquals(0, fibonacciNumbersSpy.getCurrentIndex())
+        verify(viewMock).setCurrentNumber("0")
+        verify(viewMock).togglePrev(false)
+        verify(viewMock).setPreviousNumber("")
+        verify(viewMock).toggleNext(true)
+        verify(viewMock).setNextNumber("1")
     }
 
     @Test
@@ -82,7 +128,7 @@ class PresenterTest {
         presenter.onFindResultClicked()
 
         assertEquals("", presenter.getErrorMessage())
-        verify(view).clearEditText()
+        verify(viewMock).clearEditText()
     }
 
     @Test
@@ -91,8 +137,9 @@ class PresenterTest {
 
         presenter.onFindResultClicked()
 
-        verify(view).getErrorEmptyString()
-        verify(view).clearEditText()
+        assertEquals(ERR_STR_EMPTY, presenter.getErrorMessage())
+        verify(viewMock).getErrorEmptyString()
+        verify(viewMock).clearEditText()
     }
 
     @Test
@@ -101,17 +148,25 @@ class PresenterTest {
 
         presenter.onFindResultClicked()
 
-        verify(view).getErrorNotFound()
-        verify(view).clearEditText()
+        assertEquals(ERR_STR_NOT_FOUND, presenter.getErrorMessage())
+        verify(viewMock).getErrorNotFound()
+        verify(viewMock).clearEditText()
     }
 
     @Test
     fun onFindResultClicked_wrongNumberError() {
-        presenter.setCurrentEnterNumber(Int.MAX_VALUE.toString())
+        presenter.setCurrentEnterNumber("2147483648")
 
         presenter.onFindResultClicked()
 
-        verify(view).getErrorWrongNumber()
-        verify(view).clearEditText()
+        assertEquals(ERR_STR_WRONG, presenter.getErrorMessage())
+        verify(viewMock).getErrorWrongNumber()
+        verify(viewMock).clearEditText()
+    }
+
+    private companion object {
+        private const val ERR_STR_EMPTY = "Error empty string"
+        private const val ERR_STR_NOT_FOUND = "Error not found"
+        private const val ERR_STR_WRONG = "Error wrong number"
     }
 }
