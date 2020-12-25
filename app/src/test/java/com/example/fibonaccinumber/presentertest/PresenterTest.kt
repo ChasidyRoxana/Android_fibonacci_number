@@ -1,6 +1,8 @@
 package com.example.fibonaccinumber.presentertest
 
 import android.os.Bundle
+import android.text.Editable
+import android.view.inputmethod.EditorInfo
 import com.example.fibonaccinumber.MainContract
 import com.example.fibonaccinumber.model.FibonacciNumbers
 import com.example.fibonaccinumber.presenter.Presenter
@@ -35,7 +37,7 @@ class PresenterTest {
     fun saveState_invokeWithNull() {
         presenter.saveState(null)
 
-        verify(repositoryMock, times(0)).setOutState(null)
+        verify(repositoryMock, never()).setOutState(null)
         verify(repositoryMock).setCurrentIndex(any())
         verify(repositoryMock).setCurrentEnterNumber(any())
         verify(repositoryMock).setErrorMessage(any())
@@ -58,10 +60,10 @@ class PresenterTest {
     }
 
     @Test
-    fun loadState_invokeWithNull() {
+    fun loadState_firstLaunch_invokeWithNull() {
         presenter.loadState(null)
 
-        verify(repositoryMock, times(0)).setStateFromBundle(any())
+        verify(repositoryMock, never()).setStateFromBundle(any())
         verify(repositoryMock).getCurrentEnterNumber()
         verify(repositoryMock).getErrorMessage()
         verify(repositoryMock).getErrorType()
@@ -70,7 +72,7 @@ class PresenterTest {
     }
 
     @Test
-    fun loadState_invokeWithBundle() {
+    fun loadState_restartApp_invokeWithBundle() {
         val bundleMock: Bundle = mock()
 
         presenter.loadState(bundleMock)
@@ -162,6 +164,36 @@ class PresenterTest {
         assertEquals(ERR_STR_WRONG, presenter.getErrorMessage())
         verify(viewMock).getErrorWrongNumber()
         verify(viewMock).clearEditText()
+    }
+
+    @Test
+    fun textChanged_correct() {
+        val textEditable: Editable? = null
+        val textString = textEditable?.toString() ?: ""
+
+        val textWatcher = presenter.textChanged()
+        textWatcher.afterTextChanged(textEditable)
+
+        verify(viewMock).toggleFindResult(any())
+        assertEquals(textString, presenter.getCurrentEnterNumber())
+    }
+
+    @Test
+    fun editorAction_searchButtonClicked() {
+        val editorAction = presenter.editorAction()
+        val returnValue = editorAction.onEditorAction(null, EditorInfo.IME_ACTION_SEARCH, null)
+
+        assertEquals(true, returnValue)
+        verify(viewMock).clearEditText()
+    }
+
+    @Test
+    fun editorAction_otherButtonClicked() {
+        val editorAction = presenter.editorAction()
+        val returnValue = editorAction.onEditorAction(null, EditorInfo.IME_ACTION_DONE, null)
+
+        assertEquals(false, returnValue)
+        verify(viewMock, never()).clearEditText()
     }
 
     private companion object {

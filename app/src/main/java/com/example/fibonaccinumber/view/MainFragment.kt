@@ -74,9 +74,9 @@ class MainFragment : Fragment(), MainContract.MainView {
             presenter.onFindResultClicked()
         }
 
-        tvEnterNumber.addTextChangedListener(presenter.textChanged())
+        etEnterNumber.addTextChangedListener(presenter.textChanged())
 
-        tvEnterNumber.setOnEditorActionListener(presenter.editorAction())
+        etEnterNumber.setOnEditorActionListener(presenter.editorAction())
     }
 
     override fun getErrorNotFound(): String = resources.getString(R.string.err_not_found_number)
@@ -102,10 +102,10 @@ class MainFragment : Fragment(), MainContract.MainView {
     }
 
     override fun clearEditText() {
-        tvEnterNumber.clearFocus()
+        etEnterNumber.clearFocus()
         val imm =
             activityContext?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(tvEnterNumber.windowToken, 0)
+        imm.hideSoftInputFromWindow(etEnterNumber.windowToken, 0)
     }
 
     override fun togglePrev(state: Boolean) {
@@ -121,7 +121,7 @@ class MainFragment : Fragment(), MainContract.MainView {
     }
 
     override fun setEnterNumber(newText: String) {
-        tvEnterNumber.setText(newText)
+        etEnterNumber.setText(newText)
     }
 
     override fun setErrorMessageText(newMessage: String) {

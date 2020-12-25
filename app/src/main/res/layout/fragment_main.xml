@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvDescription">
 
         <EditText
-            android:id="@+id/tvEnterNumber"
+            android:id="@+id/etEnterNumber"
             style="@style/styleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
