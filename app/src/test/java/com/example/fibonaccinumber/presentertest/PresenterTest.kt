@@ -157,7 +157,7 @@ class PresenterTest {
 
     @Test
     fun onFindResultClicked_wrongNumberError() {
-        presenter.setCurrentEnterNumber("2147483648")
+        presenter.setCurrentEnterNumber("2147483648") // Int.MAX_VALUE + 1
 
         presenter.onFindResultClicked()
 
@@ -183,8 +183,8 @@ class PresenterTest {
         val editorAction = presenter.editorAction()
         val returnValue = editorAction.onEditorAction(null, EditorInfo.IME_ACTION_SEARCH, null)
 
-        assertEquals(true, returnValue)
         verify(viewMock).clearEditText()
+        assertEquals(true, returnValue)
     }
 
     @Test
@@ -192,8 +192,8 @@ class PresenterTest {
         val editorAction = presenter.editorAction()
         val returnValue = editorAction.onEditorAction(null, EditorInfo.IME_ACTION_DONE, null)
 
-        assertEquals(false, returnValue)
         verify(viewMock, never()).clearEditText()
+        assertEquals(false, returnValue)
     }
 
     private companion object {

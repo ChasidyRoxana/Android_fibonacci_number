@@ -68,11 +68,6 @@ class Repository(sharedPreferences: SharedPreferences) : MainContract.MainReposi
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     fun getOutState(): Bundle? = outState
 
-    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-    fun setEditState(newEditState: SharedPreferences.Editor) {
-        editState = newEditState
-    }
-
     private companion object {
         private const val STATE_INT_INDEX = "currentIndex"
         private const val STATE_STR_ENTER_NUMBER = "currentEnterNumber"

@@ -7,10 +7,20 @@ import com.nhaarman.mockitokotlin2.*
 import org.junit.Test
 
 import org.junit.Assert.*
+import org.junit.Before
 
 class RepositoryTest {
 
-    private val repository: Repository = Repository(mock())
+    private lateinit var repository: Repository
+    private val editStateMock: SharedPreferences.Editor = mock()
+
+    @Before
+    fun setUp() {
+        val sharedPreferencesMock: SharedPreferences = mock()
+        whenever(sharedPreferencesMock.edit()).thenReturn(editStateMock)
+
+        repository = Repository(sharedPreferencesMock)
+    }
 
     @Test
     fun setOutState_invokeWithBundle() {
@@ -66,9 +76,7 @@ class RepositoryTest {
 
     @Test
     fun saveState_BundleIsNull() {
-        val editStateMock: SharedPreferences.Editor = mock()
         val outState: Bundle? = null
-        repository.setEditState(editStateMock)
         repository.setOutState(outState)
 
         repository.saveState()
@@ -79,9 +87,7 @@ class RepositoryTest {
 
     @Test
     fun saveState_BundleNotNull() {
-        val editStateMock: SharedPreferences.Editor = mock()
         val outStateMock: Bundle = mock()
-        repository.setEditState(editStateMock)
         repository.setOutState(outStateMock)
 
         repository.saveState()
