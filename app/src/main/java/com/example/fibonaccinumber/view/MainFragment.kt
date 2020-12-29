@@ -21,14 +21,9 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.MainView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val app = requireActivity().application as App
-        presenter = Presenter(this, app.repository)
-        presenter.loadState()
+        presenter = Presenter(this, app.repository, resources)
+        presenter.onInitialized()
         initListeners()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.saveState()
     }
 
     private fun initListeners() {
@@ -49,14 +44,13 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.MainView {
         }
 
         etEnterNumber.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
+                Unit
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
 
             override fun afterTextChanged(s: Editable?) {
-                presenter.textChanged(s)
+                presenter.textChanged(s?.toString())
             }
         })
 
@@ -105,10 +99,6 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.MainView {
         etEnterNumber.setText(newText)
     }
 
-    override fun getErrorMessageById(messageId: Int): String { // хзхз
-        return getString(messageId)
-    }
-
     override fun setErrorMessageText(newMessage: String) {
         tvErrorMessage.text = newMessage
     }
@@ -116,5 +106,10 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.MainView {
     override fun setErrorMessageColor(colorId: Int) {
         val newColor = resources.getColor(colorId, null)
         tvErrorMessage.setTextColor(newColor)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onStop()
     }
 }

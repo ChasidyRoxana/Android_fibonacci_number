@@ -5,33 +5,10 @@ import com.example.fibonaccinumber.MainContract
 
 class Repository(private val sharedPreferences: SharedPreferences) : MainContract.MainRepository {
 
-    private var currentIndex: Int
-    private var currentEnterNumber: String
-    private var errorType: String
+    override var currentIndex: Int = sharedPreferences.getInt(STATE_INT_INDEX, 0)
+    override var currentEnterNumber: String = ""
+    override var messageType: String = STR_MESSAGE_TYPE
 
-    init {
-        currentIndex = sharedPreferences.getInt(STATE_INT_INDEX, 0)
-        currentEnterNumber = ""
-        errorType = STR_MESSAGE_TYPE
-    }
-
-    override fun setCurrentIndex(currentIndex: Int) {
-        this.currentIndex = currentIndex
-    }
-
-    override fun setCurrentEnterNumber(currentEnterNumber: String) {
-        this.currentEnterNumber = currentEnterNumber
-    }
-
-    override fun setErrorType(errorType: String) {
-        this.errorType = errorType
-    }
-
-    override fun getCurrentIndex(): Int = currentIndex
-
-    override fun getCurrentEnterNumber(): String = currentEnterNumber
-
-    override fun getErrorType(): String = errorType
 
     override fun saveState() {
         val editState = sharedPreferences.edit()
