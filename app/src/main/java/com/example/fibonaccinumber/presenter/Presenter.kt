@@ -1,7 +1,6 @@
 package com.example.fibonaccinumber.presenter
 
 import android.content.res.Resources
-import android.text.Editable
 import androidx.annotation.VisibleForTesting
 import com.example.fibonaccinumber.MainContract
 import com.example.fibonaccinumber.R
@@ -11,25 +10,26 @@ import java.lang.NumberFormatException
 class Presenter(
     private val view: MainContract.MainView,
     private val repository: MainContract.MainRepository,
+    private val resources: Resources,
     private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
 ) : MainContract.MainPresenter {
 
     private var currentEnterNumber: String = ""
     private var messageType: MessageType = MessageType.CORRECT
 
-    override fun saveState() {
-        repository.setCurrentIndex(fibonacciNumbers.getCurrentIndex())
-        repository.setCurrentEnterNumber(currentEnterNumber)
-        repository.setErrorType(messageType.name)
-        repository.saveState()
-    }
-
-    override fun loadState() {
-        currentEnterNumber = repository.getCurrentEnterNumber()
-        messageType = MessageType.valueOf(repository.getErrorType())
-        val currentIndex = repository.getCurrentIndex()
+    override fun onInitialized() {
+        currentEnterNumber = repository.currentEnterNumber
+        messageType = MessageType.valueOf(repository.messageType)
+        val currentIndex = repository.currentIndex
         fibonacciNumbers.setCurrentIndex(currentIndex)
         changeCurrentState()
+    }
+
+    override fun onStop() {
+        repository.currentIndex = fibonacciNumbers.getCurrentIndex()
+        repository.currentEnterNumber = currentEnterNumber
+        repository.messageType = messageType.name
+        repository.saveState()
     }
 
     override fun onNextClicked() {
@@ -70,8 +70,8 @@ class Presenter(
         view.clearEditText()
     }
 
-    override fun textChanged(newString: Editable?) {
-        currentEnterNumber = newString?.toString() ?: ""
+    override fun textChanged(newString: String?) {
+        currentEnterNumber = newString ?: ""
         changeFindButtonState()
     }
 
@@ -94,32 +94,26 @@ class Presenter(
     }
 
     private fun changeErrorMessage() {
-        val errorMessage = try {
-            getMessageForError()
-        } catch (e: Resources.NotFoundException) {
-            ""
-        }
+        val errorMessage = getMessageForError()
         val colorId = getColorForError()
         view.setErrorMessageText(errorMessage)
         view.setErrorMessageColor(colorId)
     }
 
     private fun getMessageForError(): String {
-        return view.getErrorMessageById(
-            when (messageType) {
-                MessageType.CORRECT -> 0
-                MessageType.EMPTY -> R.string.err_empty_string
-                MessageType.NOT_FOUND -> R.string.err_not_found_number
-                MessageType.WRONG -> R.string.err_wrong_number
-            }
-        )
+        return when (messageType) {
+            MessageType.CORRECT -> ""
+            MessageType.EMPTY -> resources.getString(R.string.err_empty_string)
+            MessageType.NOT_FOUND -> resources.getString(R.string.err_not_found_number)
+            MessageType.WRONG -> resources.getString(R.string.err_wrong_number)
+        }
     }
 
     private fun getColorForError(): Int =
         if (messageType == MessageType.WRONG || messageType == MessageType.EMPTY) {
-            R.color.error_red
+            resources.getColor(R.color.error_red, null)
         } else {
-            R.color.black
+            resources.getColor(R.color.black, null)
         }
 
     private fun changeNumbers() {

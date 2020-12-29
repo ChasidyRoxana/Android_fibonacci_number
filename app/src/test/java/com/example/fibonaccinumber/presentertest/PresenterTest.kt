@@ -1,6 +1,6 @@
 package com.example.fibonaccinumber.presentertest
 
-import android.text.Editable
+import android.content.res.Resources
 import com.example.fibonaccinumber.MainContract
 import com.example.fibonaccinumber.model.FibonacciNumbers
 import com.example.fibonaccinumber.presenter.Presenter
@@ -15,34 +15,36 @@ class PresenterTest {
     private val viewMock: MainContract.MainView = mock()
     private val fibonacciNumbersSpy: FibonacciNumbers = spy()
     private val repositoryMock: MainContract.MainRepository = mock()
+    private val resources: Resources = mock()
     private lateinit var presenter: Presenter
 
     @Before
     fun setUp() {
-        whenever(repositoryMock.getErrorType()).thenReturn("CORRECT")
-        whenever(repositoryMock.getCurrentEnterNumber()).thenReturn("")
-        whenever(repositoryMock.getCurrentIndex()).thenReturn(5)
+        whenever(repositoryMock.messageType).thenReturn("CORRECT")
+        whenever(repositoryMock.currentEnterNumber).thenReturn("")
+        whenever(repositoryMock.currentIndex).thenReturn(5)
+        whenever(resources.getString(any())).thenReturn("any message")
 
-        presenter = Presenter(viewMock, repositoryMock, fibonacciNumbersSpy)
+        presenter = Presenter(viewMock, repositoryMock, resources, fibonacciNumbersSpy)
     }
 
     @Test
-    fun saveState_correct() {
-        presenter.saveState()
+    fun onStop_correct() {
+        presenter.onStop()
 
-        verify(repositoryMock).setCurrentIndex(any())
-        verify(repositoryMock).setCurrentEnterNumber(any())
-        verify(repositoryMock).setErrorType(any())
+        verify(repositoryMock).currentIndex = any()
+        verify(repositoryMock).currentEnterNumber = any()
+        verify(repositoryMock).messageType = any()
         verify(repositoryMock).saveState()
     }
 
     @Test
-    fun loadState_correct() {
-        presenter.loadState()
+    fun onInitialized_correct() {
+        presenter.onInitialized()
 
-        verify(repositoryMock).getCurrentEnterNumber()
-        verify(repositoryMock).getErrorType()
-        verify(repositoryMock).getCurrentIndex()
+        verify(repositoryMock).currentIndex
+        verify(repositoryMock).currentEnterNumber
+        verify(repositoryMock).messageType
         verify(fibonacciNumbersSpy).setCurrentIndex(any())
     }
 
@@ -83,13 +85,13 @@ class PresenterTest {
         verify(viewMock).setNextNumber("1")
     }
 
-    @Test // тесты для onFindResultClicked() одинаковые, но обрабатываются разные ошибки
+    @Test
     fun onFindResultClicked_correct() {
         presenter.setCurrentEnterNumber("13")
 
         presenter.onFindResultClicked()
 
-        verify(viewMock).getErrorMessageById(any())
+        verify(resources, never()).getString(any())
         verify(viewMock).clearEditText()
     }
 
@@ -99,7 +101,7 @@ class PresenterTest {
 
         presenter.onFindResultClicked()
 
-        verify(viewMock).getErrorMessageById(any())
+        verify(resources).getString(any())
         verify(viewMock).clearEditText()
     }
 
@@ -110,7 +112,7 @@ class PresenterTest {
         presenter.onFindResultClicked()
 
         verify(fibonacciNumbersSpy).setCurrentIndex(0)
-        verify(viewMock).getErrorMessageById(any())
+        verify(resources).getString(any())
         verify(viewMock).clearEditText()
     }
 
@@ -121,20 +123,25 @@ class PresenterTest {
         presenter.onFindResultClicked()
 
         verify(fibonacciNumbersSpy).changeIndexToLast()
-        verify(viewMock).getErrorMessageById(any())
+        verify(resources).getString(any())
         verify(viewMock).clearEditText()
     }
 
     @Test
     fun textChanged_nullString() {
-        val textEditable: Editable? = null // как сделать Editable ?
-        val textString = textEditable?.toString() ?: ""
-
-        presenter.textChanged(textEditable)
+        presenter.textChanged(null)
 
         verify(viewMock).toggleFindResult(any())
-        assertEquals(textString, presenter.getCurrentEnterNumber())
+        assertEquals("", presenter.getCurrentEnterNumber())
     }
 
-    // fun textChanged_notNullString()
+    @Test
+    fun textChanged_notNullString() {
+        val enterString = "156"
+
+        presenter.textChanged(enterString)
+
+        verify(viewMock).toggleFindResult(any())
+        assertEquals(enterString, presenter.getCurrentEnterNumber())
+    }
 }
