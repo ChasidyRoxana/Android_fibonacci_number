@@ -58,7 +58,7 @@ class FibonacciNumbersTest {
     }
 
     @Test
-    fun setCurrentIndex_negativeIndex() { // ? ne poizoydet
+    fun setCurrentIndex_negativeIndex() {
         fibonacciNumbers.setCurrentIndex(10)
 
         fibonacciNumbers.setCurrentIndex(-5)
@@ -68,7 +68,7 @@ class FibonacciNumbersTest {
     }
 
     @Test
-    fun setCurrentIndex_tooBigIndex() { // ?
+    fun setCurrentIndex_tooBigIndex() {
         fibonacciNumbers.setCurrentIndex(10)
 
         fibonacciNumbers.setCurrentIndex(500)

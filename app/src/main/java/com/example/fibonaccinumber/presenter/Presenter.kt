@@ -1,12 +1,10 @@
 package com.example.fibonaccinumber.presenter
 
-import android.os.Bundle
+import android.content.res.Resources
 import android.text.Editable
-import android.text.TextWatcher
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.annotation.VisibleForTesting
 import com.example.fibonaccinumber.MainContract
+import com.example.fibonaccinumber.R
 import com.example.fibonaccinumber.model.FibonacciNumbers
 import java.lang.NumberFormatException
 
@@ -17,27 +15,18 @@ class Presenter(
 ) : MainContract.MainPresenter {
 
     private var currentEnterNumber: String = ""
-    private var errorMessage: String = ""
-    private var errorType: ErrorType = ErrorType.CORRECT
+    private var messageType: MessageType = MessageType.CORRECT
 
-    override fun saveState(outState: Bundle?) {
-        if (outState != null) {
-            repository.setOutState(outState)
-        }
+    override fun saveState() {
         repository.setCurrentIndex(fibonacciNumbers.getCurrentIndex())
         repository.setCurrentEnterNumber(currentEnterNumber)
-        repository.setErrorMessage(errorMessage)
-        repository.setErrorType(errorType.name)
+        repository.setErrorType(messageType.name)
         repository.saveState()
     }
 
-    override fun loadState(savedInstantState: Bundle?) {
-        if (savedInstantState != null) {
-            repository.setStateFromBundle(savedInstantState)
-        }
+    override fun loadState() {
         currentEnterNumber = repository.getCurrentEnterNumber()
-        errorMessage = repository.getErrorMessage()
-        errorType = ErrorType.valueOf(repository.getErrorType())
+        messageType = MessageType.valueOf(repository.getErrorType())
         val currentIndex = repository.getCurrentIndex()
         fibonacciNumbers.setCurrentIndex(currentIndex)
         changeCurrentState()
@@ -56,55 +45,34 @@ class Presenter(
     override fun onResetClicked() {
         fibonacciNumbers.setCurrentIndex(0)
         currentEnterNumber = ""
-        errorMessage = ""
-        errorType = ErrorType.CORRECT
+        messageType = MessageType.CORRECT
         changeCurrentState()
     }
 
     override fun onFindResultClicked() {
-        errorType = try {
+        messageType = try {
             val newNumber = currentEnterNumber.toInt()
             if (newNumberFound(newNumber)) {
-                ErrorType.CORRECT
+                MessageType.CORRECT
             } else {
-                ErrorType.NOT_FOUND
+                MessageType.NOT_FOUND
             }
         } catch (e: NumberFormatException) {
             if (currentEnterNumber.isEmpty()) {
-                ErrorType.EMPTY
+                fibonacciNumbers.setCurrentIndex(0)
+                MessageType.EMPTY
             } else {
                 fibonacciNumbers.changeIndexToLast()
-                ErrorType.WRONG
+                MessageType.WRONG
             }
         }
         changeCurrentState()
         view.clearEditText()
     }
 
-    override fun textChanged(): TextWatcher {
-        return object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                currentEnterNumber = s?.toString() ?: ""
-                changeFindButtonState()
-            }
-        }
-    }
-
-    override fun editorAction(): TextView.OnEditorActionListener {
-        return TextView.OnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                onFindResultClicked()
-                true
-            } else {
-                false
-            }
-        }
+    override fun textChanged(newString: Editable?) {
+        currentEnterNumber = newString?.toString() ?: ""
+        changeFindButtonState()
     }
 
     private fun changeFindButtonState() {
@@ -126,24 +94,32 @@ class Presenter(
     }
 
     private fun changeErrorMessage() {
-        errorMessage = getMessageForError()
-        val color = getColorForError()
+        val errorMessage = try {
+            getMessageForError()
+        } catch (e: Resources.NotFoundException) {
+            ""
+        }
+        val colorId = getColorForError()
         view.setErrorMessageText(errorMessage)
-        view.setErrorMessageColor(color)
+        view.setErrorMessageColor(colorId)
     }
 
-    private fun getMessageForError(): String = when (errorType) {
-        ErrorType.CORRECT -> ""
-        ErrorType.EMPTY -> view.getErrorEmptyString()
-        ErrorType.NOT_FOUND -> view.getErrorNotFound()
-        ErrorType.WRONG -> view.getErrorWrongNumber()
+    private fun getMessageForError(): String {
+        return view.getErrorMessageById(
+            when (messageType) {
+                MessageType.CORRECT -> 0
+                MessageType.EMPTY -> R.string.err_empty_string
+                MessageType.NOT_FOUND -> R.string.err_not_found_number
+                MessageType.WRONG -> R.string.err_wrong_number
+            }
+        )
     }
 
     private fun getColorForError(): Int =
-        if (errorType == ErrorType.WRONG || errorType == ErrorType.EMPTY) {
-            view.getRedColor()
+        if (messageType == MessageType.WRONG || messageType == MessageType.EMPTY) {
+            R.color.error_red
         } else {
-            view.getBlackColor()
+            R.color.black
         }
 
     private fun changeNumbers() {
@@ -170,9 +146,6 @@ class Presenter(
         view.toggleNext(buttonState)
         view.setNextNumber(nextNumber?.toString() ?: "")
     }
-
-    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-    fun getErrorMessage(): String = errorMessage
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     fun getCurrentEnterNumber(): String = currentEnterNumber

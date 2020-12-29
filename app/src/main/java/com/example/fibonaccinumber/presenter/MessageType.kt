@@ -1,6 +1,6 @@
 package com.example.fibonaccinumber.presenter
 
-enum class ErrorType {
+enum class MessageType {
     CORRECT,
     EMPTY,
     NOT_FOUND,

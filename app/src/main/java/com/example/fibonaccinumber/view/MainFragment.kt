@@ -1,60 +1,34 @@
 package com.example.fibonaccinumber.view
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
-import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.fibonaccinumber.App
 import com.example.fibonaccinumber.MainContract
 import com.example.fibonaccinumber.R
-import com.example.fibonaccinumber.model.Repository
 import com.example.fibonaccinumber.presenter.Presenter
 import kotlinx.android.synthetic.main.fragment_main.*
 
-class MainFragment : Fragment(), MainContract.MainView {
+class MainFragment : Fragment(R.layout.fragment_main), MainContract.MainView {
 
-    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var presenter: MainContract.MainPresenter
-    private var activityContext: Context? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        activityContext = context
-        sharedPreferences =
-            context.getSharedPreferences(PREF_FILE_NAME, AppCompatActivity.MODE_PRIVATE)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        activityContext = null
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val repository = Repository(sharedPreferences)
-        presenter = Presenter(this, repository)
-        presenter.loadState(savedInstanceState)
+        val app = requireActivity().application as App
+        presenter = Presenter(this, app.repository)
+        presenter.loadState()
         initListeners()
     }
 
     override fun onStop() {
         super.onStop()
-        presenter.saveState(null)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        presenter.saveState(outState)
+        presenter.saveState()
     }
 
     private fun initListeners() {
@@ -74,20 +48,27 @@ class MainFragment : Fragment(), MainContract.MainView {
             presenter.onFindResultClicked()
         }
 
-        etEnterNumber.addTextChangedListener(presenter.textChanged())
+        etEnterNumber.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
 
-        etEnterNumber.setOnEditorActionListener(presenter.editorAction())
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                presenter.textChanged(s)
+            }
+        })
+
+        etEnterNumber.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                presenter.onFindResultClicked()
+                true
+            } else {
+                false
+            }
+        }
     }
-
-    override fun getErrorNotFound(): String = resources.getString(R.string.err_not_found_number)
-
-    override fun getErrorWrongNumber(): String = resources.getString(R.string.err_wrong_number)
-
-    override fun getErrorEmptyString(): String = resources.getString(R.string.err_empty_string)
-
-    override fun getBlackColor(): Int = resources.getColor(R.color.black, null)
-
-    override fun getRedColor(): Int = resources.getColor(R.color.error_red, null)
 
     override fun setCurrentNumber(number: String) {
         tvCurrentNumber.text = number
@@ -104,7 +85,7 @@ class MainFragment : Fragment(), MainContract.MainView {
     override fun clearEditText() {
         etEnterNumber.clearFocus()
         val imm =
-            activityContext?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(etEnterNumber.windowToken, 0)
     }
 
@@ -124,15 +105,16 @@ class MainFragment : Fragment(), MainContract.MainView {
         etEnterNumber.setText(newText)
     }
 
+    override fun getErrorMessageById(messageId: Int): String { // хзхз
+        return getString(messageId)
+    }
+
     override fun setErrorMessageText(newMessage: String) {
         tvErrorMessage.text = newMessage
     }
 
-    override fun setErrorMessageColor(newColor: Int) {
+    override fun setErrorMessageColor(colorId: Int) {
+        val newColor = resources.getColor(colorId, null)
         tvErrorMessage.setTextColor(newColor)
-    }
-
-    private companion object {
-        private const val PREF_FILE_NAME = "preferences"
     }
 }

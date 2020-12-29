@@ -1,16 +1,9 @@
 package com.example.fibonaccinumber
 
-import android.os.Bundle
-import android.text.TextWatcher
-import android.widget.TextView
+import android.text.Editable
 
 interface MainContract {
     interface MainView {
-        fun getErrorNotFound(): String
-        fun getErrorWrongNumber(): String
-        fun getErrorEmptyString(): String
-        fun getBlackColor(): Int
-        fun getRedColor(): Int
         fun setCurrentNumber(number: String)
         fun setPreviousNumber(number: String)
         fun setNextNumber(number: String)
@@ -19,32 +12,28 @@ interface MainContract {
         fun toggleNext(state: Boolean)
         fun toggleFindResult(state: Boolean)
         fun setEnterNumber(newText: String)
+        fun getErrorMessageById(messageId: Int):String
         fun setErrorMessageText(newMessage: String)
-        fun setErrorMessageColor(newColor: Int)
+        fun setErrorMessageColor(colorId: Int)
     }
 
     interface MainPresenter {
-        fun saveState(outState: Bundle?)
-        fun loadState(savedInstantState: Bundle?)
+        fun saveState()
+        fun loadState()
         fun onNextClicked()
         fun onPrevClicked()
         fun onResetClicked()
         fun onFindResultClicked()
-        fun textChanged(): TextWatcher
-        fun editorAction(): TextView.OnEditorActionListener
+        fun textChanged(newString: Editable?)
     }
 
     interface MainRepository{
-        fun setOutState(outState: Bundle?)
         fun setCurrentIndex(currentIndex: Int)
         fun setCurrentEnterNumber(currentEnterNumber: String)
-        fun setErrorMessage(errorMessage: String)
         fun setErrorType(errorType: String)
         fun getCurrentIndex(): Int
         fun getCurrentEnterNumber(): String
-        fun getErrorMessage(): String
         fun getErrorType(): String
         fun saveState()
-        fun setStateFromBundle(savedInstantState: Bundle)
     }
 }
