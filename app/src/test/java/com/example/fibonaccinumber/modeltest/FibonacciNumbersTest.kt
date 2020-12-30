@@ -127,12 +127,14 @@ class FibonacciNumbersTest {
     }
 
     @Test
-    fun changeIndexToNext_lastIndex() {
+    fun changeIndexToNext_withLastIndex() {
         fibonacciNumbers.setCurrentIndex(MAX_INDEX)
 
         fibonacciNumbers.changeIndexToNext()
 
-        assertNotEquals(MAX_INDEX + 1, fibonacciNumbers.getCurrentIndex())
+        val index = fibonacciNumbers.getCurrentIndex()
+        assertNotEquals(MAX_INDEX + 1, index)
+        assertEquals(MAX_INDEX, index)
     }
 
     @Test
@@ -145,12 +147,14 @@ class FibonacciNumbersTest {
     }
 
     @Test
-    fun changeToPrevious_firstIndex() {
+    fun changeToPrevious_withFirstIndex() {
         fibonacciNumbers.setCurrentIndex(0)
 
         fibonacciNumbers.changeIndexToPrevious()
 
-        assertNotEquals(-1, fibonacciNumbers.getCurrentIndex())
+        val index = fibonacciNumbers.getCurrentIndex()
+        assertNotEquals(-1, index)
+        assertEquals(0, index)
     }
 
     @Test
@@ -163,6 +167,6 @@ class FibonacciNumbersTest {
     }
 
     private companion object {
-        private const val MAX_INDEX = 46 // Index = 0..46(number[MAX_INDEX] < Int.MAX_VALUE)
+        private const val MAX_INDEX = 46 // Index = 0..46 (number[MAX_INDEX] < Int.MAX_VALUE)
     }
 }

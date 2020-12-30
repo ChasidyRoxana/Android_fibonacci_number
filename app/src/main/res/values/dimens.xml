@@ -3,6 +3,6 @@
     <dimen name="activity_padding">16dp</dimen>
     <dimen name="arrow_button_size">100dp</dimen>
     <dimen name="reset_button_size">70dp</dimen>
-    <dimen name="main_text">45sp</dimen>
+    <dimen name="major_text">45sp</dimen>
     <dimen name="common_text">20sp</dimen>
 </resources>

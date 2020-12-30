@@ -14,21 +14,21 @@ class Presenter(
     private val fibonacciNumbers: FibonacciNumbers = FibonacciNumbers()
 ) : MainContract.MainPresenter {
 
-    private var currentEnterNumber: String = ""
+    private var enterNumber: String = ""
     private var messageType: MessageType = MessageType.CORRECT
 
     override fun onInitialized() {
-        currentEnterNumber = repository.currentEnterNumber
+        enterNumber = repository.enterNumber
         messageType = MessageType.valueOf(repository.messageType)
         val currentIndex = repository.currentIndex
         fibonacciNumbers.setCurrentIndex(currentIndex)
         changeCurrentState()
     }
 
-    override fun onStop() {
-        repository.currentIndex = fibonacciNumbers.getCurrentIndex()
-        repository.currentEnterNumber = currentEnterNumber
+    override fun onSave() {
+        repository.enterNumber = enterNumber
         repository.messageType = messageType.name
+        repository.currentIndex = fibonacciNumbers.getCurrentIndex()
         repository.saveState()
     }
 
@@ -44,21 +44,21 @@ class Presenter(
 
     override fun onResetClicked() {
         fibonacciNumbers.setCurrentIndex(0)
-        currentEnterNumber = ""
+        enterNumber = ""
         messageType = MessageType.CORRECT
         changeCurrentState()
     }
 
     override fun onFindResultClicked() {
         messageType = try {
-            val newNumber = currentEnterNumber.toInt()
+            val newNumber = enterNumber.toInt()
             if (newNumberFound(newNumber)) {
                 MessageType.CORRECT
             } else {
                 MessageType.NOT_FOUND
             }
         } catch (e: NumberFormatException) {
-            if (currentEnterNumber.isEmpty()) {
+            if (enterNumber.isEmpty()) {
                 fibonacciNumbers.setCurrentIndex(0)
                 MessageType.EMPTY
             } else {
@@ -71,12 +71,12 @@ class Presenter(
     }
 
     override fun textChanged(newString: String?) {
-        currentEnterNumber = newString ?: ""
+        enterNumber = newString ?: ""
         changeFindButtonState()
     }
 
     private fun changeFindButtonState() {
-        val buttonOn: Boolean = currentEnterNumber.isNotEmpty()
+        val buttonOn: Boolean = enterNumber.isNotEmpty()
         view.toggleFindResult(buttonOn)
     }
 
@@ -90,17 +90,17 @@ class Presenter(
         changeNumbers()
         changeErrorMessage()
         changeFindButtonState()
-        view.setEnterNumber(currentEnterNumber)
+        view.setEnterNumber(enterNumber)
     }
 
     private fun changeErrorMessage() {
-        val errorMessage = getMessageForError()
-        val colorId = getColorForError()
+        val errorMessage = getErrorMessage()
+        val colorId = getErrorColor()
         view.setErrorMessageText(errorMessage)
         view.setErrorMessageColor(colorId)
     }
 
-    private fun getMessageForError(): String {
+    private fun getErrorMessage(): String {
         return when (messageType) {
             MessageType.CORRECT -> ""
             MessageType.EMPTY -> resources.getString(R.string.err_empty_string)
@@ -109,7 +109,7 @@ class Presenter(
         }
     }
 
-    private fun getColorForError(): Int =
+    private fun getErrorColor(): Int =
         if (messageType == MessageType.WRONG || messageType == MessageType.EMPTY) {
             resources.getColor(R.color.error_red, null)
         } else {
@@ -123,8 +123,8 @@ class Presenter(
     }
 
     private fun changeCurrentNumber() {
-        val newNumber = fibonacciNumbers.getCurrentNumber().toString()
-        view.setCurrentNumber(newNumber)
+        val newNumber = fibonacciNumbers.getCurrentNumber()
+        view.setCurrentNumber(newNumber.toString())
     }
 
     private fun changePreviousNumber() {
@@ -142,10 +142,10 @@ class Presenter(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-    fun getCurrentEnterNumber(): String = currentEnterNumber
+    fun getEnterNumber(): String = enterNumber
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-    fun setCurrentEnterNumber(newEnterNumber: String) {
-        currentEnterNumber = newEnterNumber
+    fun setEnterNumber(enterNumber: String) {
+        this.enterNumber = enterNumber
     }
 }

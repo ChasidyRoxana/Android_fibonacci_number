@@ -6,7 +6,7 @@ import com.example.fibonaccinumber.MainContract
 class Repository(private val sharedPreferences: SharedPreferences) : MainContract.MainRepository {
 
     override var currentIndex: Int = sharedPreferences.getInt(STATE_INT_INDEX, 0)
-    override var currentEnterNumber: String = ""
+    override var enterNumber: String = ""
     override var messageType: String = STR_MESSAGE_TYPE
 
 

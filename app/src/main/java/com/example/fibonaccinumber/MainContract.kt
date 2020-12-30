@@ -11,12 +11,12 @@ interface MainContract {
         fun toggleFindResult(state: Boolean)
         fun setEnterNumber(newText: String)
         fun setErrorMessageText(newMessage: String)
-        fun setErrorMessageColor(colorId: Int)
+        fun setErrorMessageColor(newColor: Int)
     }
 
     interface MainPresenter {
         fun onInitialized()
-        fun onStop()
+        fun onSave()
         fun onNextClicked()
         fun onPrevClicked()
         fun onResetClicked()
@@ -26,7 +26,7 @@ interface MainContract {
 
     interface MainRepository{
         var currentIndex: Int
-        var currentEnterNumber: String
+        var enterNumber: String
         var messageType: String
         fun saveState()
     }

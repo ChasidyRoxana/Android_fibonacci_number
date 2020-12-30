@@ -18,8 +18,7 @@
         <item name="android:padding">@dimen/activity_padding</item>
     </style>
 
-    <style name="styleEditText">
-        <item name="android:inputType">number</item>
+    <style name="styleEditTextSearch">
         <item name="android:imeActionLabel">Search</item>
         <item name="android:imeOptions">actionSearch</item>
         <item name="android:background">@color/white</item>

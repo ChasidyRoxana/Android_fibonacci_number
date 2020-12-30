@@ -21,7 +21,7 @@ class PresenterTest {
     @Before
     fun setUp() {
         whenever(repositoryMock.messageType).thenReturn("CORRECT")
-        whenever(repositoryMock.currentEnterNumber).thenReturn("")
+        whenever(repositoryMock.enterNumber).thenReturn("")
         whenever(repositoryMock.currentIndex).thenReturn(5)
         whenever(resources.getString(any())).thenReturn("any message")
 
@@ -30,10 +30,10 @@ class PresenterTest {
 
     @Test
     fun onStop_correct() {
-        presenter.onStop()
+        presenter.onSave()
 
         verify(repositoryMock).currentIndex = any()
-        verify(repositoryMock).currentEnterNumber = any()
+        verify(repositoryMock).enterNumber = any()
         verify(repositoryMock).messageType = any()
         verify(repositoryMock).saveState()
     }
@@ -43,7 +43,7 @@ class PresenterTest {
         presenter.onInitialized()
 
         verify(repositoryMock).currentIndex
-        verify(repositoryMock).currentEnterNumber
+        verify(repositoryMock).enterNumber
         verify(repositoryMock).messageType
         verify(fibonacciNumbersSpy).setCurrentIndex(any())
     }
@@ -76,7 +76,7 @@ class PresenterTest {
     fun onResetClicked_correct() {
         presenter.onResetClicked()
 
-        assertEquals("", presenter.getCurrentEnterNumber())
+        assertEquals("", presenter.getEnterNumber())
         assertEquals(0, fibonacciNumbersSpy.getCurrentIndex())
         verify(viewMock).setCurrentNumber("0")
         verify(viewMock).togglePrev(false)
@@ -87,7 +87,7 @@ class PresenterTest {
 
     @Test
     fun onFindResultClicked_correct() {
-        presenter.setCurrentEnterNumber("13")
+        presenter.setEnterNumber("13")
 
         presenter.onFindResultClicked()
 
@@ -97,7 +97,7 @@ class PresenterTest {
 
     @Test
     fun onFindResultClicked_notFoundError() {
-        presenter.setCurrentEnterNumber("14")
+        presenter.setEnterNumber("14")
 
         presenter.onFindResultClicked()
 
@@ -107,7 +107,7 @@ class PresenterTest {
 
     @Test
     fun onFindResultClicked_emptyStringError() {
-        presenter.setCurrentEnterNumber("")
+        presenter.setEnterNumber("")
 
         presenter.onFindResultClicked()
 
@@ -118,7 +118,7 @@ class PresenterTest {
 
     @Test
     fun onFindResultClicked_wrongNumberError() {
-        presenter.setCurrentEnterNumber("2147483648") // Int.MAX_VALUE + 1
+        presenter.setEnterNumber("2147483648") // Int.MAX_VALUE + 1
 
         presenter.onFindResultClicked()
 
@@ -132,7 +132,7 @@ class PresenterTest {
         presenter.textChanged(null)
 
         verify(viewMock).toggleFindResult(any())
-        assertEquals("", presenter.getCurrentEnterNumber())
+        assertEquals("", presenter.getEnterNumber())
     }
 
     @Test
@@ -142,6 +142,6 @@ class PresenterTest {
         presenter.textChanged(enterString)
 
         verify(viewMock).toggleFindResult(any())
-        assertEquals(enterString, presenter.getCurrentEnterNumber())
+        assertEquals(enterString, presenter.getEnterNumber())
     }
 }

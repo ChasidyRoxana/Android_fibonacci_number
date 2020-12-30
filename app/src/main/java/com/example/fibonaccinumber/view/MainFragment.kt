@@ -27,21 +27,13 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.MainView {
     }
 
     private fun initListeners() {
-        ibNext.setOnClickListener {
-            presenter.onNextClicked()
-        }
+        ibNext.setOnClickListener { presenter.onNextClicked() }
 
-        ibPrevious.setOnClickListener {
-            presenter.onPrevClicked()
-        }
+        ibPrevious.setOnClickListener { presenter.onPrevClicked() }
 
-        ibReset.setOnClickListener {
-            presenter.onResetClicked()
-        }
+        ibReset.setOnClickListener { presenter.onResetClicked() }
 
-        bFindResult.setOnClickListener {
-            presenter.onFindResultClicked()
-        }
+        bFindResult.setOnClickListener { presenter.onFindResultClicked() }
 
         etEnterNumber.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
@@ -109,6 +101,6 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.MainView {
 
     override fun onStop() {
         super.onStop()
-        presenter.onStop()
+        presenter.onSave()
     }
 }
