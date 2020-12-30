@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.fibonaccinumber.App
 import com.example.fibonaccinumber.MainContract
@@ -21,8 +22,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.MainView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val app = requireActivity().application as App
-        presenter = Presenter(this, app.repository, resources)
-        presenter.onInitialized()
+        presenter = Presenter(this, resources, app.repository, app.fibonacciNumbers)
         initListeners()
     }
 
@@ -68,39 +68,40 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.MainView {
         tvNextNumber.text = number
     }
 
-    override fun clearEditText() {
+    override fun clearEditTextAndCloseKeyboard() {
         etEnterNumber.clearFocus()
         val imm =
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(etEnterNumber.windowToken, 0)
     }
 
-    override fun togglePrev(state: Boolean) {
-        ibPrevious.isEnabled = state
+    override fun setEnabledPrevButton(isEnabled: Boolean) {
+        ibPrevious.isEnabled = isEnabled
     }
 
-    override fun toggleNext(state: Boolean) {
-        ibNext.isEnabled = state
+    override fun setEnabledNextButton(isEnabled: Boolean) {
+        ibNext.isEnabled = isEnabled
     }
 
-    override fun toggleFindResult(state: Boolean) {
-        bFindResult.isEnabled = state
+    override fun setEnabledFindResultButton(isEnabled: Boolean) {
+        bFindResult.isEnabled = isEnabled
     }
 
-    override fun setEnterNumber(newText: String) {
-        etEnterNumber.setText(newText)
+    override fun setEnterNumber(text: String) {
+        etEnterNumber.setText(text)
     }
 
-    override fun setErrorMessageText(newMessage: String) {
-        tvErrorMessage.text = newMessage
+    override fun setErrorMessageText(message: String) {
+        tvErrorMessage.text = message
     }
 
-    override fun setErrorMessageColor(newColor: Int) {
-        tvErrorMessage.setTextColor(newColor)
+    override fun setErrorMessageColor(colorId: Int) {
+        val colorValue = requireContext().let { ContextCompat.getColor(it, colorId) }
+        tvErrorMessage.setTextColor(colorValue)
     }
 
     override fun onStop() {
         super.onStop()
-        presenter.onSave()
+        presenter.onStop()
     }
 }

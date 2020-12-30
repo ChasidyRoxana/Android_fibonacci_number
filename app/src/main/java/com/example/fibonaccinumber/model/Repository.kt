@@ -1,25 +1,21 @@
 package com.example.fibonaccinumber.model
 
 import android.content.SharedPreferences
-import com.example.fibonaccinumber.MainContract
+import com.example.fibonaccinumber.presenter.MessageType
 
-class Repository(private val sharedPreferences: SharedPreferences) : MainContract.MainRepository {
+class Repository(private val sharedPreferences: SharedPreferences) {
 
-    override var currentIndex: Int = sharedPreferences.getInt(STATE_INT_INDEX, 0)
-    override var enterNumber: String = ""
-    override var messageType: String = STR_MESSAGE_TYPE
+    var currentIndex: Int = sharedPreferences.getInt(PREF_INT_INDEX, 0)
+    var messageType: MessageType = MessageType.CORRECT
+    var enterNumber: String = ""
 
-
-    override fun saveState() {
-        val editState = sharedPreferences.edit()
-
-        editState.putInt(STATE_INT_INDEX, currentIndex)
-        editState.apply()
+    fun saveState() {
+        sharedPreferences.edit()
+            .putInt(PREF_INT_INDEX, currentIndex)
+            .apply()
     }
 
     private companion object {
-        private const val STATE_INT_INDEX = "currentIndex"
-
-        private const val STR_MESSAGE_TYPE = "CORRECT"
+        private const val PREF_INT_INDEX = "currentIndex"
     }
 }

@@ -3,6 +3,7 @@ package com.example.fibonaccinumber.presentertest
 import android.content.res.Resources
 import com.example.fibonaccinumber.MainContract
 import com.example.fibonaccinumber.model.FibonacciNumbers
+import com.example.fibonaccinumber.model.Repository
 import com.example.fibonaccinumber.presenter.Presenter
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Test
@@ -14,23 +15,22 @@ class PresenterTest {
 
     private val viewMock: MainContract.MainView = mock()
     private val fibonacciNumbersSpy: FibonacciNumbers = spy()
-    private val repositoryMock: MainContract.MainRepository = mock()
+    private val repositoryMock: Repository = mock()
     private val resources: Resources = mock()
-    private lateinit var presenter: Presenter
+    private val presenter: Presenter = Presenter(viewMock, resources, repositoryMock, fibonacciNumbersSpy)
 
     @Before
     fun setUp() {
-        whenever(repositoryMock.messageType).thenReturn("CORRECT")
+//        whenever(repositoryMock.messageType).thenReturn("CORRECT")
         whenever(repositoryMock.enterNumber).thenReturn("")
         whenever(repositoryMock.currentIndex).thenReturn(5)
         whenever(resources.getString(any())).thenReturn("any message")
 
-        presenter = Presenter(viewMock, repositoryMock, resources, fibonacciNumbersSpy)
     }
 
     @Test
     fun onStop_correct() {
-        presenter.onSave()
+        presenter.onStop()
 
         verify(repositoryMock).currentIndex = any()
         verify(repositoryMock).enterNumber = any()
@@ -39,24 +39,14 @@ class PresenterTest {
     }
 
     @Test
-    fun onInitialized_correct() {
-        presenter.onInitialized()
-
-        verify(repositoryMock).currentIndex
-        verify(repositoryMock).enterNumber
-        verify(repositoryMock).messageType
-        verify(fibonacciNumbersSpy).setCurrentIndex(any())
-    }
-
-    @Test
     fun onNextClicked_correct() {
         presenter.onNextClicked()
 
         verify(fibonacciNumbersSpy).changeIndexToNext()
         verify(viewMock).setCurrentNumber(any())
-        verify(viewMock).togglePrev(any())
+        verify(viewMock).setEnabledPrevButton(any())
         verify(viewMock).setPreviousNumber(any())
-        verify(viewMock).toggleNext(any())
+        verify(viewMock).setEnabledNextButton(any())
         verify(viewMock).setNextNumber(any())
     }
 
@@ -66,9 +56,9 @@ class PresenterTest {
 
         verify(fibonacciNumbersSpy).changeIndexToPrevious()
         verify(viewMock).setCurrentNumber(any())
-        verify(viewMock).togglePrev(any())
+        verify(viewMock).setEnabledPrevButton(any())
         verify(viewMock).setPreviousNumber(any())
-        verify(viewMock).toggleNext(any())
+        verify(viewMock).setEnabledNextButton(any())
         verify(viewMock).setNextNumber(any())
     }
 
@@ -79,9 +69,9 @@ class PresenterTest {
         assertEquals("", presenter.getEnterNumber())
         assertEquals(0, fibonacciNumbersSpy.getCurrentIndex())
         verify(viewMock).setCurrentNumber("0")
-        verify(viewMock).togglePrev(false)
+        verify(viewMock).setEnabledPrevButton(false)
         verify(viewMock).setPreviousNumber("")
-        verify(viewMock).toggleNext(true)
+        verify(viewMock).setEnabledNextButton(true)
         verify(viewMock).setNextNumber("1")
     }
 
@@ -92,7 +82,7 @@ class PresenterTest {
         presenter.onFindResultClicked()
 
         verify(resources, never()).getString(any())
-        verify(viewMock).clearEditText()
+        verify(viewMock).clearEditTextAndCloseKeyboard()
     }
 
     @Test
@@ -102,7 +92,7 @@ class PresenterTest {
         presenter.onFindResultClicked()
 
         verify(resources).getString(any())
-        verify(viewMock).clearEditText()
+        verify(viewMock).clearEditTextAndCloseKeyboard()
     }
 
     @Test
@@ -113,7 +103,7 @@ class PresenterTest {
 
         verify(fibonacciNumbersSpy).setCurrentIndex(0)
         verify(resources).getString(any())
-        verify(viewMock).clearEditText()
+        verify(viewMock).clearEditTextAndCloseKeyboard()
     }
 
     @Test
@@ -124,14 +114,14 @@ class PresenterTest {
 
         verify(fibonacciNumbersSpy).changeIndexToLast()
         verify(resources).getString(any())
-        verify(viewMock).clearEditText()
+        verify(viewMock).clearEditTextAndCloseKeyboard()
     }
 
     @Test
     fun textChanged_nullString() {
         presenter.textChanged(null)
 
-        verify(viewMock).toggleFindResult(any())
+        verify(viewMock).setEnabledFindResultButton(any())
         assertEquals("", presenter.getEnterNumber())
     }
 
@@ -141,7 +131,7 @@ class PresenterTest {
 
         presenter.textChanged(enterString)
 
-        verify(viewMock).toggleFindResult(any())
+        verify(viewMock).setEnabledFindResultButton(any())
         assertEquals(enterString, presenter.getEnterNumber())
     }
 }

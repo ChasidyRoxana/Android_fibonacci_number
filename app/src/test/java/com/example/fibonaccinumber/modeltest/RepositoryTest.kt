@@ -3,20 +3,33 @@ package com.example.fibonaccinumber.modeltest
 import android.content.SharedPreferences
 import com.example.fibonaccinumber.model.Repository
 import com.nhaarman.mockitokotlin2.*
+import org.junit.Before
 import org.junit.Test
 
 class RepositoryTest {
 
-    @Test
-    fun saveState_correct() {
-        val sharedPreferencesMock: SharedPreferences = mock()
-        val editStateMock: SharedPreferences.Editor = mock()
+    private val sharedPreferencesMock: SharedPreferences = mock()
+    private val editStateMock: SharedPreferences.Editor = mock()
+    private val repository = Repository(sharedPreferencesMock)
+
+    @Before
+    fun setUp() {
         whenever(sharedPreferencesMock.edit()).thenReturn(editStateMock)
-        val repository = Repository(sharedPreferencesMock)
+        whenever(sharedPreferencesMock.edit().putInt(any(), any())).thenReturn(editStateMock)
+    }
+
+    @Test
+    fun saveState_set_and_save_index() {
+        val number = 10
+        repository.currentIndex = number
 
         repository.saveState()
 
-        verify(editStateMock).putInt(any(), any())
+        verify(editStateMock).putInt(PREF_INT_INDEX, number)
         verify(editStateMock).apply()
+    }
+
+    private companion object {
+        private const val PREF_INT_INDEX = "currentIndex"
     }
 }
