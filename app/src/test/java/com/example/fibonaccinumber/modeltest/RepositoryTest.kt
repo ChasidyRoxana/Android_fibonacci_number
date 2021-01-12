@@ -19,13 +19,13 @@ class RepositoryTest {
     }
 
     @Test
-    fun saveState_set_and_save_index() {
-        val number = 10
-        repository.currentIndex = number
+    fun saveState_correct_save_current_index() {
+        val index = 10
+        repository.currentIndex = index
 
         repository.saveState()
 
-        verify(editStateMock).putInt(PREF_INT_INDEX, number)
+        verify(editStateMock).putInt(PREF_INT_INDEX, index)
         verify(editStateMock).apply()
     }
 

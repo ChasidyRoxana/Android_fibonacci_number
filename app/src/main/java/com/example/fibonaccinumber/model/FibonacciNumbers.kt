@@ -10,14 +10,14 @@ class FibonacciNumbers {
     }
 
     private fun createListOfNumbers() {
-        var newNumber: Int
+        var nextNumber: Int
         do {
             val lastNumber = listOfNumbers.last()
             val previousNumber = listOfNumbers[listOfNumbers.lastIndex - 1]
-            newNumber = lastNumber + previousNumber
-            listOfNumbers.add(newNumber)
+            nextNumber = lastNumber + previousNumber
+            listOfNumbers.add(nextNumber)
             val previousNumberAfterAdd: Int = lastNumber
-            val integerOverflow = (newNumber + previousNumberAfterAdd) < 0
+            val integerOverflow = (nextNumber + previousNumberAfterAdd) < 0
         } while (!integerOverflow)
     }
 
@@ -39,25 +39,25 @@ class FibonacciNumbers {
             null
         }
 
-    fun setCurrentIndex(newIndex: Int) {
-        if (newIndex in 0..listOfNumbers.lastIndex) {
-            currentIndex = newIndex
+    fun setCurrentIndex(index: Int) {
+        if (index in 0..listOfNumbers.lastIndex) {
+            currentIndex = index
         }
     }
 
-    fun findIndexOfTheNumber(newNumber: Int): Int {
-        var newIndex = 0
-        while (newIndex < listOfNumbers.lastIndex && newNumber > listOfNumbers[newIndex]) {
-            newIndex++
+    fun findIndexOfTheNumber(number: Int): Int {
+        var index = 0
+        while (index < listOfNumbers.lastIndex && number > listOfNumbers[index]) {
+            index++
         }
-        if (newIndex > 0) {
-            val closerToPrevious = newNumber - listOfNumbers[newIndex - 1]
-            val closerToNext = listOfNumbers[newIndex] - newNumber
+        if (index > 0) {
+            val closerToPrevious = number - listOfNumbers[index - 1]
+            val closerToNext = listOfNumbers[index] - number
             if (closerToPrevious <= closerToNext) {
-                newIndex--
+                index--
             }
         }
-        return newIndex
+        return index
     }
 
     fun changeIndexToNext() {

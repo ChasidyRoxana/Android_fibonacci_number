@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.fibonaccinumber.App
@@ -23,6 +24,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.MainView {
         super.onViewCreated(view, savedInstanceState)
         val app = requireActivity().application as App
         presenter = Presenter(this, resources, app.repository, app.fibonacciNumbers)
+        presenter.onCreate()
         initListeners()
     }
 
@@ -95,7 +97,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.MainView {
         tvErrorMessage.text = message
     }
 
-    override fun setErrorMessageColor(colorId: Int) {
+    override fun setErrorMessageColor(@ColorRes colorId: Int) {
         val colorValue = requireContext().let { ContextCompat.getColor(it, colorId) }
         tvErrorMessage.setTextColor(colorValue)
     }

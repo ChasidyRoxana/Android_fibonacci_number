@@ -17,6 +17,7 @@ interface MainContract {
     }
 
     interface MainPresenter {
+        fun onCreate()
         fun onStop()
         fun onNextClicked()
         fun onPrevClicked()

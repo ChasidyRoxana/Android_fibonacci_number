@@ -15,10 +15,10 @@ class Presenter(
     private val fibonacciNumbers: FibonacciNumbers
 ) : MainContract.MainPresenter {
 
-    private var enterNumber: String
-    private var messageType: MessageType
+    private var enterNumber: String = ""
+    private var messageType: MessageType = MessageType.CORRECT
 
-    init {
+    override fun onCreate() {
         enterNumber = repository.enterNumber
         messageType = repository.messageType
         val currentIndex = repository.currentIndex
@@ -50,24 +50,12 @@ class Presenter(
         updateState()
     }
 
-    override fun onFindResultClicked() { // fixme разбить это на функции и сделать читаемым
-        try {
-            val newNumber = enterNumber.toInt()
-            val newIndex = fibonacciNumbers.findIndexOfTheNumber(newNumber)
-            fibonacciNumbers.setCurrentIndex(newIndex)
-            messageType = if (newNumber == fibonacciNumbers.getCurrentNumber()) {
-                MessageType.CORRECT
-            } else {
-                MessageType.NOT_FOUND
-            }
+    override fun onFindResultClicked() {
+        messageType = try {
+            val number = enterNumber.toInt()
+            getMessageTypeForGoodCase(number)
         } catch (e: NumberFormatException) {
-            if (enterNumber.isEmpty()) {
-                fibonacciNumbers.setCurrentIndex(0)
-                messageType = MessageType.EMPTY
-            } else {
-                fibonacciNumbers.changeIndexToLast()
-                messageType = MessageType.WRONG
-            }
+            getMessageTypeForErrorCase()
         }
         updateState()
         view.clearEditTextAndCloseKeyboard()
@@ -78,19 +66,42 @@ class Presenter(
         updateFindButtonState()
     }
 
+    private fun getMessageTypeForGoodCase(number: Int): MessageType {
+        val index = fibonacciNumbers.findIndexOfTheNumber(number)
+        fibonacciNumbers.setCurrentIndex(index)
+        val typeOfError = if (number == fibonacciNumbers.getCurrentNumber()) {
+            MessageType.CORRECT
+        } else {
+            MessageType.NOT_FOUND
+        }
+        return typeOfError
+    }
+
+    private fun getMessageTypeForErrorCase(): MessageType {
+        val typeOfError: MessageType
+        if (enterNumber.isEmpty()) {
+            fibonacciNumbers.setCurrentIndex(0)
+            typeOfError = MessageType.EMPTY
+        } else {
+            fibonacciNumbers.changeIndexToLast()
+            typeOfError = MessageType.WRONG
+        }
+        return typeOfError
+    }
+
+    private fun updateState() {
+        updateAllNumbers()
+        updateErrorMessage()
+        updateFindButtonState()
+        view.setEnterNumber(enterNumber)
+    }
+
     private fun updateFindButtonState() {
         val isEnabled: Boolean = enterNumber.isNotEmpty()
         view.setEnabledFindResultButton(isEnabled)
     }
 
-    private fun updateState() {
-        updateAllNumbers()
-        changeErrorMessage()
-        updateFindButtonState()
-        view.setEnterNumber(enterNumber)
-    }
-
-    private fun changeErrorMessage() {
+    private fun updateErrorMessage() {
         val errorMessage = getErrorMessage()
         val colorId = getErrorColorId()
         view.setErrorMessageText(errorMessage)
@@ -142,5 +153,13 @@ class Presenter(
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     fun setEnterNumber(enterNumber: String) {
         this.enterNumber = enterNumber
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    fun getMessageType(): MessageType = messageType
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    fun setMessageType(messageType: MessageType) {
+        this.messageType = messageType
     }
 }
