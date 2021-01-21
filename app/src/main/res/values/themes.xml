@@ -14,13 +14,13 @@
     </style>
 
     <style name="styleActivity">
-        <item name="android:padding">@dimen/activity_padding</item>
+        <item name="android:padding">@dimen/padding_activity</item>
     </style>
 
     <style name="styleEditTextSearch">
         <item name="android:imeActionLabel">Search</item>
         <item name="android:imeOptions">actionSearch</item>
         <item name="android:background">@color/white</item>
-        <item name="android:textSize">@dimen/common_text</item>
+        <item name="android:textSize">@dimen/size_text_common</item>
     </style>
 </resources>

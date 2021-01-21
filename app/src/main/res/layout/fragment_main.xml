@@ -64,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="@dimen/major_text"
+        android:textSize="@dimen/size_text_major"
         app:layout_constraintBottom_toTopOf="@id/ibPrevious"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +75,7 @@
         android:id="@+id/tvPreviousNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/common_text"
+        android:textSize="@dimen/size_text_common"
         app:layout_constraintBottom_toTopOf="@+id/tvCurrentNumber"
         app:layout_constraintEnd_toEndOf="@+id/tvCurrentNumber"
         app:layout_constraintStart_toStartOf="@+id/tvCurrentNumber"
@@ -85,7 +85,7 @@
         android:id="@+id/tvNextNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/common_text"
+        android:textSize="@dimen/size_text_common"
         app:layout_constraintEnd_toEndOf="@+id/tvCurrentNumber"
         app:layout_constraintStart_toStartOf="@+id/tvCurrentNumber"
         app:layout_constraintTop_toBottomOf="@+id/tvCurrentNumber"
@@ -93,8 +93,8 @@
 
     <ImageButton
         android:id="@+id/ibPrevious"
-        android:layout_width="@dimen/arrow_button_size"
-        android:layout_height="@dimen/arrow_button_size"
+        android:layout_width="@dimen/size_arrow_button"
+        android:layout_height="@dimen/size_arrow_button"
         android:backgroundTint="@drawable/button_background"
         android:contentDescription="@string/description_arrow_previous"
         android:scaleType="fitXY"
@@ -106,8 +106,8 @@
 
     <ImageButton
         android:id="@+id/ibNext"
-        android:layout_width="@dimen/arrow_button_size"
-        android:layout_height="@dimen/arrow_button_size"
+        android:layout_width="@dimen/size_arrow_button"
+        android:layout_height="@dimen/size_arrow_button"
         android:backgroundTint="@drawable/button_background"
         android:contentDescription="@string/description_arrow_next"
         android:scaleType="fitXY"
@@ -119,8 +119,8 @@
 
     <ImageButton
         android:id="@+id/ibReset"
-        android:layout_width="@dimen/reset_button_size"
-        android:layout_height="@dimen/reset_button_size"
+        android:layout_width="@dimen/size_reset_button"
+        android:layout_height="@dimen/size_reset_button"
         android:backgroundTint="@drawable/button_background"
         android:contentDescription="@string/description_reset"
         android:scaleType="fitXY"
