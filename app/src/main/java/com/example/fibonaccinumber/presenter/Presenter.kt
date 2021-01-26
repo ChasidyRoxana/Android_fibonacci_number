@@ -117,9 +117,9 @@ class Presenter(
 
     private fun getErrorColorId(): Int =
         if (messageType == MessageType.WRONG || messageType == MessageType.EMPTY) {
-            R.color.error_red
+            R.color.design_default_color_error
         } else {
-            R.color.black
+            R.color.design_default_color_on_secondary
         }
 
     private fun updateAllNumbers() {
@@ -148,7 +148,8 @@ class Presenter(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-    fun getEnterNumber(): String = enterNumber
+    fun getEnterNumber(): String =
+        enterNumber
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     fun setEnterNumber(enterNumber: String) {
@@ -156,7 +157,8 @@ class Presenter(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-    fun getMessageType(): MessageType = messageType
+    fun getMessageType(): MessageType =
+        messageType
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     fun setMessageType(messageType: MessageType) {

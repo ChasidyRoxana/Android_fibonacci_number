@@ -11,9 +11,8 @@ class FibonacciNumbersTest {
 
     @Test
     fun getNextNumber_with_first_index_return_number() {
-        val firstIndex = 0
         val expectedNumber = 1
-        fibonacciNumbers.setCurrentIndex(firstIndex)
+        fibonacciNumbers.setCurrentIndex(0)
 
         val nextNumber = fibonacciNumbers.getNextNumber()
 
@@ -108,62 +107,62 @@ class FibonacciNumbersTest {
 
     @Test
     fun setCurrentIndex_with_too_big_index_not_set() {
-        val index = 100
+        val indexBeforeTooBigIndex = 5
+        val tooBidIndex = 100
+        fibonacciNumbers.setCurrentIndex(indexBeforeTooBigIndex)
 
-        fibonacciNumbers.setCurrentIndex(index)
+        fibonacciNumbers.setCurrentIndex(tooBidIndex)
 
-        assertNotEquals(index, fibonacciNumbers.getCurrentIndex())
+        val index = fibonacciNumbers.getCurrentIndex()
+        assertEquals(indexBeforeTooBigIndex, index)
+        assertNotEquals(tooBidIndex, index)
     }
 
     @Test
     fun findIndexOfTheNumber_with_existing_number_return_its_index() {
         val number = 8
+        val expectedIndexOfNumber8 = 6
 
         val index = fibonacciNumbers.findIndexOfTheNumber(number)
 
-        fibonacciNumbers.setCurrentIndex(index)
-        assertEquals(number, fibonacciNumbers.getCurrentNumber())
+        assertEquals(expectedIndexOfNumber8, index)
     }
 
     @Test
     fun findIndexOfTheNumber_with_nonexistent_number_return_index_closer_to_prev() {
-        val expectedNumber = 13
-        val numberCloserTo13 = 17 // between 13 and 21 (17 - 13 == 21 - 17)
+        val numberCloserTo13 = 17
+        val expectedIndexOfNumber13 = 7
 
         val index = fibonacciNumbers.findIndexOfTheNumber(numberCloserTo13)
 
-        fibonacciNumbers.setCurrentIndex(index)
-        assertEquals(expectedNumber, fibonacciNumbers.getCurrentNumber())
+        assertEquals(expectedIndexOfNumber13, index)
     }
 
     @Test
     fun findIndexOfTheNumber_with_nonexistent_number_return_index_closer_to_next() {
-        val expectedNumber = 21
         val numberCloserTo21 = 18
+        val expectedIndexOfNumber21 = 8
 
         val index = fibonacciNumbers.findIndexOfTheNumber(numberCloserTo21)
 
-        fibonacciNumbers.setCurrentIndex(index)
-        assertEquals(expectedNumber, fibonacciNumbers.getCurrentNumber())
+        assertEquals(expectedIndexOfNumber21, index)
     }
 
     @Test
     fun findIndexOfTheNumber_with_negative_number_return_first_index() {
-        val expectedNumber = 0
         val negativeNumber = -5
+        val expectedIndex = 0
 
         val index = fibonacciNumbers.findIndexOfTheNumber(negativeNumber)
 
-        fibonacciNumbers.setCurrentIndex(index)
-        assertEquals(expectedNumber, fibonacciNumbers.getCurrentNumber())
+        assertEquals(expectedIndex, index)
     }
 
     @Test
     fun findIndexOfTheNumber_with_too_big_number_return_last_index() {
         val index = fibonacciNumbers.findIndexOfTheNumber(Int.MAX_VALUE)
 
-        fibonacciNumbers.setCurrentIndex(index)
-        assertEquals(LAST_INDEX, index) // the number doesn't matter
+        assertEquals(LAST_INDEX, index)
     }
 
     @Test

@@ -21,9 +21,11 @@ class FibonacciNumbers {
         } while (!integerOverflow)
     }
 
-    fun getCurrentNumber(): Int = listOfNumbers[currentIndex]
+    fun getCurrentNumber(): Int =
+        listOfNumbers[currentIndex]
 
-    fun getCurrentIndex(): Int = currentIndex
+    fun getCurrentIndex(): Int =
+        currentIndex
 
     fun getNextNumber(): Int? =
         if (currentIndex < listOfNumbers.lastIndex) {

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Числа Фибоначчи</string>
+
     <string name="description_app">Занимательное путешествие по числам Фибоначчи</string>
-    <string name="description_enter_number">Введите число</string>
-    <string name="find_result">Найти</string>
     <string name="description_arrow_previous">Предыдущее число</string>
     <string name="description_arrow_next">Следующее число</string>
     <string name="description_reset">Сбросить</string>
+
+    <string name="text_description_enter_number">Введите число</string>
+    <string name="text_find_result_button">Найти</string>
+
     <string name="err_wrong_number">Это число слишком большое</string>
     <string name="err_not_found_number">Такого числа нет в последовательности, найдено ближайшее</string>
     <string name="err_empty_string">Вы не ввели число</string>
