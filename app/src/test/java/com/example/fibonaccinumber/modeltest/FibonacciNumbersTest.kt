@@ -98,17 +98,21 @@ class FibonacciNumbersTest {
 
     @Test
     fun setCurrentIndex_with_negative_index_not_set() {
-        val index = -5
+        val indexBeforeSet = 3
+        val negativeIndex = -5
+        fibonacciNumbers.setCurrentIndex(indexBeforeSet)
 
-        fibonacciNumbers.setCurrentIndex(index)
+        fibonacciNumbers.setCurrentIndex(negativeIndex)
 
-        assertNotEquals(index, fibonacciNumbers.getCurrentIndex())
+        val actualIndex = fibonacciNumbers.getCurrentIndex()
+        assertEquals(indexBeforeSet, actualIndex)
+        assertNotEquals(negativeIndex, actualIndex)
     }
 
     @Test
     fun setCurrentIndex_with_too_big_index_not_set() {
         val indexBeforeTooBigIndex = 5
-        val tooBidIndex = 100
+        val tooBidIndex = Int.MAX_VALUE
         fibonacciNumbers.setCurrentIndex(indexBeforeTooBigIndex)
 
         fibonacciNumbers.setCurrentIndex(tooBidIndex)
@@ -167,9 +171,9 @@ class FibonacciNumbersTest {
 
     @Test
     fun changeIndexToNext_with_first_index_set_to_next() {
-        val index = 0
-        val expectedIndex = index + 1
-        fibonacciNumbers.setCurrentIndex(index)
+        val firstIndex = 0
+        val expectedIndex = firstIndex + 1
+        fibonacciNumbers.setCurrentIndex(firstIndex)
 
         fibonacciNumbers.changeIndexToNext()
 
@@ -178,9 +182,9 @@ class FibonacciNumbersTest {
 
     @Test
     fun changeIndexToNext_with_valid_index_set_to_next() {
-        val index = 15
-        val expectedIndex = index + 1
-        fibonacciNumbers.setCurrentIndex(index)
+        val validIndex = 15
+        val expectedIndex = validIndex + 1
+        fibonacciNumbers.setCurrentIndex(validIndex)
 
         fibonacciNumbers.changeIndexToNext()
 
@@ -200,9 +204,8 @@ class FibonacciNumbersTest {
 
     @Test
     fun changeIndexToPrevious_with_last_index_set_to_prev() {
-        val index = LAST_INDEX
-        val expectedIndex = index - 1
-        fibonacciNumbers.setCurrentIndex(index)
+        val expectedIndex = LAST_INDEX - 1
+        fibonacciNumbers.setCurrentIndex(LAST_INDEX)
 
         fibonacciNumbers.changeIndexToPrevious()
 
@@ -211,9 +214,9 @@ class FibonacciNumbersTest {
 
     @Test
     fun changeIndexToPrevious_with_valid_index_set_to_prev() {
-        val index = 15
-        val expectedIndex = index - 1
-        fibonacciNumbers.setCurrentIndex(index)
+        val validIndex = 15
+        val expectedIndex = validIndex - 1
+        fibonacciNumbers.setCurrentIndex(validIndex)
 
         fibonacciNumbers.changeIndexToPrevious()
 
@@ -222,28 +225,30 @@ class FibonacciNumbersTest {
 
     @Test
     fun changeIndexToPrevious_with_first_index_not_set() {
-        val index = 0
-        val unexpectedIndex = index - 1
-        fibonacciNumbers.setCurrentIndex(index)
+        val firstIndex = 0
+        val unexpectedIndex = firstIndex - 1
+        fibonacciNumbers.setCurrentIndex(firstIndex)
 
         fibonacciNumbers.changeIndexToPrevious()
 
         val actualIndex = fibonacciNumbers.getCurrentIndex()
         assertNotEquals(unexpectedIndex, actualIndex)
-        assertEquals(index, actualIndex)
+        assertEquals(firstIndex, actualIndex)
     }
 
     @Test
     fun changeIndexToLast_correct_set_index_to_last() {
-        val anyIndex = 15
-        fibonacciNumbers.setCurrentIndex(anyIndex)
+        val indexBeforeChange = 15
+        fibonacciNumbers.setCurrentIndex(indexBeforeChange)
 
         fibonacciNumbers.changeIndexToLast()
 
-        assertEquals(LAST_INDEX, fibonacciNumbers.getCurrentIndex())
+        val actualIndex = fibonacciNumbers.getCurrentIndex()
+        assertNotEquals(indexBeforeChange, actualIndex)
+        assertEquals(LAST_INDEX, actualIndex)
     }
 
     private companion object {
-        private const val LAST_INDEX = 46 // Index = 0..46 (number[LAST_INDEX] < Int.MAX_VALUE)
+        private const val LAST_INDEX = 46 // number[LAST_INDEX] < Int.MAX_VALUE
     }
 }

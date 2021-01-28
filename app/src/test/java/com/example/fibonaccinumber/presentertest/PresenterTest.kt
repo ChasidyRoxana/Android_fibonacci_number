@@ -26,13 +26,6 @@ class PresenterTest {
 
     @Before
     fun setUp() {
-        val enterNumber = ""
-        val currentIndex = 5
-        val messageType = MessageType.CORRECT
-
-        whenever(repositoryMock.enterNumber).thenReturn(enterNumber)
-        whenever(repositoryMock.currentIndex).thenReturn(currentIndex)
-        whenever(repositoryMock.messageType).thenReturn(messageType)
         whenever(resourcesMock.getString(R.string.err_empty_string)).thenReturn(ERR_STR_EMPTY)
         whenever(resourcesMock.getString(R.string.err_not_found_number))
             .thenReturn(ERR_STR_NOT_FOUND)
@@ -56,7 +49,7 @@ class PresenterTest {
         assertEquals(messageType, presenter.getMessageType())
         verify(viewMock).setErrorMessageText(errorMessage)
         verify(viewMock).setErrorMessageColor(errorColor)
-        verify(viewMock).setEnabledFindResultButton(findResultEnabled)
+        verify(viewMock).setFindResultButtonEnabled(findResultEnabled)
         verify(viewMock).setEnterNumber(enterNumber)
     }
 
@@ -70,8 +63,8 @@ class PresenterTest {
         verify(viewMock).setCurrentNumber(currentNumber)
         verify(viewMock).setPreviousNumber(prevNumber)
         verify(viewMock).setNextNumber(nextNumber)
-        verify(viewMock).setEnabledPrevButton(prevEnabled)
-        verify(viewMock).setEnabledNextButton(nextEnabled)
+        verify(viewMock).setPrevButtonEnabled(prevEnabled)
+        verify(viewMock).setNextButtonEnabled(nextEnabled)
     }
 
     @Test
@@ -147,7 +140,7 @@ class PresenterTest {
         val currentIndex = 10
         val enterNumber = "611"
         val messageType = MessageType.NOT_FOUND
-        fibonacciNumbersSpy.setCurrentIndex(currentIndex)
+        whenever(fibonacciNumbersSpy.getCurrentIndex()).thenReturn(currentIndex)
         presenter.setEnterNumber(enterNumber)
         presenter.setMessageType(messageType)
 
@@ -174,8 +167,8 @@ class PresenterTest {
         checkUpdateNumbers(currentNumber, prevNumber, nextNumber, prevEnabled, nextEnabled)
     }
 
-    @Test
-    fun onNextClicked_with_penultimate_index_correct_update_numbers() { // на последнем индексе кнопка next неактивна
+    @Test // на последнем индексе кнопка next неактивна
+    fun onNextClicked_with_penultimate_index_correct_update_numbers() {
         val currentNumber = "1836311903"
         val prevNumber = "1134903170"
         val nextNumber = ""
@@ -189,8 +182,8 @@ class PresenterTest {
         checkUpdateNumbers(currentNumber, prevNumber, nextNumber, prevEnabled, nextEnabled)
     }
 
-    @Test
-    fun onPrevClicked_with_second_index_correct_update_numbers() { // на первом индексе кнопка prev неактивна
+    @Test // на первом индексе кнопка prev неактивна
+    fun onPrevClicked_with_second_index_correct_update_numbers() {
         val currentNumber = "0"
         val prevNumber = ""
         val nextNumber = "1"
@@ -392,7 +385,7 @@ class PresenterTest {
 
         presenter.textChanged(null)
 
-        verify(viewMock).setEnabledFindResultButton(expectedFindButtonEnableState)
+        verify(viewMock).setFindResultButtonEnabled(expectedFindButtonEnableState)
         assertEquals(expectedEnterNumber, presenter.getEnterNumber())
     }
 
@@ -403,7 +396,7 @@ class PresenterTest {
 
         presenter.textChanged(enterString)
 
-        verify(viewMock).setEnabledFindResultButton(expectedFindButtonEnableState)
+        verify(viewMock).setFindResultButtonEnabled(expectedFindButtonEnableState)
         assertEquals(enterString, presenter.getEnterNumber())
     }
 

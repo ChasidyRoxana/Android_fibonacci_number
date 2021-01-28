@@ -77,15 +77,15 @@ class MainFragment : Fragment(R.layout.fragment_main), MainContract.MainView {
         imm.hideSoftInputFromWindow(etEnterNumber.windowToken, 0)
     }
 
-    override fun setEnabledPrevButton(isEnabled: Boolean) {
+    override fun setPrevButtonEnabled(isEnabled: Boolean) {
         ibPrevious.isEnabled = isEnabled
     }
 
-    override fun setEnabledNextButton(isEnabled: Boolean) {
+    override fun setNextButtonEnabled(isEnabled: Boolean) {
         ibNext.isEnabled = isEnabled
     }
 
-    override fun setEnabledFindResultButton(isEnabled: Boolean) {
+    override fun setFindResultButtonEnabled(isEnabled: Boolean) {
         bFindResult.isEnabled = isEnabled
     }
 

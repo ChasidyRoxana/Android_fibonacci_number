@@ -98,7 +98,7 @@ class Presenter(
 
     private fun updateFindButtonState() {
         val isEnabled: Boolean = enterNumber.isNotEmpty()
-        view.setEnabledFindResultButton(isEnabled)
+        view.setFindResultButtonEnabled(isEnabled)
     }
 
     private fun updateErrorMessage() {
@@ -136,14 +136,14 @@ class Presenter(
     private fun changePreviousNumber() {
         val previousNumber: Int? = fibonacciNumbers.getPreviousNumber()
         val isEnabled = previousNumber != null
-        view.setEnabledPrevButton(isEnabled)
+        view.setPrevButtonEnabled(isEnabled)
         view.setPreviousNumber(previousNumber?.toString() ?: "")
     }
 
     private fun changeNextNumber() {
         val nextNumber: Int? = fibonacciNumbers.getNextNumber()
         val isEnabled = nextNumber != null
-        view.setEnabledNextButton(isEnabled)
+        view.setNextButtonEnabled(isEnabled)
         view.setNextNumber(nextNumber?.toString() ?: "")
     }
 
